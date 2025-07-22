@@ -4,7 +4,7 @@ import { cn } from "../../../lib/utils";
 import { motion, stagger, useAnimate, useInView } from "motion/react";
 import { useEffect } from "react";
 
- const TypewriterEffect = ({
+const TypewriterEffect = ({
   words,
   className,
   cursorClassName,
@@ -55,7 +55,8 @@ import { useEffect } from "react";
                   initial={{}}
                   key={`char-${index}`}
                   className={cn(
-                    `dark:text-indigo-500 text-black opacity-0 hidden`,
+                    `bg-gradient-to-t from-blue-600 to-indigo-800 text-transparent bg-clip-text
+   font-bold opacity-0 hidden`,
                     word.className
                   )}
                 >
@@ -126,7 +127,10 @@ export const TypewriterEffectSmooth = ({
               {word.text.map((char, index) => (
                 <span
                   key={`char-${index}`}
-                  className={cn(`dark:text-indigo-500 text-black `, word.className)}
+                  className={cn(
+                    `dark:text-indigo-500 text-white `,
+                    word.className
+                  )}
                 >
                   {char}
                 </span>
@@ -173,7 +177,6 @@ export const TypewriterEffectSmooth = ({
         }}
         transition={{
           duration: 0.8,
-
           repeat: Infinity,
           repeatType: "reverse",
         }}

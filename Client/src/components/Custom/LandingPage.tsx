@@ -188,7 +188,7 @@ const LandingPage: React.FC = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <TypewriterEffect
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-indigo-500 leading-tight"
+                className="text-4xl md:text-4xl lg:text-6xl font-bold text-indigo-500 leading-tight text-left"
                 words={[
                   { text: "Ace" },
                   { text: "Your" },
@@ -202,11 +202,11 @@ const LandingPage: React.FC = () => {
               />
 
               <TextGenerateEffect
-                className="text-xl font-thin text-gray-500"
+                className="text-2xl font-thin text-gray-500 sm:text-2xl"
                 words="Master technical and aptitude questions while practicing real-time interviews with our AI assistant."
               />
               <div
-                className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+                className="flex flex-col sm:flex-row gap-4 ml-[20px] items-center"
                 onClick={() => {
                   handleGoogleLogin();
                 }}
@@ -216,15 +216,16 @@ const LandingPage: React.FC = () => {
             </div>
 
             <div className="relative" id="box">
-              <div className="bg-black p-6 rounded-xl shadow-xl border border-indigo-600">
-                <div className="mb-4 rounded-lg bg-indigo-600 p-4">
-                  <p className="font-medium text-white">
+              <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl shadow-2xl border border-indigo-700 transform  transition-transform duration-300">
+                <div className="mb-6">
+                  <span className="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-semibold tracking-wide shadow-md ring-1 ring-indigo-400/40">
                     Aptitude Test Session
-                  </p>
+                  </span>
                 </div>
+
                 <div className="space-y-4 mb-4">
-                  <div className="bg-gray-900 p-4 rounded-lg">
-                    <p className="font-medium text-indigo-300 mb-2">
+                  <div className="bg-gray-900 p-6 rounded-xl border border-gray-700">
+                    <p className="font-semibold text-indigo-400 mb-3 text-lg">
                       Question 3 of 10:
                     </p>
                     <p className="text-gray-300">
@@ -233,33 +234,36 @@ const LandingPage: React.FC = () => {
                       platform?
                     </p>
                   </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center">
-                      <div className="w-5 h-5 rounded-full border-2 border-gray-500 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-300">300 meters</p>
+                  <div className="space-y-4">
+                    {" "}
+                    <div className="flex items-center p-3 rounded-lg border border-gray-600 cursor-pointer hover:bg-gray-700 transition-colors duration-200">
+                      <div className="w-6 h-6 rounded-full border-2 border-gray-500 mr-4 flex-shrink-0 flex items-center justify-center"></div>
+                      <p className="text-gray-300 text-lg">300 meters</p>
                     </div>
-                    <div className="flex items-center">
-                      <div className="w-5 h-5 rounded-full border-2 border-gray-500 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-300">400 meters</p>
+                    <div className="flex items-center p-3 rounded-lg border border-gray-600 cursor-pointer hover:bg-gray-700 transition-colors duration-200">
+                      <div className="w-6 h-6 rounded-full border-2 border-gray-500 mr-4 flex-shrink-0 flex items-center justify-center"></div>
+                      <p className="text-gray-300 text-lg">400 meters</p>
                     </div>
-                    <div className="flex items-center">
-                      <div className="w-5 h-5 rounded-full border-2 border-indigo-500 bg-indigo-600 mr-3 flex-shrink-0"></div>
-                      <p className="font-medium text-white">500 meters</p>
+                    <div className="flex items-center p-3 rounded-lg border border-indigo-500 bg-indigo-800 shadow-md cursor-pointer transition-all duration-200">
+                      <div className="w-6 h-6 rounded-full border-2 border-indigo-400 bg-indigo-600 mr-4 flex-shrink-0 flex items-center justify-center">
+                        <div className="w-3 h-3 rounded-full bg-white"></div>
+                      </div>
+                      <p className="font-bold text-white text-lg">500 meters</p>
                     </div>
-                    <div className="flex items-center">
-                      <div className="w-5 h-5 rounded-full border-2 border-gray-500 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-300">600 meters</p>
+                    <div className="flex items-center p-3 rounded-lg border border-gray-600 cursor-pointer hover:bg-gray-700 transition-colors duration-200">
+                      <div className="w-6 h-6 rounded-full border-2 border-gray-500 mr-4 flex-shrink-0 flex items-center justify-center"></div>
+                      <p className="text-gray-300 text-lg">600 meters</p>
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-between items-center">
-                  <button className="text-indigo-400 hover:text-indigo-300 cursor-pointer">
+                <div className="flex justify-between items-center pt-4">
+                  <button className="text-indigo-300 hover:text-indigo-100 cursor-pointer text-lg font-medium transition-colors duration-200 px-4 py-2 rounded-lg border border-indigo-500 hover:border-indigo-300">
                     Previous
                   </button>
-                  <div className="text-xs text-gray-400">
-                    Time remaining: 1:45
+                  <div className="text-sm text-gray-400 font-mono bg-gray-800 px-4 py-2 rounded-lg">
+                    Time remaining: <span className="text-white">1:45</span>
                   </div>
-                  <button className="text-indigo-400 font-medium hover:text-indigo-300 cursor-pointer">
+                  <button className="text-indigo-300 font-medium hover:text-indigo-100 cursor-pointer text-lg transition-colors duration-200 px-4 py-2 rounded-lg border border-indigo-500 hover:border-indigo-300">
                     Next
                   </button>
                 </div>

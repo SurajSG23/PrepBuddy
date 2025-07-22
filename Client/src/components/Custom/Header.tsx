@@ -39,8 +39,8 @@ const Header: React.FC<HeaderProps> = ({ setUserID }) => {
     gsap.from(".boxy", {
       opacity: 0,
       duration: 0.5,
-      y: 50,
-      stagger: 0.4,
+      x: 50,
+      stagger: 0,
     });
   });
 
@@ -58,7 +58,6 @@ const Header: React.FC<HeaderProps> = ({ setUserID }) => {
     });
     return () => unsubscribe();
   }, [auth, navigate]);
-
 
   useEffect(() => {
     setIsDropdownOpen(false);
@@ -98,25 +97,30 @@ const Header: React.FC<HeaderProps> = ({ setUserID }) => {
     <>
       {location.pathname === "/" ? (
         <div
-          className={`sticky top-0 z-50 w-full transition-all duration-200 ${"bg-white shadow-md"} invert overflow-y-hidden`}
+          className={`sticky top-0 z-50 w-full 
+              backdrop-blur-xl 
+              bg-white/10 dark:bg-black/10 
+              border-b border-white/10 dark:border-black/20 
+              shadow-md 
+              transition-all duration-200`}
         >
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
             <Link to="/homepage" className="flex items-center">
-              <h1 className="boxy text-2xl font-bold text-black invert flex items-center justify-center gap-1">
+              <h1 className="boxy text-2xl font-bold  flex items-center justify-center gap-1">
                 <img src="icon.png" alt="icon" width={35} />
                 <img src="logo.png" alt="logo" width={150} />
               </h1>
             </Link>
-            <nav className="boxy hidden md:flex space-x-8 items-center">
+            <nav className="boxy hidden md:flex space-x-8 items-center font-bold">
               <a
                 href="#features"
-                className=" text-gray-800 hover:text-indigo-600 transition"
+                className=" text-white hover:text-indigo-600 transition duration-300"
               >
                 Features
               </a>
               <a
                 href="#how-it-works"
-                className="text-gray-800 hover:text-indigo-600 transition"
+                className="text-white hover:text-indigo-600 transition duration-300"
               >
                 How It Works
               </a>
