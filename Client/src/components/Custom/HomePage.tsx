@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { cn } from "../../../lib/utils";
 interface HeaderProps {
   userID: string;
 }
@@ -17,7 +18,47 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
   const navigate = useNavigate();
   const [confirmation, setConfirmation] = useState(false);
   const [confirmation2, setConfirmation2] = useState(false);
-
+  const [searchQuery,setSearchQuery]=useState("");
+  const maang=[
+    "Meta", "Apple", "Amazon", "Netflix", "Google"
+  ];
+  const tier1=[
+     "Microsoft",
+  "Adobe",
+  "VMware",
+  "Cisco",
+  "Uber",
+  "Twitter",
+  "Oracle",
+  ];
+  const startup=[
+    "Zomato",
+  "Swiggy",
+  "Byjus",
+  "Flipkart",
+  "Paytm",
+  "Razorpay",
+  "PhonePe",
+  "Meesho",
+  "Ola",
+  "Unacademy",
+  ];
+   const filteredmaang = maang.filter(
+    (company) =>
+      searchQuery.trim() === "" ||
+      company.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+   const filteredTier1= tier1.filter(
+    (company) =>
+      searchQuery.trim() === "" ||
+      company.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+   const filteredStartup = startup.filter(
+    (company) =>
+      searchQuery.trim() === "" ||
+      company.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  const isEmpty=filteredmaang.length===0&&filteredTier1.length===0&&filteredStartup.length===0;
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -173,14 +214,27 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
               Create Custom Test
             </button>
           </div>
-
           {testType === "predefined" ? (
             <>
-              <p className="mt-2 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-500 text-center">
+            <div className="flex justify-center mb-6">
+  <input
+    type="text"
+    placeholder="Search for a company..."
+    className="w-full md:w-1/2 bg-gray-700 border border-gray-600 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+  />
+</div>
+            {isEmpty && (
+        <p className="text-gray-400 mt-4 text-center">No results found.</p>
+      )}
+              <p className={cn("mt-2 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-500 text-center",filteredmaang.length===0&&"hidden")}>
                 MAANG Companies
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {["Meta", "Apple", "Amazon", "Netflix", "Google"].map(
+                {filteredmaang.length>0 &&
+                (
+                   filteredmaang.map(
                   (company) => (
                     <div
                       key={company}
@@ -214,21 +268,15 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                       </button>
                     </div>
                   )
+                )
                 )}
               </div>
-              <p className="mt-7 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-500 text-center">
+              <p className={cn("mt-7 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-500 text-center",filteredTier1.length===0&&"hidden")}>
                 Tier-1 Companies
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  "Microsoft",
-                  "Adobe",
-                  "VMware",
-                  "Cisco",
-                  "Uber",
-                  "Twitter",
-                  "Oracle",
-                ].map((company) => (
+                {filteredTier1.length>0 &&(
+                  filteredTier1.map((company) => (
                   <div
                     key={company}
                     className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-gray-900 transition "
@@ -258,24 +306,17 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                       Start Test
                     </button>
                   </div>
-                ))}
+                )
+                )
+                )
+                }
               </div>
-              <p className="mt-7 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-500 text-center">
+              <p className={cn("mt-7 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-500 text-center",filteredStartup.length===0&&"hidden")}>
                 Growing Startups / Unicorns
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[
-                  "Zomato",
-                  "Swiggy",
-                  "Byjus",
-                  "Flipkart",
-                  "Paytm",
-                  "Razorpay",
-                  "PhonePe",
-                  "Meesho",
-                  "Ola",
-                  "Unacademy",
-                ].map((company) => (
+                {filteredStartup.length>0 &&(
+                filteredStartup.map((company) => (
                   <div
                     key={company}
                     className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-gray-900 transition "
@@ -305,7 +346,9 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                       Start Test
                     </button>
                   </div>
-                ))}
+                )
+                )
+                )}
               </div>
             </>
           ) : (
