@@ -1,14 +1,14 @@
 import "./App.css";
 import Header from "./components/Custom/Header";
 import Footer from "./components/Custom/Footer";
-import LandingPage from "./components/Custom/LandingPage";
-import HomePage from "./components/Custom/HomePage";
-import TestPage from "./components/Custom/TestPage";
+import LandingPage from "./pages/LandingPage";
+import HomePage from "./pages/HomePage";
+import TestPage from "./pages/TestPage";
 import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
-import Profile from "./components/Custom/Profile";
-import PrevTests from "./components/Custom/PrevTests";
-import ScoreBoard from "./components/Custom/ScoreBoard";
+import Profile from "./pages/Profile";
+import PrevTests from "./pages/PrevTests";
+import ScoreBoard from "./pages/ScoreBoard";
 function App() {
   const [userID, setUserId] = useState("");
   return (
