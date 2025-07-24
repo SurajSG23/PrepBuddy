@@ -17,6 +17,26 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
   const navigate = useNavigate();
   const [confirmation, setConfirmation] = useState(false);
   const [confirmation2, setConfirmation2] = useState(false);
+  const [favorites, setFavorites] = useState<string[]>([]);
+
+useEffect(() => {
+  const saved = localStorage.getItem("favoriteCompanies");
+  if (saved) {
+    setFavorites(JSON.parse(saved));
+  }
+}, []);
+
+const toggleFavorite = (company: string) => {
+  let updatedFavorites;
+  if (favorites.includes(company)) {
+    updatedFavorites = favorites.filter((c) => c !== company);
+  } else {
+    updatedFavorites = [...favorites, company];
+  }
+  setFavorites(updatedFavorites);
+  localStorage.setItem("favoriteCompanies", JSON.stringify(updatedFavorites));
+};
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -172,6 +192,18 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
             >
               Create Custom Test
             </button>
+
+            <button
+              className={`px-4 py-2 ${
+                   testType === null
+                  ? "border-b-2 border-indigo-500 text-indigo-400"
+                  : "text-gray-400"
+              } cursor-pointer`}
+              onClick={() => navigate("/favorites")}
+            >
+              Favorites List
+            </button>
+             
           </div>
 
           {testType === "predefined" ? (
@@ -180,42 +212,45 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                 MAANG Companies
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {["Meta", "Apple", "Amazon", "Netflix", "Google"].map(
-                  (company) => (
-                    <div
-                      key={company}
-                      className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-gray-900 transition "
-                    >
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-xl font-semibold mb-3">
-                          {company}
-                        </h3>
-                        <div>
-                          <img
-                            src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
-                            alt={`${company} logo`}
-                            width={50}
-                          />
-                        </div>
-                      </div>
-                      <p className="text-gray-300 mb-4">
-                        Take the {company} aptitude test to practice for your
-                        interview.
-                      </p>
-                      <button
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition cursor-pointer"
-                        onClick={() => {
-                          setTitle(company);
-                          setDifficulty("Medium");
-                          setConfirmation(true);
-                        }}
-                      >
-                        Start Test
-                      </button>
-                    </div>
-                  )
-                )}
-              </div>
+                {["Meta", "Apple", "Amazon", "Netflix", "Google"].map((company) => (
+  <div
+    key={company}
+    className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-gray-900 transition relative"
+  >
+    <div className="flex items-center justify-between mb-4">
+      <h3 className="text-xl font-semibold mb-3">{company}</h3>
+      <div className="flex items-center gap-2">
+        <img
+          src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
+          alt={`${company} logo`}
+          width={50}
+        />
+        <button
+          onClick={() => toggleFavorite(company)}
+          className="ml-2 text-yellow-400 text-2xl"
+          title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
+        >
+          {favorites.includes(company) ? "★" : "☆"}
+        </button>
+      </div>
+    </div>
+    <p className="text-gray-300 mb-4">
+      Take the {company} aptitude test to practice for your interview.
+    </p>
+    <button
+      className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition cursor-pointer"
+      onClick={() => {
+        setTitle(company);
+        setDifficulty("Medium");
+        setConfirmation(true);
+      }}
+    >
+      Start Test
+    </button>
+  </div>
+))}
+
+             </div>
               <p className="mt-7 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-500 text-center">
                 Tier-1 Companies
               </p>
@@ -241,6 +276,13 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                           alt={`${company} logo`}
                           width={50}
                         />
+                         <button
+          onClick={() => toggleFavorite(company)}
+          className="ml-2 text-yellow-400 text-2xl"
+          title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
+        >
+          {favorites.includes(company) ? "★" : "☆"}
+        </button>
                       </div>
                     </div>
                     <p className="text-gray-300 mb-4">
@@ -288,6 +330,12 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                           alt={`${company} logo`}
                           width={50}
                         />
+                         <button onClick={() => toggleFavorite(company)}
+                        className="ml-2 text-yellow-400 text-2xl"
+                        title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
+                        >
+                        {favorites.includes(company) ? "★" : "☆"}
+                        </button>
                       </div>
                     </div>
                     <p className="text-gray-300 mb-4">
