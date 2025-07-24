@@ -5,14 +5,14 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "../ui/carousel";
+} from "../components/ui/carousel";
 import { toast } from "sonner";
-import geminiPrompt from "../../gemini/prompt";
-import { AIchatSession } from "../../gemini/AiModel";
-import questionsData from "../../gemini/sampleSet";
+import geminiPrompt from "../gemini/prompt";
+import { AIchatSession } from "../gemini/AiModel";
+import questionsData from "../gemini/sampleSet";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import useDetectTabSwitch from "../Custom/useDetectTabSwitch";
+import useDetectTabSwitch from "../components/Custom/useDetectTabSwitch";
 
 interface HeaderProps {
   userID: string;
