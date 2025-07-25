@@ -1,10 +1,10 @@
-import BackgroundBeamsWithCollision from "../components/ui/background-beams-with-collision";
+import BackgroundBeamsWithCollision from "../ui/background-beams-with-collision";
 import React, { useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import TextGenerateEffect from "../components/ui/text-generate-effect";
-import TypewriterEffect from "../components/ui/typewriter-effect";
-import { auth } from "../firebase/firebaseConfig";
+import TextGenerateEffect from "../ui/text-generate-effect";
+import TypewriterEffect from "../ui/typewriter-effect";
+import { auth } from "../../firebase/firebaseConfig";
 import {
   signInWithPopup,
   GoogleAuthProvider,

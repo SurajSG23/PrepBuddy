@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   Card,
   CardContent,
@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../components/ui/card";
+} from "../ui/card";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaLock } from "react-icons/fa";
