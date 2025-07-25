@@ -12,6 +12,8 @@ import { useState } from "react";
 import Profile from "./pages/Profile";
 import PrevTests from "./pages/PrevTests";
 import ScoreBoard from "./pages/ScoreBoard";
+import FavoritesPage from "./components/Custom/FavoritesPage"; // adjust the path
+
 function App() {
   const [userID, setUserId] = useState("");
   return (
@@ -27,6 +29,7 @@ function App() {
         <Route path="/aptitude-training" element={<AptitudeTraining />} />
         <Route path="/technical-questions" element={<TechnicalQuestions />} />
         <Route path="/ai-interviews" element={<AIPoweredInterviews />} />
+        <Route path="/favorites" element={<FavoritesPage userID={userID} />} />
       </Routes>
       <Footer />
     </div>
