@@ -20,6 +20,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
   const [confirmation, setConfirmation] = useState(false);
   const [confirmation2, setConfirmation2] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [favorites, setFavorites] = useState<string[]>([]);
 
   const maang = ["Meta", "Apple", "Amazon", "Netflix", "Google"];
   const tier1 = [
@@ -64,6 +65,24 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
     filteredTier1.length === 0 &&
     filteredStartup.length === 0;
 
+  useEffect(() => {
+  const saved = localStorage.getItem("favoriteCompanies");
+  if (saved) {
+    setFavorites(JSON.parse(saved));
+  }
+}, []);
+
+const toggleFavorite = (company: string) => {
+  let updatedFavorites;
+  if (favorites.includes(company)) {
+    updatedFavorites = favorites.filter((c) => c !== company);
+  } else {
+    updatedFavorites = [...favorites, company];
+  }
+  setFavorites(updatedFavorites);
+  localStorage.setItem("favoriteCompanies", JSON.stringify(updatedFavorites));
+};
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -270,6 +289,13 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                             alt={`${company} logo`}
                             width={50}
                           />
+                           <button
+                            onClick={() => toggleFavorite(company)}
+                            className="ml-2 text-yellow-400 text-2xl"
+                           title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}>
+                           
+                           {favorites.includes(company) ? "★" : "☆"}
+                          </button>
                         </div>
                       </div>
                       <p className="text-gray-300 mb-4">
@@ -314,6 +340,13 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                             alt={`${company} logo`}
                             width={50}
                           />
+                          <button
+                             onClick={() => toggleFavorite(company)}
+                             className="ml-2 text-yellow-400 text-2xl"
+                             title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
+                             >
+                          {favorites.includes(company) ? "★" : "☆"}
+                          </button>
                         </div>
                       </div>
                       <p className="text-gray-300 mb-4">
@@ -358,6 +391,13 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                             alt={`${company} logo`}
                             width={50}
                           />
+                          <button
+                     onClick={() => toggleFavorite(company)}
+                      className="ml-2 text-yellow-400 text-2xl"
+                      title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
+                    >
+                      {favorites.includes(company) ? "★" : "☆"}
+                    </button>
                         </div>
                       </div>
                       <p className="text-gray-300 mb-4">
