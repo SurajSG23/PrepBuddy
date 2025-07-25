@@ -12,7 +12,7 @@ import { useState } from "react";
 import Profile from "./pages/Profile";
 import PrevTests from "./pages/PrevTests";
 import ScoreBoard from "./pages/ScoreBoard";
-import FavoritesPage from "./components/Custom/FavoritesPage"; // adjust the path
+import FavoritesPage from "./pages/FavoritesPage"; // adjust the path
 
 function App() {
   const [userID, setUserId] = useState("");
