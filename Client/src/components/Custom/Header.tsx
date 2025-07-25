@@ -282,7 +282,20 @@ const Header: React.FC<HeaderProps> = ({ setUserID }) => {
                       }`}
                       onClick={() => setIsDropdownOpen(false)} // Close dropdown on link click
                     >
+                      
                       <IoTrophyOutline className="text-xl" /> Leader Board
+                    </Link>
+                    <Link
+                      to="/favorites"
+                      className={`flex px-4 py-2 text-sm hover:bg-gray-700 gap-1 items-center ${
+                        location.pathname === "/favorites"
+                          ? "bg-gray-700"
+                          : ""
+                      }`}
+                      onClick={() => setIsDropdownOpen(false)} // Close dropdown on link click
+                    >
+                      
+                      <IoTrophyOutline className="text-xl" /> Favorites
                     </Link>
                     <div
                       className="flex gap-1 w-full text-left px-4 py-2 text-sm hover:bg-gray-700 text-red-400 cursor-pointer"
