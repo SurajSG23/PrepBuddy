@@ -159,6 +159,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
         setTitle(response.data.title);
         setDifficulty(response.data.difficulty);
       } catch (error) {
+        toast.error("Could not fetch test data. Please try again later.");
         console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
@@ -209,7 +210,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
           .map((answer) => answer.trim());
       setGeminiExplaination(geminiExp ?? []);
     } catch (error) {
-      console.error("Error generating questions:", error);
+      toast.error("This is taking a little longer than usual. Please wait or retry.");
     } finally {
       setCurrentTime(10 * 60);
       setLoading(false);

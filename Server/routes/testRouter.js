@@ -8,6 +8,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/addtest", async (req, res) => {
+  console.log(req.body);
   const test = await testModel.create({
     title: req.body.title,
     difficulty: req.body.difficulty,
@@ -84,10 +85,10 @@ router.get("/gettest/:id", async (req, res) => {
   res.send(test);
 });
 router.get("/getTop3Tests/:id", async (req, res) => {
- try {
+  try {
     const topTests = await testModel.find({ userid: req.params.id })
       .sort({ createdAt: -1 })
-      .limit(3); 
+      .limit(3);
 
     res.send(topTests);
   } catch (error) {
