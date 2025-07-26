@@ -41,6 +41,8 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   const [submitConfirmation, setSubmitConfirmation] = useState(false);
   const [scoreBoard, setScoreBoard] = useState(false);
   const [score, setScore] = useState<number>(0);
+  const [startTime, setStartTime] = useState<Date | null>(null);
+  const [timeTaken, setTimeTaken] = useState<string>("");
 
   useEffect(() => {
     if (currentTime <= 0) return;
@@ -77,6 +79,17 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
       return answer?.trim() === geminiAnswers[index].trim() ? total + 1 : total;
     }, 0);
     setScore(score);
+    if (startTime) {
+      const endTime = new Date();
+      const diffSeconds = Math.floor(
+        (endTime.getTime() - startTime.getTime()) / 1000
+      );
+      const minutes = Math.floor(diffSeconds / 60);
+      const seconds = diffSeconds % 60;
+      const formattedTime = `${minutes}m ${seconds}s`;
+      setTimeTaken(formattedTime);
+    }
+
     setScoreBoard(true);
     if (score == 10) {
       try {
@@ -170,6 +183,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   //Calling Gemini
   const GenerateQuestions = async () => {
     setLoading(true);
+    setStartTime(new Date())
     try {
       const result = await AIchatSession.sendMessage(newPrompt);
       const geminiQues =
@@ -194,7 +208,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
         navigate("/homepage");
         return null;
       }
-      
+
       const geminiAns =
         result.response?.candidates?.[0]?.content?.parts?.[0]?.text
           ?.split("<answers>")[1]
@@ -362,6 +376,11 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
               <span className="text-indigo-400 font-semibold">Percentage:</span>{" "}
               {score * 10}%
             </p>
+            <p>
+              <span className="text-indigo-400 font-semibold">Time Taken:</span>{" "}
+              {timeTaken}
+            </p>
+
             <p className="text-green-400 font-medium">
               {score == 10
                 ? "Perfect Score!"
