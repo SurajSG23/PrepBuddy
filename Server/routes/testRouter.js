@@ -173,6 +173,7 @@ router.get("/suggest/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
+// module.exports = router;
+//type is not common js 
 
 export default router;
