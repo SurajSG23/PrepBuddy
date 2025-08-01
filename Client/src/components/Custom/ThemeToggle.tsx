@@ -6,14 +6,14 @@ const ThemeToggle = () => {
     const [isDarkMode, setIsDarkMode] = useState(false);
     
     useEffect(() => {
-        if( localStorage.getItem('theme') === 'dark' ){
+        if( localStorage.getItem('theme') === 'dark'){
             document.documentElement.classList.add('dark');
             setIsDarkMode(true);
         }
         
     },[])
     const toggleTheme = () => {
-        if(isDarkMode){
+        if( localStorage.getItem('theme') === 'dark' || document.documentElement.classList.contains('dark')){
             document.documentElement.classList.remove('dark');
             localStorage.setItem('theme', 'light');
             setIsDarkMode(false);
@@ -24,9 +24,9 @@ const ThemeToggle = () => {
         }
     }
     return (
-         <button onClick={toggleTheme} className="p-1 cursor-pointer hover:bg-slate-800 rounded-full">
+         <button onClick={toggleTheme} className="p-1 cursor-pointer hover:bg-slate-700 rounded-full hover:scale-120 transition-all duration-300">
             
-            {!isDarkMode ?  (<Sun className="h-6 w-8 text-yellow-300"/>) : (<Moon className="h-6 w-8 text-blue-700"/>)
+            {!isDarkMode ?  (<Sun className="h-6 w-6 text-yellow-300"/>) : (<Moon className="h-6 w-6 text-blue-700"/>)
             }
          </button>
     )
