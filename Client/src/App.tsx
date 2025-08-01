@@ -18,7 +18,7 @@ import OnTopBar from "./components/Custom/OnTopBar";
 function App() {
   const [userID, setUserId] = useState("");
   return (
-    <div className="w-full min-h-[100vh] h-auto bg-gradient-to-r from-gray-900 to-gray-800 flex flex-col justify-between items-center text-white">
+    <div className="w-full min-h-[100vh] h-auto bg-gradient-to-r flex flex-col justify-between items-center">
       <Header setUserID={setUserId} />
       <Routes>
         <Route path="/" element={<LandingPage />} />
