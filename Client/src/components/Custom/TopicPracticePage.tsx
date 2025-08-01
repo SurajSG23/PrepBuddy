@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // --- Mock Data ---
 // In a real application, you would fetch this data from an API.
-const questionsData: { [key: string]: any[] } = {
+const questionsData: { [key: string]: { question: string; options: string[]; answer: string }[] } = {
   "data-structures-algorithms": [
     {
       question: "What is the time complexity of a binary search?",

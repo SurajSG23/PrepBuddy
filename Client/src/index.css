@@ -5,11 +5,11 @@
     /* Light mode variables */
      
     --background-color: #ffff;
-    --text-color: rgb(0, 0, 0);
+    --text-color: #1a1a1a
 }
 
 .dark {
   /* Dark mode variables */
-    background-color: #100435;
+    background-color: #1a1a1a;
     color: #ffff;
 }
