@@ -13,3 +13,15 @@
     background-color: #090638;
     color: #ffff;
 }
+
+.Header {
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  background: linear-gradient(to right, #1a1a1a, #333);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+};
+ 

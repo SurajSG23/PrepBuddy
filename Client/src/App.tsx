@@ -18,8 +18,10 @@ import OnTopBar from "./components/Custom/OnTopBar";
 function App() {
   const [userID, setUserId] = useState("");
   return (
-    <div className="w-full min-h-[100vh] h-auto flex flex-col justify-between items-center">
+     <div className="Header"> 
+      {/* Pass the chat state setter to the Header */}
       <Header setUserID={setUserId} />
+      
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/homepage" element={<HomePage userID={userID} />} />
