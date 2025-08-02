@@ -126,10 +126,10 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
 
   if (loading) {
     return (
-      <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-99">
+      <div className="flex absolute top-0 justify-center items-center h-screen bg-black/60 backdrop-blur-md w-full z-50">
         <div className="flex flex-col items-center">
-          <div className="w-16 h-16 border-4 border-transparent border-t-blue-500 border-b-blue-500 rounded-full animate-spin"></div>
-          <p className="text-white mt-4 text-lg font-semibold">
+          <div className="w-16 h-16 border-4 border-transparent border-t-indigo-500 border-b-indigo-500 rounded-full animate-spin"></div>
+          <p className="text-white mt-4 text-lg font-semibold  animate-pulse">
             Loading Homepage...
           </p>
         </div>
@@ -139,8 +139,8 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
 
   if (confirmation) {
     return (
-      <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-50">
-        <div className="bg-gray-800 rounded-2xl shadow-lg p-8 text-white w-[90%] max-w-md text-center">
+      <div className="flex absolute top-0 justify-center items-center h-screen bg-black/60 backdrop-blur-md w-full z-50">
+        <div className="bg-gray-800 rounded-2xl shadow-2xl p-8 text-white w-[90%] max-w-md text-center scale-100 hover:scale-105 transition-transform">
           <h1 className="text-2xl font-bold mb-4">Test Confirmation</h1>
           <p className="text-lg mb-2">
             <span className="font-semibold text-indigo-400">Company:</span>{" "}
@@ -155,13 +155,13 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
               onClick={() => {
                 setConfirmation(false);
               }}
-              className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition"
+              className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg font-medium shadow-md hover:shadow-red-700/50 transition-all"
             >
               Cancel
             </button>
             <button
               onClick={addTest}
-              className="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition"
+              className="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-lg font-medium shadow-md hover:shadow-indigo-700/50 transition-all"
             >
               Confirm
             </button>
@@ -173,19 +173,19 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
 
   if (confirmation2) {
     return (
-      <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-50">
-        <div className="bg-gray-800 rounded-2xl shadow-lg p-8 text-white w-[90%] max-w-md text-center">
-          <h1 className="text-2xl font-bold mb-4">Test Confirmation</h1>
+      <div className="flex fixed inset-0 justify-center items-center bg-black/60 backdrop-blur-md z-50">
+        <div className="bg-gray-800 rounded-2xl shadow-2xl p-8 text-white w-[90%] max-w-md text-center transform transition-transform duration-300 hover:scale-105">
+          <h1 className="text-3xl font-extrabold mb-6 text-indigo-400">Test Confirmation</h1>
           <p className="text-lg mb-2">
-            <span className="font-semibold text-indigo-400">Topic:</span>{" "}
+            <span className="font-semibold text-indigo-300">Topic:</span>{" "}
             {topic}
           </p>
           <p className="text-lg mb-2">
-            <span className="font-semibold text-indigo-400">Company:</span>{" "}
+            <span className="font-semibold text-indigo-300">Company:</span>{" "}
             {title}
           </p>
           <p className="text-lg mb-6">
-            <span className="font-semibold text-indigo-400">Difficulty:</span>{" "}
+            <span className="font-semibold text-indigo-300">Difficulty:</span>{" "}
             {difficulty}
           </p>
           <div className="flex justify-center gap-8">
@@ -193,13 +193,13 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
               onClick={() => {
                 setConfirmation2(false);
               }}
-              className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition"
+              className="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg font-semibold shadow-md hover:shadow-red-600/50 transition-all"
             >
               Cancel
             </button>
             <button
               onClick={addTest}
-              className="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition"
+              className="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-lg font-semibold shadow-md hover:shadow-indigo-600/50 transition-all"
             >
               Confirm
             </button>
@@ -212,35 +212,35 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
   return (
     <div>
       <main className="container mx-auto px-4 py-6">
-        <h1 className="text-3xl font-bold mb-8 text-center">
+        <h1 className="text-4xl font-extrabold mb-10 text-center text-gray-100">
           Welcome <span className="text-indigo-500">{userName}</span> to
           PrepBuddy! Get ready to test your skills!
         </h1>
 
-        <div className="mb-8">
-          <div className="flex border-b border-gray-700 mb-6 justify-center">
+        <div className="mb-10">
+          <div className="flex border-b border-gray-700 mb-6 justify-center gap-6">
             <button
-              className={`px-4 py-2 text-lg ${testType === "predefined"
-                  ? "border-b-2 border-indigo-500 text-indigo-400"
-                  : "text-gray-400"
+              className={`relative px-5 py-3 text-lg font-semibold transition-all duration-300 ${testType === "predefined"
+                  ? "text-indigo-400 after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-indigo-500"
+                  : "text-gray-400 hover:text-indigo-300"
                 } cursor-pointer`}
               onClick={() => setTestType("predefined")}
             >
               Popular Company Tests
             </button>
             <button
-              className={`px-4 py-2 text-lg ${testType === "custom"
-                  ? "border-b-2 border-indigo-500 text-indigo-400"
-                  : "text-gray-400"
+              className={`relative px-5 py-3 text-lg font-semibold transition-all duration-300 ${testType === "custom"
+                  ? "text-indigo-400 after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-indigo-500"
+                  : "text-gray-400 hover:text-indigo-300"
                 } cursor-pointer`}
               onClick={() => setTestType("custom")}
             >
               Create Custom Test
             </button>
             <button
-              className={`px-4 py-2 text-lg ${testType === "focus"
-                  ? "border-b-2 border-indigo-500 text-indigo-400"
-                  : "text-gray-400"
+              className={`relative px-5 py-3 text-lg font-semibold transition-all duration-300 ${testType === "focus"
+                  ? "text-indigo-400 after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-indigo-500"
+                  : "text-gray-400 hover:text-indigo-300"
                 } cursor-pointer`}
               onClick={() => setTestType("focus")}
             >
@@ -250,60 +250,60 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
 
           {testType === "predefined" && (
             <>
-              <div className="flex justify-center mb-6">
+              <div className="flex justify-center mb-8">
                 <input
                   type="text"
                   placeholder="Search for a company..."
-                  className="w-full md:w-1/2 bg-gray-700 border border-gray-600 rounded-md px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full md:w-1/2 bg-gray-700/50 backdrop-blur-md border border-gray-600 rounded-xl px-5 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-gray-700/80 transition-all duration-300"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
               {isEmpty && (
-                <p className="text-gray-400 mt-4 text-center">
+                <p className="text-gray-400 mt-6 text-center text-lg animate-pulse">
                   No results found.
                 </p>
               )}
               <p
                 className={cn(
-                  "mt-2 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-500 text-center",
+                  "mt-2 mb-2 flex mx-auto justify-center items-center font-extrabold text-3xl text-indigo-500 tracking-wide relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-1 after:bg-indigo-500 after:rounded-full",
                   filteredmaang.length === 0 && "hidden"
                 )}
               >
                 MAANG Companies
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredmaang.length > 0 &&
                   filteredmaang.map((company) => (
                     <div
                       key={company}
-                      className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-gray-900 transition "
+                      className="bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-indigo-500/30 transform hover:-translate-y-2 transition-all duration-300 group relative overflow-hidden"
                     >
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-xl font-semibold mb-3">
+                        <h3 className="text-xl font-semibold mb-3 group-hover:text-indigo-400 transition">
                           {company}
                         </h3>
-                        <div>
+                        <div className="flex items-center">
                           <img
                             src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
                             alt={`${company} logo`}
-                            width={50}
-                          />
+                            className="w-12 h-12 object-contain rounded-full border border-gray-700 group-hover:scale-110 transition duration-300"
+                           />
                           <button
                             onClick={() => toggleFavorite(company)}
-                            className="ml-2 text-yellow-400 text-2xl"
+                            className="ml-2 text-yellow-400 text-2xl hover:scale-125 transition duration-200"
                             title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}>
 
                             {favorites.includes(company) ? "★" : "☆"}
                           </button>
                         </div>
                       </div>
-                      <p className="text-gray-300 mb-4">
+                      <p className="text-gray-300 mb-6">
                         Take the {company} aptitude test to practice for your
                         interview.
                       </p>
                       <button
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition cursor-pointer"
+                        className="w-full bg-indigo-600/80 hover:bg-indigo-600 text-white font-medium py-2 rounded-lg transition-all duration-300 backdrop-blur-md hover:shadow-indigo-500/40 shadow-md"
                         onClick={() => {
                           setTitle(company);
                           setDifficulty("Medium");
@@ -323,38 +323,38 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
               >
                 Tier-1 Companies
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredTier1.length > 0 &&
                   filteredTier1.map((company) => (
                     <div
                       key={company}
-                      className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-gray-900 transition "
+                      className="bg-gray-800/70 rounded-xl p-6 shadow-lg hover:shadow-indigo-500/30 transform hover:-translate-y-2 transition-all duration-300 group backdrop-blur-md border border-gray-700/40"
                     >
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-xl font-semibold mb-3">
+                        <h3 className="text-xl font-semibold mb-3 group-hover:text-indigo-400 transition">
                           {company}
                         </h3>
-                        <div>
+                        <div className="flex items-center">
                           <img
                             src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
                             alt={`${company} logo`}
-                            width={50}
+                           className="w-12 h-12 object-contain rounded-full border border-gray-700 group-hover:scale-110 transition duration-300"
                           />
                           <button
                             onClick={() => toggleFavorite(company)}
-                            className="ml-2 text-yellow-400 text-2xl"
+                            className="ml-2 text-yellow-400 text-2xl hover:scale-125 transition duration-200"
                             title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
                           >
                             {favorites.includes(company) ? "★" : "☆"}
                           </button>
                         </div>
                       </div>
-                      <p className="text-gray-300 mb-4">
+                      <p className="text-gray-300 mb-6">
                         Take the {company} aptitude test to practice for your
                         interview.
                       </p>
                       <button
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition cursor-pointer"
+                        className="w-full bg-indigo-600/80 hover:bg-indigo-600 text-white font-medium py-2 rounded-lg transition-all duration-300 backdrop-blur-md hover:shadow-indigo-500/40 shadow-md"
                         onClick={() => {
                           setTitle(company);
                           setDifficulty("Medium");
@@ -368,7 +368,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
               </div>
               <p
                 className={cn(
-                  "mt-7 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-500 text-center",
+                  "mt-7 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-400 text-center tracking-wide",
                   filteredStartup.length === 0 && "hidden"
                 )}
               >
@@ -379,10 +379,10 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                   filteredStartup.map((company) => (
                     <div
                       key={company}
-                      className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-gray-900 transition "
+                      className="bg-gray-800/60 backdrop-blur-md rounded-xl p-6 shadow-lg border border-gray-700/40 hover:shadow-indigo-500/30 hover:-translate-y-2 transition-all duration-300 "
                     >
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-xl font-semibold mb-3">
+                        <h3 className="text-xl font-semibold mb-3 group-hover:text-indigo-400 transition">
                           {company}
                         </h3>
                         <div>
@@ -390,10 +390,11 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                             src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
                             alt={`${company} logo`}
                             width={50}
+                            className="rounded-full border border-gray-600 hover:scale-105 transition"
                           />
                           <button
                             onClick={() => toggleFavorite(company)}
-                            className="ml-2 text-yellow-400 text-2xl"
+                            className="ml-2 text-yellow-400 text-2xl hover:scale-125 transition"
                             title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
                           >
                             {favorites.includes(company) ? "★" : "☆"}
@@ -405,7 +406,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                         interview.
                       </p>
                       <button
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition cursor-pointer"
+                        className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition-all hover:shadow-md hover:shadow-indigo-500/40"
                         onClick={() => {
                           setTitle(company);
                           setDifficulty("Medium");
@@ -421,8 +422,8 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
           )}
 
           {testType === "custom" && (
-            <div className="max-w-2xl mx-auto bg-gray-800 rounded-lg p-16 shadow-lg">
-              <h2 className="text-2xl font-bold mb-6">Create Custom Test</h2>
+            <div className="max-w-2xl mx-auto bg-gray-800/60 backdrop-blur-md rounded-2xl p-16 shadow-lg border border-gray-700/40">
+              <h2 className="text-2xl font-bold mb-6 text-white">Create Custom Test</h2>
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -444,7 +445,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                     onChange={(e) => {
                       setTopic(e.target.value);
                     }}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-gray-700/50 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
                     placeholder="e.g. Computer Networks"
                     required
                   />
@@ -464,7 +465,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                     onChange={(e) => {
                       setTitle(e.target.value);
                     }}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-gray-700/50 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
                     placeholder="e.g. Cisco"
                     required
                   />
@@ -483,7 +484,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                     onChange={(e) => {
                       setDifficulty(e.target.value);
                     }}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-gray-700/50 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
                   >
                     <option value="Easy">Easy</option>
                     <option value="Medium">Medium</option>
@@ -493,7 +494,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
 
                 <button
                   type="submit"
-                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition-all hover:shadow-indigo-500/30 hover:shadow-lg"
                 >
                   Generate Test
                 </button>
@@ -503,11 +504,11 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
 
           {testType === "focus" && (
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-2xl font-bold mb-6 text-center">
+              <h2 className="text-3xl font-extrabold mb-8 text-center text-indigo-400 tracking-wide">
                 Select a Practice Area
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Link to="/aptitude">
+                <Link to="/aptitude" className="block h-full">
                   <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center">
                     <h3 className="text-xl font-semibold text-white mb-2">
                       Aptitude Training 🧠
@@ -519,6 +520,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                 </Link>
 
 
+              <Link to="/technical-questions" className="block h-full">
                 <div
                   className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center" onClick={() => navigate('/technical-questions')}
                 >
@@ -529,7 +531,9 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                     Practice questions on core CS subjects.
                   </p>
                 </div>
+              </Link>
 
+              
                 <div
                   className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center"
                 >

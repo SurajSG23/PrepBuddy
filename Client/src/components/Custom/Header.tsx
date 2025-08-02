@@ -87,6 +87,7 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
   }, [navigate, setUserID]);
 
   useEffect(() => {
+    console.log("Trying to fetch user with email:", email);
     if (email) {
       const fetchData = async () => {
         try {
