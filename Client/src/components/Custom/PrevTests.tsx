@@ -60,9 +60,9 @@ const PrevTests: React.FC<HeaderProps> = ({ userID }) => {
   return userProfileData.array.length > 0 ? (
     <div className="grid grid-cols-1 gap-8 w-full py-8">
       <div className="lg:col-span-2">
-        <Card className="bg-gray-800 border-gray-700">
+        <Card className="bg-gray-800 border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300">
           <CardHeader>
-            <CardTitle>Recent Tests</CardTitle>
+            <CardTitle className="text-white">Recent Tests</CardTitle>
             <CardDescription className="text-gray-400">
               Your latest test performances
             </CardDescription>
@@ -72,10 +72,10 @@ const PrevTests: React.FC<HeaderProps> = ({ userID }) => {
               {userProfileData.array.map((test) => (
                 <div
                   key={test._id}
-                  className="bg-gray-700 rounded-lg p-4 flex justify-between items-center"
+                  className="bg-gray-700 hover:bg-gray-600 rounded-lg p-4 flex justify-between items-center transition duration-200 group"
                 >
                   <div>
-                    <h4 className="font-medium">{test.title}</h4>
+                    <h4 className="font-medium group-hover:text-indigo-400 transition">{test.title}</h4>
                     <p className="text-sm text-gray-400">
                       {new Date(test.createdAt).toLocaleDateString("en-GB", {
                         day: "2-digit",
@@ -107,17 +107,27 @@ const PrevTests: React.FC<HeaderProps> = ({ userID }) => {
   ) : (
     <>
       <div className="text-center mt-10">
-        <h2 className="text-2xl font-semibold text-gray-300 mb-4">
-          No Tests Taken Yet
+        <h2 className="text-2xl font-semibold text-white mb-4">
+          🚫 No Tests Taken Yet
         </h2>
         <p className="text-gray-400 mb-6">
           Looks like you haven’t attempted any tests so far.
+          <br className="hidden sm:block" /> Start your journey now!
         </p>
         <Link
           to="/homepage"
-          className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
+          className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-5 rounded-full transition-transform transform hover:scale-105 duration-300 shadow-md"
         >
-          Take a Test
+            <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-5 w-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+    </svg>
+    Take a Test
         </Link>
       </div>
     </>

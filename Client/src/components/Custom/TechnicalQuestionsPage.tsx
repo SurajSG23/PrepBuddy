@@ -136,10 +136,10 @@ const TechnicalQuestions: React.FC = () => {
   ];
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen p-4 sm:p-8">
-      <div className="container mx-auto">
-        <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-indigo-400 mb-2">
+    <div className="bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#0f172a] text-white min-h-screen p-6 sm:p-10">
+      <div className="max-w-7xl mx-auto">
+        <header className="text-center mb-14">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-indigo-400 mb-3 drop-shadow-lg tracking-wide">
             Technical Questions Practice
           </h1>
           <p className="text-lg text-gray-400 max-w-3xl mx-auto">
@@ -158,7 +158,7 @@ const TechnicalQuestions: React.FC = () => {
           <PracticeCard
             title="Practice by Topic"
             description="Focus on specific areas by choosing from our library of core computer science topics."
-            icon={<ListChecks size={24} className="text-indigo-400" />}
+            icon={<ListChecks size={28} className="text-indigo-400" />}
           >
             <div className="grid grid-cols-2 gap-4">
               {topics.map((topic) => (
@@ -173,7 +173,8 @@ const TechnicalQuestions: React.FC = () => {
           <PracticeCard
             title="Simulate an Interview"
             description="Take a mixed quiz with questions from all topics to test your overall knowledge and get ready for real-world interviews."
-            icon={<Shuffle size={24} className="text-indigo-400" />}
+            icon={<Shuffle size={28} className="text-indigo-400" />}
+            
           >
             <ComingSoonButton>Start Mixed Quiz</ComingSoonButton>
           </PracticeCard>
