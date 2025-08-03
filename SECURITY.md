@@ -18,7 +18,7 @@ If you are using an older version, we recommend upgrading to the latest release 
 If you discover a security vulnerability, we encourage you to report it **privately and responsibly** to help us maintain a secure project.
 
 ### 📧 Preferred Contact Method:
-Please reach out via **LinkedIn**: [Suraj S G Dhanva](https://www.linkedin.com/in/suraj-s-g-dhanva-995a23298/)
+Please reach out via **LinkedIn**: [Suraj S G Dhanva](https://www.linkedin.com/in/suraj-s-g-dhanva-995a23298/)  
 Include the following details in your message:
 - Description of the vulnerability
 - Steps to reproduce the issue
