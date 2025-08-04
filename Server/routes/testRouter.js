@@ -110,9 +110,6 @@ router.get("/getAllTests/:id", async (req, res) => {
 });
 
 
-// routes/testRouter.js
-
-// Add this code at the end of the file, before module.exports
 
 router.get("/suggest/:id", async (req, res) => {
   try {
@@ -173,6 +170,6 @@ router.get("/suggest/:id", async (req, res) => {
   }
 });
 
-module.exports = router;
+// module.exports = router;
 
 export default router;

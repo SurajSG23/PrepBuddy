@@ -509,7 +509,7 @@ const toggleFavorite = (company: string) => {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div
-                  className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center"
+                  className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center" onClick={() => navigate('/aptitude-training')}
                 >
                   <h3 className="text-xl font-semibold text-white mb-2">
                     Aptitude Training 🧠
