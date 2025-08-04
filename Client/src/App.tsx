@@ -25,7 +25,7 @@ function App() {
   const [isChatOpen, setIsChatOpen] = useState(false); // State to control chat visibility
 
   return (
-    <div className="w-full min-h-[100vh] h-auto bg-gradient-to-r from-gray-900 to-gray-800 flex flex-col justify-between items-center text-white">
+    <div className="w-full min-h-[100vh] h-auto flex flex-col justify-between items-center text-white">
       {/* Pass the chat state setter to the Header */}
       <Header setUserID={setUserId} setIsChatOpen={setIsChatOpen} />
       
