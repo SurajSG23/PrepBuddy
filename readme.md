@@ -45,6 +45,36 @@ Click [here](https://prep-buddy-test.vercel.app) to access PrepBuddy.
 
 ---
 
+## 📸 Preview
+
+<details>
+<summary><strong>Hero Section</strong></summary>
+
+![Hero Section](./preview/Hero_section.png)
+
+</details>
+
+<details>
+<summary><strong>Feature Highlights</strong></summary>
+
+![Features](./preview/Features%20(2).png)
+
+</details>
+
+<details>
+<summary><strong>Night Mode View</strong></summary>
+
+![Night Mode](./preview/Night.png)
+
+</details>
+
+<details>
+<summary><strong>How it works</strong></summary>
+
+![Working](./preview/Working.png)
+
+</details>
+
 ## 🧑‍💻 Open for Contributions
 
 We ❤️ open source. Feel free to contribute and make PrepBuddy even better!

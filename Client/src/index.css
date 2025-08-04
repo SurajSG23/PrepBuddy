@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
+:body {
+  background-color: #fff;
+  color: #1a1a1a;
+
+}
 .dark {
-    background-color: #1a1a1a;
-    color: #fff;
+  background-color: #100436;
+  color: #fff;
 }
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-}
+

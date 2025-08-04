@@ -1,7 +1,7 @@
 import express from "express";
 import userModel from "../models/userModel.js";
 import testModel from "../models/testModel.js";
-
+import {generateToken} from "../middleware/jwtAuthMiddleware.js"
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -62,8 +62,19 @@ router.post("/", async (req, res) => {
     email: req.body.email,
     profilepic: req.body.profilepic,
   });
+  const payload = {
+    id: user2.id,
+    name: user2.name,
+    email: user2.email
+
+  }
+
+  const token = generateToken(payload);
   console.log(user2);
-  res.send(req.body);
+  res.status(200).send({
+  user: req.body,
+  token: token
+});
 });
 
 router.post("/changeName/:id", async (req, res) => {

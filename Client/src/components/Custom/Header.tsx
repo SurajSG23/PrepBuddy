@@ -87,13 +87,17 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
   }, [navigate, setUserID]);
 
   useEffect(() => {
+    console.log("Trying to fetch user with email:", email);
     if (email) {
       const fetchData = async () => {
         try {
+
           const response = await axios.get(
             `${import.meta.env.VITE_API_BASE_URL}/register/getuser/${email}`,
             { withCredentials: true }
           );
+          console.log("Fetched user:", response.data);
+
           setUserID(response.data._id || "");
           setUser(response.data.name || "");
           setProfilePic(response.data.profilepic || "");

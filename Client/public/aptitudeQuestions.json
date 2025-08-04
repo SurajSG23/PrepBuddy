@@ -1,0 +1,568 @@
+{
+  "Quantitative Aptitude": [
+  {
+    "question": "What is the value of 25% of 200?",
+    "options": ["25", "50", "100", "75"],
+    "correctAnswer": "50"
+  },
+  {
+    "question": "A train 150 m long is running at 60 km/hr. How much time will it take to cross a pole?",
+    "options": ["6 sec", "9 sec", "8 sec", "7 sec"],
+    "correctAnswer": "9 sec"
+  },
+  {
+    "question": "If the cost price of 15 items is equal to the selling price of 12 items, then the gain percent is:",
+    "options": ["20%", "25%", "30%", "15%"],
+    "correctAnswer": "25%"
+  },
+  {
+    "question": "A man can row 5 km/h in still water. If the stream flows at 1 km/h, then the time taken to row to a place 6 km upstream and back is:",
+    "options": ["2 hr 30 min", "2 hr 10 min", "2 hr 20 min", "2 hr 40 min"],
+    "correctAnswer": "2 hr 20 min"
+  },
+  {
+    "question": "If 3x + 2 = 11, what is the value of x?",
+    "options": ["2", "3", "4", "5"],
+    "correctAnswer": "3"
+  },
+  {
+    "question": "What will be the compound interest on ₹2500 for 2 years at 4% per annum?",
+    "options": ["₹204", "₹202", "₹200", "₹208"],
+    "correctAnswer": "₹204"
+  },
+  {
+    "question": "The average of first 10 natural numbers is:",
+    "options": ["5", "5.5", "6", "6.5"],
+    "correctAnswer": "5.5"
+  },
+  {
+    "question": "The ratio of the ages of two brothers is 4:5 and the elder one is 20 years old. What is the age of the younger brother?",
+    "options": ["15", "16", "17", "18"],
+    "correctAnswer": "16"
+  },
+  {
+    "question": "If a number is increased by 20% it becomes 180. What is the original number?",
+    "options": ["150", "160", "140", "155"],
+    "correctAnswer": "150"
+  },
+  {
+    "question": "A shopkeeper allows a discount of 10% on the marked price. What price should be marked on an article that costs him ₹450 to gain 20%?",
+    "options": ["₹600", "₹500", "₹540", "₹560"],
+    "correctAnswer": "₹600"
+  }
+],
+
+  "Logical Reasoning":[
+  {
+    "question": "Find the next number in the series: 2, 6, 12, 20, 30, ?",
+    "options": ["36", "42", "48", "40"],
+    "correctAnswer": "42"
+  },
+  {
+    "question": "Which word does NOT belong to the group?",
+    "options": ["Apple", "Banana", "Carrot", "Grapes"],
+    "correctAnswer": "Carrot"
+  },
+  {
+    "question": "If TABLE is coded as GZOOV, then CHAIR is coded as:",
+    "options": ["XSRNK", "XUZIR", "XZSRK", "XRZOK"],
+    "correctAnswer": "XZSRK"
+  },
+  {
+    "question": "Statements: All pens are books. All books are papers. Conclusions: I. All pens are papers. II. All papers are pens.",
+    "options": ["Only I follows", "Only II follows", "Both follow", "Neither follows"],
+    "correctAnswer": "Only I follows"
+  },
+  {
+    "question": "If in a certain code, BREAD is written as 51234 and BUTTER as 516678, then DEAR will be written as:",
+    "options": ["3215", "2315", "1325", "3125"],
+    "correctAnswer": "3125"
+  },
+  {
+    "question": "Which number is the odd one out: 121, 144, 169, 196, 225, 242",
+    "options": ["144", "169", "225", "242"],
+    "correctAnswer": "242"
+  },
+  {
+    "question": "Select the missing number: 3, 9, 27, ?, 243",
+    "options": ["54", "81", "72", "90"],
+    "correctAnswer": "81"
+  },
+  {
+    "question": "If CLOCK is written as KCOLC, how will TIME be written?",
+    "options": ["EMIT", "MITE", "ETIM", "ITEM"],
+    "correctAnswer": "EMIT"
+  },
+  {
+    "question": "Find the odd one out: 2, 3, 5, 7, 11, 14, 17",
+    "options": ["7", "11", "14", "17"],
+    "correctAnswer": "14"
+  },
+  {
+    "question": "Which letter will be the 5th to the right of the 14th letter from the left in the English alphabet?",
+    "options": ["T", "R", "S", "U"],
+    "correctAnswer": "T"
+  }
+],
+
+"Verbal Ability" :[
+  {
+    "question": "Choose the correctly spelled word:",
+    "options": ["Accomodate", "Acommodate", "Accommodate", "Acomodate"],
+    "correctAnswer": "Accommodate"
+  },
+  {
+    "question": "Fill in the blank: He has been working here _____ five years.",
+    "options": ["since", "for", "from", "during"],
+    "correctAnswer": "for"
+  },
+  {
+    "question": "Identify the synonym of the word 'Benevolent':",
+    "options": ["Cruel", "Generous", "Rude", "Aggressive"],
+    "correctAnswer": "Generous"
+  },
+  {
+    "question": "Choose the word which is opposite in meaning to 'Conceal':",
+    "options": ["Reveal", "Hide", "Prevent", "Disguise"],
+    "correctAnswer": "Reveal"
+  },
+  {
+    "question": "Choose the correct passive voice: 'They are playing football.'",
+    "options": [
+      "Football was being played by them.",
+      "Football is being played by them.",
+      "Football has been played by them.",
+      "Football had been played by them."
+    ],
+    "correctAnswer": "Football is being played by them."
+  },
+  {
+    "question": "Spot the error: 'He don't like coffee.'",
+    "options": [
+      "'He'",
+      "'don't'",
+      "'like'",
+      "No error"
+    ],
+    "correctAnswer": "'don't'"
+  },
+  {
+    "question": "Choose the correct sentence:",
+    "options": [
+      "She don't has a pen.",
+      "She doesn't have a pen.",
+      "She don't have a pen.",
+      "She doesn't has a pen."
+    ],
+    "correctAnswer": "She doesn't have a pen."
+  },
+  {
+    "question": "Complete the sentence: If I were you, I _____ that job.",
+    "options": ["will accept", "would accept", "accept", "accepted"],
+    "correctAnswer": "would accept"
+  },
+  {
+    "question": "Choose the correct one-word substitution: 'One who can speak two languages.'",
+    "options": ["Bilingual", "Multilingual", "Translator", "Interpreter"],
+    "correctAnswer": "Bilingual"
+  },
+  {
+    "question": "Choose the appropriate preposition: He is afraid _____ the dark.",
+    "options": ["from", "of", "off", "for"],
+    "correctAnswer": "of"
+  }
+],
+
+"Data Interpreatation" : 
+[
+  {
+    "question": "Study the table and answer: What was the total sales of Product B over the 5 years?",
+    "data": {
+      "Product A": [120, 135, 150, 160, 175],
+      "Product B": [90, 110, 125, 145, 130],
+      "Years": [2018, 2019, 2020, 2021, 2022]
+    },
+    "options": ["600", "580", "520", "550"],
+    "correctAnswer": "600"
+  },
+  {
+    "question": "Based on the data: Which year showed the maximum growth in Product A?",
+    "data": {
+      "Product A": [120, 135, 150, 160, 175],
+      "Years": [2018, 2019, 2020, 2021, 2022]
+    },
+    "options": ["2019", "2020", "2021", "2022"],
+    "correctAnswer": "2019"
+  },
+  {
+    "question": "Pie chart shows company expense breakdown. If total expenses are $1,000,000 and marketing is 25%, how much is spent on marketing?",
+    "options": ["$200,000", "$250,000", "$300,000", "$150,000"],
+    "correctAnswer": "$250,000"
+  },
+  {
+    "question": "Bar chart shows sales of five books. If Book A sold 3000, Book B 4500, Book C 2500, Book D 5000, Book E 4000, which book had second highest sales?",
+    "options": ["Book A", "Book B", "Book D", "Book E"],
+    "correctAnswer": "Book B"
+  },
+  {
+    "question": "A line graph shows monthly visitors to a website. If January = 1000, February = 1200, March = 1100, April = 1500. What is the average monthly visitors?",
+    "options": ["1200", "1300", "1150", "1250"],
+    "correctAnswer": "1200"
+  },
+  {
+    "question": "From the given data, in which year was the revenue-to-cost ratio the highest?",
+    "data": {
+      "Revenue": [500, 700, 800, 750, 900],
+      "Cost": [400, 600, 700, 680, 850],
+      "Years": [2018, 2019, 2020, 2021, 2022]
+    },
+    "options": ["2018", "2019", "2020", "2021"],
+    "correctAnswer": "2019"
+  },
+  {
+    "question": "If a pie chart shows 40% production from Unit A and total production is 20,000 units, what is Unit A’s production?",
+    "options": ["8000", "6000", "5000", "4000"],
+    "correctAnswer": "8000"
+  },
+  {
+    "question": "Table shows student counts in 3 departments: CS-120, ECE-100, ME-80. What is the percentage of CS students?",
+    "options": ["40%", "44.44%", "50%", "38%"],
+    "correctAnswer": "44.44%"
+  },
+  {
+    "question": "A bar chart shows rainfall in cm for 5 months: Jan=10, Feb=15, Mar=12, Apr=8, May=20. Which month had least rainfall?",
+    "options": ["January", "March", "April", "February"],
+    "correctAnswer": "April"
+  },
+  {
+    "question": "Line graph shows profit per quarter: Q1=20k, Q2=25k, Q3=30k, Q4=35k. What is total annual profit?",
+    "options": ["100k", "110k", "120k", "90k"],
+    "correctAnswer": "110k"
+  }
+],
+
+"Arithmetic" :
+[
+  {
+    "question": "What is the value of 12 × 15?",
+    "options": ["180", "175", "190", "185"],
+    "answer": "180"
+  },
+  {
+    "question": "If a shirt costs ₹480 after a 20% discount, what was its original price?",
+    "options": ["₹600", "₹580", "₹500", "₹620"],
+    "answer": "₹600"
+  },
+  {
+    "question": "What is the simple interest on ₹2000 at 5% per annum for 3 years?",
+    "options": ["₹300", "₹350", "₹250", "₹400"],
+    "answer": "₹300"
+  },
+  {
+    "question": "Find the LCM of 12 and 15.",
+    "options": ["60", "30", "90", "45"],
+    "answer": "60"
+  },
+  {
+    "question": "If the average of 5 numbers is 20, what is their total sum?",
+    "options": ["100", "120", "80", "90"],
+    "answer": "100"
+  },
+  {
+    "question": "What is the next number in the sequence: 2, 4, 8, 16, ___?",
+    "options": ["24", "30", "32", "36"],
+    "answer": "32"
+  },
+  {
+    "question": "A train covers 360 km in 6 hours. What is its average speed?",
+    "options": ["60 km/h", "70 km/h", "50 km/h", "55 km/h"],
+    "answer": "60 km/h"
+  },
+  {
+    "question": "If 3 pencils cost ₹18, what is the cost of 10 pencils?",
+    "options": ["₹60", "₹55", "₹58", "₹62"],
+    "answer": "₹60"
+  },
+  {
+    "question": "A number when divided by 5 leaves a remainder of 3. What is the remainder when the same number is divided by 10?",
+    "options": ["3", "5", "8", "6"],
+    "answer": "8"
+  },
+  {
+    "question": "What is 25% of 160?",
+    "options": ["30", "40", "50", "60"],
+    "answer": "40"
+  }
+],
+
+"Number Series" :
+[
+  {
+    "question": "What comes next in the series: 2, 4, 8, 16, ?",
+    "options": ["18", "20", "24", "32"],
+    "answer": "32"
+  },
+  {
+    "question": "Find the missing number: 5, 10, 20, 40, ?",
+    "options": ["50", "60", "70", "80"],
+    "answer": "80"
+  },
+  {
+    "question": "What comes next: 1, 1, 2, 3, 5, 8, ?",
+    "options": ["11", "12", "13", "14"],
+    "answer": "13"
+  },
+  {
+    "question": "Find the missing number: 100, 90, 81, 73, ?",
+    "options": ["66", "65", "64", "62"],
+    "answer": "66"
+  },
+  {
+    "question": "Complete the series: 2, 6, 12, 20, ?",
+    "options": ["30", "28", "26", "24"],
+    "answer": "30"
+  },
+  {
+    "question": "What comes next: 3, 9, 27, ?",
+    "options": ["72", "54", "81", "90"],
+    "answer": "81"
+  },
+  {
+    "question": "Find the missing number: 11, 13, 17, 19, 23, ?",
+    "options": ["25", "27", "29", "31"],
+    "answer": "29"
+  },
+  {
+    "question": "Complete the series: 121, 144, 169, ?",
+    "options": ["196", "198", "200", "210"],
+    "answer": "196"
+  },
+  {
+    "question": "What comes next: 2, 3, 5, 7, 11, ?",
+    "options": ["12", "13", "14", "15"],
+    "answer": "13"
+  },
+  {
+    "question": "Find the missing number: 8, 16, 14, 28, 26, ?",
+    "options": ["32", "36", "52", "50"],
+    "answer": "52"
+  }
+],
+
+"Time & Work" :
+[
+  {
+    "question": "A can complete a work in 12 days and B in 16 days. In how many days will they complete the work together?",
+    "options": ["6.86", "6.5", "7", "7.5"],
+    "answer": "6.86"
+  },
+  {
+    "question": "A is twice as good a workman as B. Together they finish a job in 12 days. In how many days will A alone do the job?",
+    "options": ["18", "20", "12", "24"],
+    "answer": "18"
+  },
+  {
+    "question": "B alone can do a work in 12 days, and A is 50% more efficient than B. How long will A alone take to complete the work?",
+    "options": ["8", "9", "10", "11"],
+    "answer": "8"
+  },
+  {
+    "question": "A and B can do a work in 10 days, and B and C in 12 days. A and C can do it in 15 days. In how many days can A alone do it?",
+    "options": ["20", "24", "30", "40"],
+    "answer": "24"
+  },
+  {
+    "question": "If 6 men can complete a work in 12 days, how many men are required to complete it in 8 days?",
+    "options": ["8", "9", "10", "12"],
+    "answer": "9"
+  },
+  {
+    "question": "A can do a work in 15 days, B in 20 days. They worked together for 4 days. How much work is left?",
+    "options": ["1/2", "1/3", "2/3", "3/4"],
+    "answer": "1/2"
+  },
+  {
+    "question": "If A can do a work in 10 days and B in 5 days, in how many days can they do it together?",
+    "options": ["2", "3.33", "3", "4"],
+    "answer": "3.33"
+  },
+  {
+    "question": "C is thrice as fast as A. If A can finish a work in 30 days, how many days will C take?",
+    "options": ["10", "12", "15", "20"],
+    "answer": "10"
+  },
+  {
+    "question": "A and B can complete a work in 8 days. B alone can do it in 12 days. In how many days can A alone do it?",
+    "options": ["24", "18", "16", "20"],
+    "answer": "24"
+  },
+  {
+    "question": "A can finish a work in 18 days. He worked for 6 days and left. B completed the remaining work in 12 days. In how many days can B complete the whole work?",
+    "options": ["24", "27", "30", "36"],
+    "answer": "36"
+  }
+], 
+
+"Profit & Loss" : 
+[
+  {
+    "question": "A shopkeeper buys an article for ₹500 and sells it for ₹600. What is the profit percentage?",
+    "options": ["10%", "15%", "20%", "25%"],
+    "answer": "20%"
+  },
+  {
+    "question": "If an item is sold at a loss of 10%, and the selling price is ₹180, what was the cost price?",
+    "options": ["₹200", "₹190", "₹170", "₹160"],
+    "answer": "₹200"
+  },
+  {
+    "question": "If the cost price of 15 articles is equal to the selling price of 12 articles, what is the profit percentage?",
+    "options": ["20%", "25%", "30%", "10%"],
+    "answer": "25%"
+  },
+  {
+    "question": "An article is sold for ₹240 at a loss of 20%. What is the cost price?",
+    "options": ["₹280", "₹300", "₹320", "₹360"],
+    "answer": "₹300"
+  },
+  {
+    "question": "A man sells two items for ₹1000 each, one at a profit of 10% and the other at a loss of 10%. What is the overall profit or loss?",
+    "options": ["No profit no loss", "Profit of ₹10", "Loss of ₹10", "Loss of ₹1"],
+    "answer": "Loss of ₹1"
+  },
+  {
+    "question": "If the selling price of an article is 125% of its cost price, what is the profit percentage?",
+    "options": ["15%", "20%", "25%", "30%"],
+    "answer": "25%"
+  },
+  {
+    "question": "An article is marked at ₹500 and sold at ₹450. What is the discount percentage?",
+    "options": ["5%", "10%", "12%", "15%"],
+    "answer": "10%"
+  },
+  {
+    "question": "A dealer marks his goods 20% above cost price and allows a discount of 10%. What is his gain percentage?",
+    "options": ["8%", "10%", "12%", "15%"],
+    "answer": "8%"
+  },
+  {
+    "question": "A man bought a pen for ₹50 and sold it for ₹65. What is the profit percentage?",
+    "options": ["20%", "25%", "30%", "15%"],
+    "answer": "30%"
+  },
+  {
+    "question": "If there is a loss of 20% on cost price, what percent is the loss on the selling price?",
+    "options": ["20%", "25%", "16.66%", "18%"],
+    "answer": "25%"
+  }
+],
+
+"Percentages" :
+[
+  {
+    "question": "What is 25% of 200?",
+    "options": ["25", "50", "75", "100"],
+    "answer": "50"
+  },
+  {
+    "question": "If 30% of a number is 60, what is the number?",
+    "options": ["180", "200", "220", "240"],
+    "answer": "200"
+  },
+  {
+    "question": "A number is increased by 20% and then decreased by 20%. What is the net percentage change?",
+    "options": ["No change", "4% increase", "4% decrease", "8% decrease"],
+    "answer": "4% decrease"
+  },
+  {
+    "question": "If the price of a commodity increases from ₹500 to ₹600, what is the percentage increase?",
+    "options": ["10%", "15%", "20%", "25%"],
+    "answer": "20%"
+  },
+  {
+    "question": "What is the percentage change when a number increases from 40 to 50?",
+    "options": ["20%", "25%", "10%", "30%"],
+    "answer": "25%"
+  },
+  {
+    "question": "If 60% of the students in a class are boys, and there are 24 boys, how many students are there in total?",
+    "options": ["30", "35", "40", "45"],
+    "answer": "40"
+  },
+  {
+    "question": "What percent is 45 of 60?",
+    "options": ["65%", "70%", "75%", "80%"],
+    "answer": "75%"
+  },
+  {
+    "question": "A man spends 85% of his income. If he saves ₹2,250, what is his income?",
+    "options": ["₹10,000", "₹12,500", "₹15,000", "₹17,000"],
+    "answer": "₹15,000"
+  },
+  {
+    "question": "If a number is 20% more than another, how much percent is the second number less than the first?",
+    "options": ["20%", "16.66%", "25%", "18%"],
+    "answer": "16.66%"
+  },
+  {
+    "question": "60% of students passed in English, 70% in Math and 20% failed in both. What percentage passed in at least one?",
+    "options": ["80%", "90%", "100%", "70%"],
+    "answer": "80%"
+  }
+],
+
+"Probability" : 
+[
+  {
+    "question": "What is the probability of getting a head when tossing a fair coin?",
+    "options": ["1/2", "1/3", "1/4", "2/3"],
+    "answer": "1/2"
+  },
+  {
+    "question": "A bag contains 3 red and 2 green balls. One ball is drawn at random. What is the probability that it is green?",
+    "options": ["2/5", "3/5", "1/2", "1/5"],
+    "answer": "2/5"
+  },
+  {
+    "question": "A die is rolled once. What is the probability of getting an even number?",
+    "options": ["1/6", "1/2", "2/3", "1/3"],
+    "answer": "1/2"
+  },
+  {
+    "question": "If two coins are tossed simultaneously, what is the probability of getting exactly one head?",
+    "options": ["1/4", "1/2", "1/3", "3/4"],
+    "answer": "1/2"
+  },
+  {
+    "question": "A card is drawn from a well-shuffled pack of 52 cards. What is the probability of drawing a king?",
+    "options": ["1/13", "1/4", "1/26", "1/52"],
+    "answer": "1/13"
+  },
+  {
+    "question": "A number is selected at random from 1 to 10. What is the probability that it is a prime number?",
+    "options": ["4/10", "5/10", "6/10", "3/10"],
+    "answer": "4/10"
+  },
+  {
+    "question": "What is the probability of choosing a vowel randomly from the English alphabet?",
+    "options": ["5/26", "6/26", "4/26", "3/26"],
+    "answer": "5/26"
+  },
+  {
+    "question": "If a box contains 4 blue, 3 red, and 3 green balls, what is the probability of drawing a red ball?",
+    "options": ["3/10", "3/5", "4/10", "1/10"],
+    "answer": "3/10"
+  },
+  {
+    "question": "A letter is chosen at random from the word 'PROBABILITY'. What is the probability that it is a vowel?",
+    "options": ["3/11", "4/11", "5/11", "2/11"],
+    "answer": "4/11"
+  },
+  {
+    "question": "In a class of 40 students, 25 like football, 15 like basketball, and 5 like both. If a student is picked at random, what is the probability they like either football or basketball?",
+    "options": ["35/40", "25/40", "15/40", "30/40"],
+    "answer": "35/40"
+  }
+
+]
+}

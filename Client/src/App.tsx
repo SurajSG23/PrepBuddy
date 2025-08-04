@@ -18,13 +18,17 @@ import AptitudePracticePage from "./components/Custom/AptitudePracticePage";
 import AptitudeResultsPage from "./components/Custom/AptitudeResultsPage";
 import OnTopBar from "./components/Custom/OnTopBar";
 import ChatAssistant from "./components/Custom/ChatAssistant"; // Import the Chat Assistant
+import AptitudePage from "./components/Custom/AptitudePage";
+import QuizPage from "./components/Custom/QuizPage";
+//import the Contact page
+import Contact from "./components/Custom/Contact";
 
 function App() {
   const [userID, setUserId] = useState("");
   const [isChatOpen, setIsChatOpen] = useState(false); // State to control chat visibility
 
   return (
-    <div className="w-full min-h-[100vh] h-auto bg-gradient-to-r from-gray-900 to-gray-800 flex flex-col justify-between items-center text-white">
+    <div className="w-full min-h-[100vh] h-auto flex flex-col justify-between items-center text-white">
       {/* Pass the chat state setter to the Header */}
       <Header setUserID={setUserId} setIsChatOpen={setIsChatOpen} />
       
@@ -36,6 +40,12 @@ function App() {
         <Route path="/notes" element={<Notes />} />
         <Route path="/previous-tests" element={<PrevTests userID={userID} />} />
         <Route path="/score-board" element={<ScoreBoard />} />
+        <Route path="/aptitude" element={<AptitudePage />} />
+        <Route path="/quiz/:topic" element={<QuizPage />} />
+        {/* Add contact page */}
+        <Route path="/contact" element={<Contact/>} />
+
+
         {/* Pass userID to pages that need it */}
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route
