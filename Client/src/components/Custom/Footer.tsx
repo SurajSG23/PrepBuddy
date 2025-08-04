@@ -91,7 +91,7 @@ const Footer: React.FC = () => {
             </p>
             
             <div className="flex space-x-4 text-sm">
-               <Link to="/contact" className="text-gray-400 hover:text-indigo-400 transition-colors">
+               <Link to="/contact" className="text-gray-400 hover:text-indigo-400 transition-all duration-300 relative after:content-[''] after:block after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
                 Contact us
               </Link>
               <a href="#" className="text-gray-400 hover:text-indigo-400 transition-all duration-300 relative after:content-[''] after:block after:w-0 after:h-0.5 after:bg-indigo-400 after:transition-all after:duration-300 hover:after:w-full">
