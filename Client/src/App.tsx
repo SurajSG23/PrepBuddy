@@ -17,6 +17,8 @@ import OnTopBar from "./components/Custom/OnTopBar";
 import ChatAssistant from "./components/Custom/ChatAssistant"; // Import the Chat Assistant
 import AptitudePage from "./components/Custom/AptitudePage";
 import QuizPage from "./components/Custom/QuizPage";
+//import the Contact page
+import Contact from "./components/Custom/Contact";
 
 function App() {
   const [userID, setUserId] = useState("");
@@ -37,6 +39,8 @@ function App() {
         <Route path="/score-board" element={<ScoreBoard />} />
         <Route path="/aptitude" element={<AptitudePage />} />
         <Route path="/quiz/:topic" element={<QuizPage />} />
+        {/* Add contact page */}
+        <Route path="/contact" element={<Contact/>} />
 
 
         {/* Pass userID to pages that need it */}
