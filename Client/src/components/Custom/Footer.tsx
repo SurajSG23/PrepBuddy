@@ -1,6 +1,7 @@
 import React from 'react';
 import { Instagram, Linkedin, Github } from 'lucide-react';
 import { Button } from '../ui/button';
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -90,6 +91,9 @@ const Footer: React.FC = () => {
             </p>
             
             <div className="flex space-x-4 text-sm">
+               <Link to="/contact" className="text-gray-400 hover:text-indigo-400 transition-colors">
+                Contact us
+              </Link>
               <a href="#" className="text-gray-400 hover:text-indigo-400 transition-colors">
                 Privacy Policy
               </a>
