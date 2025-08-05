@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { cn } from "../../../lib/utils";
 import { Link } from "react-router-dom";
 
-
 interface HeaderProps {
   userID: string;
 }
@@ -175,7 +174,9 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
     return (
       <div className="flex fixed inset-0 justify-center items-center bg-black/60 backdrop-blur-md z-50">
         <div className="bg-gray-800 rounded-2xl shadow-2xl p-8 text-white w-[90%] max-w-md text-center transform transition-transform duration-300 hover:scale-105">
-          <h1 className="text-3xl font-extrabold mb-6 text-indigo-400">Test Confirmation</h1>
+          <h1 className="text-3xl font-extrabold mb-6 text-indigo-400">
+            Test Confirmation
+          </h1>
           <p className="text-lg mb-2">
             <span className="font-semibold text-indigo-300">Topic:</span>{" "}
             {topic}
@@ -220,28 +221,31 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
         <div className="mb-10">
           <div className="flex border-b border-gray-700 mb-6 justify-center gap-6">
             <button
-              className={`relative px-5 py-3 text-lg font-semibold transition-all duration-300 ${testType === "predefined"
+              className={`relative px-5 py-3 text-lg font-semibold transition-all duration-300 ${
+                testType === "predefined"
                   ? "text-indigo-400 after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-indigo-500"
                   : "text-gray-400 hover:text-indigo-300"
-                } cursor-pointer`}
+              } cursor-pointer`}
               onClick={() => setTestType("predefined")}
             >
               Popular Company Tests
             </button>
             <button
-              className={`relative px-5 py-3 text-lg font-semibold transition-all duration-300 ${testType === "custom"
+              className={`relative px-5 py-3 text-lg font-semibold transition-all duration-300 ${
+                testType === "custom"
                   ? "text-indigo-400 after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-indigo-500"
                   : "text-gray-400 hover:text-indigo-300"
-                } cursor-pointer`}
+              } cursor-pointer`}
               onClick={() => setTestType("custom")}
             >
               Create Custom Test
             </button>
             <button
-              className={`relative px-5 py-3 text-lg font-semibold transition-all duration-300 ${testType === "focus"
+              className={`relative px-5 py-3 text-lg font-semibold transition-all duration-300 ${
+                testType === "focus"
                   ? "text-indigo-400 after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-indigo-500"
                   : "text-gray-400 hover:text-indigo-300"
-                } cursor-pointer`}
+              } cursor-pointer`}
               onClick={() => setTestType("focus")}
             >
               Choose Your Focus Area
@@ -288,12 +292,16 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                             src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
                             alt={`${company} logo`}
                             className="w-12 h-12 object-contain rounded-full border border-gray-700 group-hover:scale-110 transition duration-300"
-                           />
+                          />
                           <button
                             onClick={() => toggleFavorite(company)}
                             className="ml-2 text-yellow-400 text-2xl hover:scale-125 transition duration-200"
-                            title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}>
-
+                            title={
+                              favorites.includes(company)
+                                ? "Remove from Favorites"
+                                : "Add to Favorites"
+                            }
+                          >
                             {favorites.includes(company) ? "★" : "☆"}
                           </button>
                         </div>
@@ -338,12 +346,16 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                           <img
                             src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
                             alt={`${company} logo`}
-                           className="w-12 h-12 object-contain rounded-full border border-gray-700 group-hover:scale-110 transition duration-300"
+                            className="w-12 h-12 object-contain rounded-full border border-gray-700 group-hover:scale-110 transition duration-300"
                           />
                           <button
                             onClick={() => toggleFavorite(company)}
                             className="ml-2 text-yellow-400 text-2xl hover:scale-125 transition duration-200"
-                            title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
+                            title={
+                              favorites.includes(company)
+                                ? "Remove from Favorites"
+                                : "Add to Favorites"
+                            }
                           >
                             {favorites.includes(company) ? "★" : "☆"}
                           </button>
@@ -395,7 +407,11 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                           <button
                             onClick={() => toggleFavorite(company)}
                             className="ml-2 text-yellow-400 text-2xl hover:scale-125 transition"
-                            title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
+                            title={
+                              favorites.includes(company)
+                                ? "Remove from Favorites"
+                                : "Add to Favorites"
+                            }
                           >
                             {favorites.includes(company) ? "★" : "☆"}
                           </button>
@@ -423,7 +439,9 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
 
           {testType === "custom" && (
             <div className="max-w-2xl mx-auto bg-gray-800/60 backdrop-blur-md rounded-2xl p-16 shadow-lg border border-gray-700/40">
-              <h2 className="text-2xl font-bold mb-6 text-white">Create Custom Test</h2>
+              <h2 className="text-2xl font-bold mb-6 text-white">
+                Create Custom Test
+              </h2>
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -431,10 +449,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                 }}
               >
                 <div className="mb-4">
-                  <label
-                    className="block text-gray-300 mb-2"
-                    htmlFor="title"
-                  >
+                  <label className="block text-gray-300 mb-2" htmlFor="title">
                     Test Topic
                   </label>
                   <input
@@ -451,10 +466,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label
-                    className="block text-gray-300 mb-2"
-                    htmlFor="title"
-                  >
+                  <label className="block text-gray-300 mb-2" htmlFor="title">
                     Company Name
                   </label>
                   <input
@@ -508,7 +520,6 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                 Select a Practice Area
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
                 <Link to="/aptitude" className="block h-full">
                   <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center">
                     <h3 className="text-xl font-semibold text-white mb-2">
@@ -520,30 +531,30 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                   </div>
                 </Link>
 
-              <Link to="/technical-questions" className="block h-full">
-                <div
-                  className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center" onClick={() => navigate('/technical-questions')}
-                >
-                  <h3 className="text-xl font-semibold text-white mb-2">
-                    Technical Questions 💻
-                  </h3>
-                  <p className="text-gray-400">
-                    Practice questions on core CS subjects.
-                  </p>
-                </div>
-              </Link>
+                <Link to="/technical-questions" className="block h-full">
+                  <div
+                    className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center"
+                    onClick={() => navigate("/technical-questions")}
+                  >
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      Technical Questions 💻
+                    </h3>
+                    <p className="text-gray-400">
+                      Practice questions on core CS subjects.
+                    </p>
+                  </div>
+                </Link>
 
-              
-                <div
-                  className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center"
-                >
-                  <h3 className="text-xl font-semibold text-white mb-2">
-                    AI-Powered Interviews 🤖
-                  </h3>
-                  <p className="text-gray-400">
-                    Simulate real interviews with AI feedback.
-                  </p>
-                </div>
+                <Link to="/ai-interview" className="block h-full">
+                  <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 h-full flex flex-col justify-center text-center">
+                    <h3 className="text-xl font-semibold text-white mb-2">
+                      AI-Powered Interviews 🤖
+                    </h3>
+                    <p className="text-gray-400">
+                      Simulate real interviews with AI feedback.
+                    </p>
+                  </div>
+                </Link>
               </div>
             </div>
           )}
