@@ -13,6 +13,9 @@ import FavoritesPage from "./components/Custom/FavoritesPage";
 import Notes from "./components/Custom/Notes";
 import TechnicalQuestionsPage from "./components/Custom/TechnicalQuestionsPage";
 import TopicPracticePage from "./components/Custom/TopicPracticePage";
+import AptitudeTrainingPage from "./components/Custom/AptitudeTrainingPage";
+import AptitudePracticePage from "./components/Custom/AptitudePracticePage";
+import AptitudeResultsPage from "./components/Custom/AptitudeResultsPage";
 import OnTopBar from "./components/Custom/OnTopBar";
 import ChatAssistant from "./components/Custom/ChatAssistant"; // Import the Chat Assistant
 import AptitudePage from "./components/Custom/AptitudePage";
@@ -50,6 +53,9 @@ function App() {
           element={<TechnicalQuestionsPage />}
         />
         <Route path="/practice/:topicName" element={<TopicPracticePage />} />
+        <Route path="/aptitude-training" element={<AptitudeTrainingPage />} />
+        <Route path="/aptitude-practice/:difficulty" element={<AptitudePracticePage />} />
+        <Route path="/aptitude-results/:difficulty" element={<AptitudeResultsPage />} />
       </Routes>
       
       <OnTopBar />

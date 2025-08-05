@@ -508,6 +508,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                 Select a Practice Area
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
                 <Link to="/aptitude" className="block h-full">
                   <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center">
                     <h3 className="text-xl font-semibold text-white mb-2">
@@ -518,7 +519,6 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                     </p>
                   </div>
                 </Link>
-
 
               <Link to="/technical-questions" className="block h-full">
                 <div
