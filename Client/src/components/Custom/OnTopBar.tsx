@@ -23,7 +23,7 @@ const onTopbtn = () => {
 
 
     document.querySelector(".on-top-bar") as HTMLElement;
-    if (window.scrollY > 100) {
+    if (window.scrollY > 120) {
        setIsVisible(true);
     } else {
         setIsVisible(false);
@@ -66,22 +66,24 @@ const Container = Styled.section`
 
 .on-top-bar {
     position: fixed;
-    bottom: 20px;
-    right: 18px;
+    bottom: 8rem;
+    right: 2.5rem;
     background-color: #4f39f6;
     color: #fff;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    
 
     &:hover {
         background-color: #0039ff;
+        transform: scale(1.1);
     }
  
 }
