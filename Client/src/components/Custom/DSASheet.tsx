@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Star, Link2 } from 'lucide-react';
 
 const dsaQuestions = [
