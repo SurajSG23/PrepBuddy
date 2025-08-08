@@ -23,6 +23,7 @@ import QuizPage from "./components/Custom/QuizPage";
 //import the Contact page
 import Contact from "./components/Custom/Contact";
 import AiInterviewPage from "./components/Custom/AiInterviewPage";
+import DsaSheet from "./components/Custom/dsasheet"; 
 
 function App() {
   const [userID, setUserId] = useState("");
@@ -43,7 +44,7 @@ function App() {
         <Route path="/score-board" element={<ScoreBoard />} />
         <Route path="/aptitude" element={<AptitudePage />} />
         <Route path="/quiz/:topic" element={<QuizPage />} />
-        <Route path="/ai-interview" element={<AiInterviewPage />} />
+        <Route path="/ai-interview" element={<AiInterviewPage />} />       
         {/* Add contact page */}
         <Route path="/contact" element={<Contact/>} />
 
@@ -54,6 +55,7 @@ function App() {
           path="/technical-questions"
           element={<TechnicalQuestionsPage />}
         />
+        <Route path="/dsasheet" element={<DsaSheet />} />
         <Route path="/practice/:topicName" element={<TopicPracticePage />} />
         <Route path="/aptitude-training" element={<AptitudeTrainingPage />} />
         <Route path="/aptitude-practice/:difficulty" element={<AptitudePracticePage />} />
