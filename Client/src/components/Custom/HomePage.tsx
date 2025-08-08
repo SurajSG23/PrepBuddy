@@ -519,9 +519,9 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
               <h2 className="text-3xl font-extrabold mb-8 text-center text-indigo-400 tracking-wide">
                 Select a Practice Area
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
                 <Link to="/aptitude" className="block h-full">
-                  <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center">
+                  <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center min-h-[160px] flex flex-col justify-center">
                     <h3 className="text-xl font-semibold text-white mb-2">
                       Aptitude Training 🧠
                     </h3>
@@ -532,10 +532,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                 </Link>
 
                 <Link to="/technical-questions" className="block h-full">
-                  <div
-                    className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center"
-                    onClick={() => navigate("/technical-questions")}
-                  >
+                  <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center min-h-[160px] flex flex-col justify-center">
                     <h3 className="text-xl font-semibold text-white mb-2">
                       Technical Questions 💻
                     </h3>
@@ -545,8 +542,8 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                   </div>
                 </Link>
 
-                <Link to="/ai-interview" className="block h-full">
-                  <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 h-full flex flex-col justify-center text-center">
+                <Link to="/ai-interview-options" className="block h-full">
+                  <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center min-h-[160px] flex flex-col justify-center">
                     <h3 className="text-xl font-semibold text-white mb-2">
                       AI-Powered Interviews 🤖
                     </h3>
