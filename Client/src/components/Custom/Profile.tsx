@@ -171,7 +171,6 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
   const handleDeleteAccount = async () => {
     setLoading(true);
     try {
-      console.log("Deleting account for userID:", userID);
       await axios.delete(
         `${import.meta.env.VITE_API_BASE_URL}/register/deleteAccount/${userID}`,
         {

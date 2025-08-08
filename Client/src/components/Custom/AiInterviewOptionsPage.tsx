@@ -8,8 +8,10 @@ const AiInterviewOptionsPage: React.FC = () => {
   const handleOptionSelect = (optionId: string) => {
     if (optionId === "text-interview") {
       navigate("/ai-interview/text");
+    } else if (optionId === "voice-interview") {
+      navigate("/ai-interview/voice");
     } else {
-      alert("This feature is coming soon! Currently implementing the basic text interview.");
+      alert("This feature is coming soon! Currently implementing the basic text and voice interviews.");
     }
   };
 
@@ -52,13 +54,13 @@ const AiInterviewOptionsPage: React.FC = () => {
               </button>
               
               <button
-                onClick={() => handleOptionSelect("audio-interview")}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white p-4 rounded-lg transition-all duration-300 text-left flex items-center gap-3 opacity-60"
+                onClick={() => handleOptionSelect("voice-interview")}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white p-4 rounded-lg transition-all duration-300 text-left flex items-center gap-3"
               >
                 <Volume2 className="w-6 h-6" />
                 <div>
                   <h3 className="font-semibold">Voice-Based Practice</h3>
-                  <p className="text-sm text-indigo-200">Voice-powered interview practice</p>
+                  <p className="text-sm text-indigo-200">Speak your answers naturally</p>
                 </div>
               </button>
               
