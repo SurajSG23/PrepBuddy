@@ -14,7 +14,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
 import React from "react";
 import QODStatsCard from "./QODStatsCard";
-import ThemeToggle from "./ThemeToggle";
 
 interface HeaderProps {
   userID: string;
