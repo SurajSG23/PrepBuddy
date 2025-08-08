@@ -92,7 +92,7 @@ const TechnicalQuestions: React.FC = () => {
     {
       name: "Data Structures & Algorithms",
       icon: <BookCopy size={18} />,
-      slug: "data-structures-algorithms",
+      slug: "dsasheet",
     },
     {
       name: "Operating Systems",
@@ -162,7 +162,7 @@ const TechnicalQuestions: React.FC = () => {
           >
             <div className="grid grid-cols-2 gap-4">
               {topics.map((topic) => (
-                <PracticeButton key={topic.name} to={`/practice/${topic.slug}`}>
+                <PracticeButton key={topic.name} to={`/${topic.slug}`}>
                   {topic.icon}
                   <span>{topic.name}</span>
                 </PracticeButton>
