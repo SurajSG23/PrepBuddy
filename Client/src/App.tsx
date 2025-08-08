@@ -23,7 +23,7 @@ import QuizPage from "./components/Custom/QuizPage";
 //import the Contact page
 import Contact from "./components/Custom/Contact";
 import AiInterviewPage from "./components/Custom/AiInterviewPage";
-import DsaSheet from "./components/Custom/dsasheet"; 
+import DsaSheet from "./components/Custom/DSASheet.tsx"; 
 
 function App() {
   const [userID, setUserId] = useState("");
