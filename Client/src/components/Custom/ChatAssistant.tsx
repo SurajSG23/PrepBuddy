@@ -54,7 +54,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ userID, isChatOpen, setIs
         const suggestionMessage: Message = { text: res.data.suggestion, sender: "bot" };
         setMessages(prev => [...prev, suggestionMessage]);
       } catch (error) {
-        const errorMessage: Message = { text: "Sorry, I couldn't fetch a suggestion right now.", sender: "bot" };
+        const errorMessage: Message = { text: "Sorry, I couldn't fetch a suggestion right now.", sender: "bot"};
         setMessages(prev => [...prev, errorMessage]);
       }
     } else {
@@ -67,7 +67,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ userID, isChatOpen, setIs
   };
 
   return (
-    <div className="fixed bottom-5 right-5 z-[100]">
+    <div className="fixed bottom-5 right-4 z-[100]">
       {/* Chat Window's visibility is now controlled by the isChatOpen prop */}
       {isChatOpen && (
         <div className="w-80 h-[28rem] bg-gray-800 border border-indigo-500 rounded-lg shadow-2xl flex flex-col animate-slide-in shadow-indigo-500/20 transition-all duration-300 glowing-border">
