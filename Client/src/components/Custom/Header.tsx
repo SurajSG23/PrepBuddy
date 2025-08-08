@@ -169,9 +169,13 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
                 <img src="/logo.png" alt="logo" width={150} />
               </h1>
             </Link>
+
+            
             <div className="relative" ref={dropdownRef}>
               <div className="flex items-center gap-2">
+                 <ThemeToggle />
                 <QuestionOfTheDay />
+               
                 <button
                   onClick={toggleDropdown}
                   className="flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded-full transition cursor-pointer text-white"

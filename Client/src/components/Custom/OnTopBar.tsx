@@ -68,7 +68,7 @@ const Container = Styled.section`
 .on-top-bar {
     position: fixed;
     bottom: 6.2rem;
-    right: 2.5rem;
+    right: 1.5rem;
     background-color: #4f39f6;
     color: #fff;
     border-radius: 50%;
