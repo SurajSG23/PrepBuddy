@@ -54,6 +54,7 @@ const Container = Styled.section`
    display: flex;
    justify-content: center;
     align-items: center;
+    
 
 .progress-bar {
     position: fixed;
@@ -66,7 +67,7 @@ const Container = Styled.section`
 
 .on-top-bar {
     position: fixed;
-    bottom: 8rem;
+    bottom: 6.2rem;
     right: 2.5rem;
     background-color: #4f39f6;
     color: #fff;
