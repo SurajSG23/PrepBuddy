@@ -27,6 +27,7 @@ import AiInterviewOptionsPage from "./components/Custom/AiInterviewOptionsPage";
 import TextInterviewPage from "./components/Custom/TextInterviewPage";
 import VoiceInterviewPage from "./components/Custom/VoiceInterviewPage";
 import DsaSheet from "./components/Custom/DSASheet";
+import JavaScriptSheet from "./components/Custom/JavaScriptSheet";
 
 function App() {
   const [userID, setUserId] = useState("");
@@ -62,6 +63,7 @@ function App() {
           element={<TechnicalQuestionsPage />}
         />
         <Route path="/dsasheet" element={<DsaSheet />} />
+        <Route path="/JavaScriptSheet" element={<JavaScriptSheet />} />
         <Route path="/practice/:topicName" element={<TopicPracticePage />} />
         <Route path="/aptitude-training" element={<AptitudeTrainingPage />} />
         <Route path="/aptitude-practice/:difficulty" element={<AptitudePracticePage />} />
