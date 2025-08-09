@@ -401,7 +401,6 @@ const VoiceInterviewPage: React.FC = () => {
                     </button>
                   )}
                 </div>
-
                 {/* Recording Status */}
                 <div className="mb-4">
                   {isRecording ? (

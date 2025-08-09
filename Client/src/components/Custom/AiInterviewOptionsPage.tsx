@@ -14,7 +14,6 @@ const AiInterviewOptionsPage: React.FC = () => {
       alert("This feature is coming soon! Currently implementing the basic text and voice interviews.");
     }
   };
-
   return (
     <div className="text-white min-h-screen p-6 sm:p-10">
       <div className="max-w-7xl mx-auto">
