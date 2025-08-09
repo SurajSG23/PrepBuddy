@@ -25,6 +25,7 @@ import Contact from "./components/Custom/Contact";
 import AiInterviewPage from "./components/Custom/AiInterviewPage";
 import AiInterviewOptionsPage from "./components/Custom/AiInterviewOptionsPage";
 import TextInterviewPage from "./components/Custom/TextInterviewPage";
+import VoiceInterviewPage from "./components/Custom/VoiceInterviewPage";
 import DsaSheet from "./components/Custom/DSASheet";
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
         <Route path="/quiz/:topic" element={<QuizPage />} />
         <Route path="/ai-interview-options" element={<AiInterviewOptionsPage />} />
         <Route path="/ai-interview/text" element={<TextInterviewPage />} />
+        <Route path="/ai-interview/voice" element={<VoiceInterviewPage />} />
         <Route path="/ai-interview" element={<AiInterviewPage />} />
         {/* Add contact page */}
         <Route path="/contact" element={<Contact/>} />
