@@ -95,7 +95,6 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
             `${import.meta.env.VITE_API_BASE_URL}/register/getuser/${email}`,
             { withCredentials: true }
           );
-
           setUserID(response.data._id || "");
           setUser(response.data.name || "");
           setProfilePic(response.data.profilepic || "");

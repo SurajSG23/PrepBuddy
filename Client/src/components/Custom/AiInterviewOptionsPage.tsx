@@ -10,11 +10,12 @@ const AiInterviewOptionsPage: React.FC = () => {
       navigate("/ai-interview/text");
     } else if (optionId === "voice-interview") {
       navigate("/ai-interview/voice");
+    } else if (optionId === "video-interview") {
+      navigate("/ai-interview/video");
     } else {
-      alert("This feature is coming soon! Currently implementing the basic text and voice interviews.");
+      alert("This feature is coming soon!");
     }
   };
-
   return (
     <div className="text-white min-h-screen p-6 sm:p-10">
       <div className="max-w-7xl mx-auto">
@@ -65,8 +66,8 @@ const AiInterviewOptionsPage: React.FC = () => {
               </button>
               
               <button
-                onClick={() => handleOptionSelect("performance-tracking")}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white p-4 rounded-lg transition-all duration-300 text-left flex items-center gap-3 opacity-60"
+                onClick={() => handleOptionSelect("video-interview")}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white p-4 rounded-lg transition-all duration-300 text-left flex items-center gap-3"
               >
                 <BarChart3 className="w-6 h-6" />
                 <div>
