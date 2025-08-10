@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import  { useState, useMemo } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { FiPlay, FiRotateCw, FiBookmark, FiSearch } from "react-icons/fi";
@@ -362,7 +362,7 @@ console.log('Example conceptual only');`,
   },
 ];
 
-export default function JavaScriptPractice(): React.JSX.Element {
+export default function JavaScriptPractice() {
   const [query, setQuery] = useState<string>("");
   const [filter, setFilter] = useState<"All" | Level | "All">("All");
   const [expandedId, setExpandedId] = useState<number | null>(null);
