@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 type Question = {
   question: string;
@@ -17,6 +17,8 @@ const QuizPage = () => {
   const [selected, setSelected] = useState<string | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [quizEnd, setQuizEnd] = useState(false);
+  const [locked, setLocked] = useState(false);
+  const hasSubmittedRef = useRef(false);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -39,6 +41,10 @@ const QuizPage = () => {
       setSelected(null);
       setShowAnswer(false);
     } else {
+      if (!hasSubmittedRef.current) {
+        hasSubmittedRef.current = true;
+        setLocked(true);
+      }
       setQuizEnd(true);
     }
   };
@@ -82,7 +88,7 @@ const QuizPage = () => {
                 <li
                   key={idx}
                   className={base}
-                  onClick={() => handleOptionClick(opt)}
+                  onClick={() => !locked && handleOptionClick(opt)}
                 >
                   {opt}
                 </li>
@@ -94,7 +100,7 @@ const QuizPage = () => {
             <div className="flex justify-end mt-6">
               <button
                 className="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-xl transition-all"
-                onClick={handleNext}
+                onClick={() => !locked && handleNext()}
               >
                 {current === questions.length - 1 ? "Finish" : "Next"}
               </button>

@@ -1,23 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import {
-  LineChart,
-  Line,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  Area,
-  AreaChart
-} from 'recharts';
+import { Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import axios from 'axios';
-import { Calendar, TrendingUp, Target, Award, Clock, BarChart3 } from 'lucide-react';
+import { Calendar, TrendingUp, Target, Award, BarChart3 } from 'lucide-react';
 
 interface ProgressData {
   date: string;
@@ -98,7 +83,7 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ userID, viewMode 
     return { message: "Legendary dedication! 👑", color: "text-purple-400" };
   };
 
-  const COLORS = ['#6366f1', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b'];
+  // const COLORS = ['#6366f1', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b'];
 
   if (loading) {
     return (

@@ -142,7 +142,7 @@ const StreakBadges: React.FC<StreakBadgesProps> = ({ userID, currentStreak }) =>
           {badgeDefinitions.map((badge) => {
             const key = badge.id as keyof UserStreakBadges;
             const isEarned = badges?.[key] || false;
-            const isClose = currentStreak >= badge.requirement * 0.8; // Within 80% of requirement
+            // const isClose = currentStreak >= badge.requirement * 0.8; // Within 80% of requirement
             const IconComponent = badge.icon;
             
             return (

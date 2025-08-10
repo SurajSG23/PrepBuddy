@@ -134,7 +134,7 @@ const MiniProgressChart: React.FC<MiniProgressChartProps> = ({ userID, type = 't
                   fontSize: '12px'
                 }}
                 labelFormatter={(label) => `Day: ${label}`}
-                formatter={(value, name) => [
+                formatter={(value) => [
                   value, 
                   type === 'tests' ? 'Tests' : 'Score'
                 ]}
