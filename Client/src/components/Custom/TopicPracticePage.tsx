@@ -61,9 +61,25 @@ const TopicPracticePage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center">
-        <LoaderCircle size={48} className="animate-spin text-indigo-400" />
-        <p className="mt-4 text-lg">Loading Questions...</p>
+      <div className="bg-gray-900 text-white min-h-screen p-4 sm:p-8 w-full">
+        <div className="container mx-auto max-w-3xl">
+          <div className="h-6 w-40 bg-gray-700 rounded mb-8 animate-pulse" />
+          <header className="text-center mb-10">
+            <div className="h-10 w-64 bg-gray-700 rounded mx-auto animate-pulse" />
+            <div className="h-5 w-48 bg-gray-700 rounded mx-auto mt-3 animate-pulse" />
+          </header>
+          <div className="bg-gray-800 p-8 rounded-lg shadow-xl">
+            <div className="space-y-3 mb-6">
+              <div className="h-5 w-3/4 bg-gray-700 rounded animate-pulse" />
+              <div className="h-5 w-2/3 bg-gray-700 rounded animate-pulse" />
+            </div>
+            <div className="space-y-4">
+              {Array.from({ length: 4 }).map((_, idx) => (
+                <div key={idx} className="w-full h-12 bg-gray-700 rounded-md animate-pulse" />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

@@ -14,6 +14,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
 import React from "react";
 import QODStatsCard from "./QODStatsCard";
+import ProgressDashboard from "./ProgressDashboard";
+import StreakBadges from "./StreakBadges";
 
 interface HeaderProps {
   userID: string;
@@ -64,6 +66,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
   const [newName, setNewName] = useState<string>("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [currentStreak, setCurrentStreak] = useState(0);
 
   useEffect(() => {
     setLoading(true);
@@ -114,6 +117,17 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
           { withCredentials: true }
         );
         userProfileData.rank = response3.data.rank || 0;
+
+        // Fetch current streak
+        try {
+          const streakResponse = await axios.get(
+            `${import.meta.env.VITE_API_BASE_URL}/progress/streak/${userID}`,
+            { withCredentials: true }
+          );
+          setCurrentStreak(streakResponse.data.currentStreak || 0);
+        } catch (streakError) {
+          console.error("Error fetching streak data:", streakError);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -378,6 +392,16 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Progress Dashboard Section */}
+          <div className="mb-8">
+            <ProgressDashboard userID={userID} />
+          </div>
+
+          {/* Streak Badges Section */}
+          <div className="mb-8">
+            <StreakBadges userID={userID} currentStreak={currentStreak} />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

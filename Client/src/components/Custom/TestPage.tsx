@@ -21,6 +21,9 @@ interface HeaderProps {
 const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   useDetectTabSwitch();
   const [currentTime, setCurrentTime] = useState(10 * 60);
+  const [submitted, setSubmitted] = useState(false);
+  const hasSubmittedRef = useRef(false);
+  const timerRef = useRef<number | null>(null);
   const [userAnswers, setUserAnswers] = useState<(string | null)[]>(
     Array(10).fill(null)
   );
@@ -45,20 +48,30 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   const [timeTaken, setTimeTaken] = useState<string>("");
 
   useEffect(() => {
-    if (currentTime <= 0) return;
-    const timer = setInterval(() => {
+    if (submitted || currentTime <= 0) return;
+    timerRef.current = window.setInterval(() => {
       setCurrentTime((prevTime) => {
         if (prevTime <= 1) {
-          clearInterval(timer);
-          toast.warning("Time's up! Your test is being submitted.");
-          handleSubmitTest();
+          if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+          }
+          if (!hasSubmittedRef.current) {
+            toast.warning("Time's up! Your test is being submitted.");
+            handleSubmitTest();
+          }
           return 0;
         }
         return prevTime - 1;
       });
     }, 1000);
-    return () => clearInterval(timer);
-  }, [currentTime, geminiQuestions, geminiOptions, geminiAnswers]);
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [submitted, currentTime, geminiQuestions, geminiOptions, geminiAnswers]);
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -74,7 +87,22 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
     setUserAnswers(newAnswers);
   };
 
+  const [currentTestId, setCurrentTestId] = useState<string | null>(null);
+
   const handleSubmitTest = async () => {
+    if (hasSubmittedRef.current || submitted) return;
+    hasSubmittedRef.current = true;
+    setSubmitted(true);
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+
+    const submissionKey = currentTestId ? `test_submitted_${currentTestId}` : null;
+    if (submissionKey && sessionStorage.getItem(submissionKey)) {
+      // Already submitted this test session; avoid duplicate posting
+      return;
+    }
     const score = userAnswers.reduce((total, answer, index) => {
       return answer?.trim() === geminiAnswers[index].trim() ? total + 1 : total;
     }, 0);
@@ -113,6 +141,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
         },
         { withCredentials: true }
       );
+      // Log practice for progress tracking and streaks
       await axios.post(
         `${
           import.meta.env.VITE_API_BASE_URL
@@ -122,6 +151,19 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
         },
         { withCredentials: true }
       );
+      // Optionally use progress API to ensure a single log per day
+      try {
+        await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/progress/log-practice`,
+          { userid: userID, score, testType: title || "general", practiceMinutes: 10 },
+          { withCredentials: true }
+        );
+      } catch (_) {
+        // non-fatal
+      }
+      if (submissionKey) {
+        sessionStorage.setItem(submissionKey, "1");
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -170,6 +212,9 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
         setNewPrompt(updatedPrompt);
         setTitle(response.data.title);
         setDifficulty(response.data.difficulty);
+        if (response.data && response.data._id) {
+          setCurrentTestId(response.data._id);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
