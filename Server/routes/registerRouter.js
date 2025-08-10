@@ -57,22 +57,24 @@ router.post("/", async (req, res) => {
   if (user) {
     return res.status(400).send("User already exists");
   }
-  const user2 = await userModel.create({
+  const user2 = new userModel({
     name: req.body.name,
     email: req.body.email,
+    password: req.body.password,
     profilepic: req.body.profilepic,
   });
+  const response = await user2.save();
   const payload = {
-    id: user2.id,
-    name: user2.name,
-    email: user2.email
+    id: response.id,
+    name: response.name,
+    email: response.email
 
   }
 
   const token = generateToken(payload);
   console.log(user2);
   res.status(200).send({
-  user: req.body,
+  user: response,
   token: token
 });
 });
