@@ -1,9 +1,8 @@
 
 import  { useState, useMemo } from "react";
- main
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
-import { FiPlay, FiRotateCw, FiBookmark, FiSearch, FiBookmark as FiBookmarkFill } from "react-icons/fi";
+import { FiPlay, FiRotateCw, FiBookmark, FiSearch } from "react-icons/fi";
 
 /**
  * JavaScriptPractice.tsx
