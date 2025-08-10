@@ -90,16 +90,16 @@ const AiInterviewOptionsPage: React.FC = () => {
             </p>
             
             <button
-              onClick={() => alert("Full AI Interview Session coming soon! Use Practice by Mode for text-based interview practice.")}
-              className="w-full bg-gray-600 hover:bg-gray-700 text-white py-4 px-6 rounded-lg font-semibold transition-all duration-300 opacity-60"
+              onClick={() => navigate("/ai-interview/full")}
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 px-6 rounded-lg font-semibold transition-all duration-300"
             >
-              Start AI Interview Session (Coming Soon)
+              Start AI Interview Session
             </button>
             
             <div className="mt-6 text-sm text-gray-500">
-              <p>✓ AI-generated questions tailored to your experience</p>
-              <p>✓ Real-time feedback and scoring</p>
-              <p>✓ Detailed performance analysis</p>
+              <p>✓ Mixed format: Text, Voice & Video questions</p>
+              <p>✓ 10 comprehensive interview questions</p>
+              <p>✓ Detailed AI feedback and analysis</p>
             </div>
           </div>
         </div>
