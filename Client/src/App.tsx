@@ -29,6 +29,7 @@ import VoiceInterviewPage from "./components/Custom/VoiceInterviewPage";
 import VideoInterviewPage from "./components/Custom/VideoInterviewPage";
 import DsaSheet from "./components/Custom/DSASheet";
 import JavaScriptSheet from "./components/Custom/JavaScriptSheet";
+import CppPractice from "./components/Custom/CppPractice";
 function App() {
   const [userID, setUserId] = useState("");
   const [isChatOpen, setIsChatOpen] = useState(false); // State to control chat visibility
@@ -65,6 +66,7 @@ function App() {
         />
         <Route path="/dsasheet" element={<DsaSheet />} />
         <Route path="/JavaScriptSheet" element={<JavaScriptSheet />} />
+        <Route path="/CppPractice" element={<CppPractice />} />
         <Route path="/practice/:topicName" element={<TopicPracticePage />} />
         <Route path="/aptitude-training" element={<AptitudeTrainingPage />} />
         <Route path="/aptitude-practice/:difficulty" element={<AptitudePracticePage />} />

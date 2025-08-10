@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-cpp": "^6.0.3",
     "@codemirror/lang-javascript": "^6.2.4",
     "@google/generative-ai": "^0.24.0",
     "@gsap/react": "^2.1.2",

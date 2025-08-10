@@ -122,7 +122,7 @@ const TechnicalQuestions: React.FC = () => {
     {
       name: "C++ Programming",
       icon: <FileCode size={18} />,
-      slug: "cpp-programming",
+      slug: "cpppractice",
     },
     { name: "Javascript", icon: <FileCode size={18} />, slug: "JavaScriptSheet" },
     { name: "HTML", icon: <FileCode size={18} />, slug: "html" },
