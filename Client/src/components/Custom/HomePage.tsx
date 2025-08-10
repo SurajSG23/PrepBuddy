@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "../../../lib/utils";
 import { Link } from "react-router-dom";
+import StreakWidget from "./StreakWidget";
+import MiniProgressChart from "./MiniProgressChart";
 
 interface HeaderProps {
   userID: string;
@@ -217,6 +219,17 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
           Welcome <span className="text-indigo-500">{userName}</span> to
           PrepBuddy! Get ready to test your skills!
         </h1>
+
+        {/* Progress Widgets - Only show if user is logged in */}
+        {userID && (
+          <div className="mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <StreakWidget userID={userID} compact={true} />
+              <MiniProgressChart userID={userID} type="tests" />
+              <MiniProgressChart userID={userID} type="scores" />
+            </div>
+          </div>
+        )}
 
         <div className="mb-10">
           <div className="flex border-b border-gray-700 mb-6 justify-center gap-6">
