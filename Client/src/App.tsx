@@ -68,7 +68,6 @@ function App() {
         />
         <Route path="/dsasheet" element={<DsaSheet />} />
         <Route path="/JavaScriptSheet" element={<JavaScriptSheet />} />
-        <Route path="/CppPractice" element={<CppPractice />} />
         <Route path="/practice/:topicName" element={<TopicPracticePage />} />
         <Route path="/aptitude-training" element={<AptitudeTrainingPage />} />
         <Route path="/aptitude-practice/:difficulty" element={<AptitudePracticePage />} />
