@@ -325,10 +325,25 @@ const AptitudePracticePage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400 mx-auto mb-4"></div>
-          <p className="text-gray-300">Generating questions with AI...</p>
+      <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-8 w-full">
+        <div className="container mx-auto max-w-3xl">
+          <div className="h-6 w-40 bg-gray-700 rounded mb-8 animate-pulse" />
+          <header className="text-center mb-10">
+            <div className="h-10 w-64 bg-gray-700 rounded mx-auto animate-pulse" />
+            <div className="h-5 w-48 bg-gray-700 rounded mx-auto mt-3 animate-pulse" />
+          </header>
+          <div className="bg-gray-800 p-8 rounded-lg shadow-xl">
+            <div className="space-y-3 mb-6">
+              <div className="h-5 w-3/4 bg-gray-700 rounded animate-pulse" />
+              <div className="h-5 w-2/3 bg-gray-700 rounded animate-pulse" />
+            </div>
+            <div className="space-y-4">
+              {Array.from({ length: 4 }).map((_, idx) => (
+                <div key={idx} className="w-full h-12 bg-gray-700 rounded-md animate-pulse" />
+              ))}
+            </div>
+            <p className="text-gray-400 text-center mt-6">Generating questions with AI...</p>
+          </div>
         </div>
       </div>
     );
@@ -336,10 +351,25 @@ const AptitudePracticePage: React.FC = () => {
 
   if (!session || !getCurrentQuestion()) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400 mx-auto mb-4"></div>
-          <p className="text-gray-300">Loading questions...</p>
+      <div className="min-h-screen bg-gray-900 text-white p-4 sm:p-8 w-full">
+        <div className="container mx-auto max-w-3xl">
+          <div className="h-6 w-40 bg-gray-700 rounded mb-8 animate-pulse" />
+          <header className="text-center mb-10">
+            <div className="h-10 w-64 bg-gray-700 rounded mx-auto animate-pulse" />
+            <div className="h-5 w-48 bg-gray-700 rounded mx-auto mt-3 animate-pulse" />
+          </header>
+          <div className="bg-gray-800 p-8 rounded-lg shadow-xl">
+            <div className="space-y-3 mb-6">
+              <div className="h-5 w-3/4 bg-gray-700 rounded animate-pulse" />
+              <div className="h-5 w-2/3 bg-gray-700 rounded animate-pulse" />
+            </div>
+            <div className="space-y-4">
+              {Array.from({ length: 4 }).map((_, idx) => (
+                <div key={idx} className="w-full h-12 bg-gray-700 rounded-md animate-pulse" />
+              ))}
+            </div>
+            <p className="text-gray-400 text-center mt-6">Loading questions...</p>
+          </div>
         </div>
       </div>
     );
