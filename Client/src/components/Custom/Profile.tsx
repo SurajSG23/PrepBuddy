@@ -181,7 +181,6 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
       window.location.reload();
     }
   };
-
   const handleDeleteAccount = async () => {
     setLoading(true);
     try {
