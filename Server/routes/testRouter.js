@@ -1,6 +1,7 @@
 import express from "express";
 import testModel from "../models/testModel.js";
 import userModel from "../models/userModel.js";
+import practiceLogModel from "../models/practiceLogModel.js";
 
 const router = express.Router();
 
@@ -33,6 +34,33 @@ router.post("/updateScore/:id", async (req, res) => {
     if (!test) {
       return res.status(404).send("User not found");
     }
+
+    // Log practice activity for progress tracking
+    try {
+      const score = req.body.score || Math.floor(req.body.points / 10); // Assuming 10 points per correct answer
+      const testType = req.body.testType || 'general';
+      
+      const todaysLog = await practiceLogModel.getTodaysLog(req.params.id);
+      todaysLog.testsAttempted += 1;
+      todaysLog.totalScore += score;
+      todaysLog.averageScore = todaysLog.totalScore / todaysLog.testsAttempted;
+      todaysLog.bestScore = Math.max(todaysLog.bestScore, score);
+      todaysLog.practiceMinutes += 5; // Estimate 5 minutes per test
+      
+      if (!todaysLog.testTypes.includes(testType)) {
+        todaysLog.testTypes.push(testType);
+      }
+      
+      todaysLog.streak = await practiceLogModel.calculateStreak(req.params.id);
+      await todaysLog.save();
+      
+      // Update user's streak and check for badge achievements
+      await updateUserStreak(req.params.id, todaysLog.streak);
+    } catch (logError) {
+      console.error("Error logging practice activity:", logError);
+      // Continue execution even if logging fails
+    }
+
     res.send(test);
   } catch (error) {
     console.error("Error updating score:", error.message);
@@ -110,9 +138,6 @@ router.get("/getAllTests/:id", async (req, res) => {
 });
 
 
-// routes/testRouter.js
-
-// Add this code at the end of the file, before module.exports
 
 router.get("/suggest/:id", async (req, res) => {
   try {
@@ -172,5 +197,46 @@ router.get("/suggest/:id", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+// Helper function to update user streak and badges
+async function updateUserStreak(userid, currentStreak) {
+  try {
+    const user = await userModel.findById(userid);
+    if (!user) return;
+    
+    // Update current streak
+    user.currentStreak = currentStreak;
+    
+    // Update longest streak if current is higher
+    if (currentStreak > user.longestStreak) {
+      user.longestStreak = currentStreak;
+    }
+    
+    // Check and award streak badges
+    const badges = user.streakBadges || {};
+    
+    if (currentStreak >= 1 && !badges.firstStreak) {
+      badges.firstStreak = true;
+    }
+    if (currentStreak >= 7 && !badges.weekWarrior) {
+      badges.weekWarrior = true;
+    }
+    if (currentStreak >= 14 && !badges.twoWeekChamp) {
+      badges.twoWeekChamp = true;
+    }
+    if (currentStreak >= 30 && !badges.monthMaster) {
+      badges.monthMaster = true;
+    }
+    if (currentStreak >= 100 && !badges.streakLegend) {
+      badges.streakLegend = true;
+    }
+    
+    user.streakBadges = badges;
+    await user.save();
+    
+  } catch (error) {
+    console.error("Error updating user streak:", error);
+  }
+}
 
 export default router;

@@ -154,30 +154,30 @@ const Notes = () => {
   }, [searchTerm]);
 
   return (
-    <div className="w-full min-h-screen px-4 py-10 bg-gray-900 text-white">
-      <h2 className="text-4xl font-bold text-center text-indigo-400 mb-6">
+    <div className="w-full min-h-screen px-4 py-10 bg-gradient-to-b from-gray-900 to-black text-white">
+      <h2 className="text-4xl font-bold text-center text-indigo-400 mb-10 drop-shadow-md">
         📚 Download Notes
       </h2>
 
-      <div className="max-w-md mx-auto mb-8">
-        <div className="relative">
+      <div className="max-w-md mx-auto mb-12">
+        <div className="relative bg-gradient-to-br from-gray-800/80 to-gray-700/80 backdrop-blur-md border border-gray-600 rounded-xl shadow-xl hover:shadow-indigo-500/20 transition duration-300">
           <input
             type="text"
             placeholder="Search notes..."
-            className="w-full bg-gray-800 text-white border border-gray-600 rounded-md py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full bg-transparent text-white placeholder-gray-400 rounded-xl py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-indigo-400 transition" size={18} />
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {filteredNotes.length > 0 ? (
           filteredNotes.map((note, index) => (
             <div
               key={index}
-              className="bg-gray-800 border border-gray-700 rounded-xl p-5 hover:shadow-2xl hover:scale-[1.03] transition-all duration-300 text-center relative"
+              className="bg-gradient-to-br from-gray-800/70 to-gray-700/70 backdrop-blur-md border border-gray-600 rounded-2xl p-6 hover:shadow-indigo-500/20 hover:scale-105 transition-all duration-300 text-center relative overflow-hidden"
             >
               <button
                 onClick={() => toggleFavorite(note)}
@@ -186,7 +186,7 @@ const Notes = () => {
                     ? "Remove from Favorites"
                     : "Add to Favorites"
                 }
-                className="absolute top-3 right-3"
+                className="absolute top-3 right-3  hover:scale-110 transition"
               >
                 <Star
                   size={22}
@@ -201,15 +201,15 @@ const Notes = () => {
               <img
                 src={note.image}
                 alt={`${note.title} Icon`}
-                className="w-20 h-20 mx-auto mb-4 object-contain"
+                className="w-20 h-20 mx-auto mb-4 object-contain  drop-shadow-md"
               />
-              <h3 className="text-xl font-semibold mb-1">{note.title}</h3>
-              <p className="text-sm text-gray-300 mb-4">PDF Notes Available</p>
+              <h3 className="text-xl font-semibold mb-1 text-indigo-300">{note.title}</h3>
+              <p className="text-sm text-gray-400 mb-5">PDF Notes Available</p>
 
               <div className="flex flex-col sm:flex-row gap-2 justify-center">
                 <button
                   onClick={() => handlePreview(note.link, note.title)}
-                  className="flex items-center justify-center gap-2 bg-blue-600 text-white px-3 py-2 rounded-md hover:bg-blue-700 transition text-sm"
+                  className="flex items-center justify-center gap-2 bg-blue-600/80 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-all duration-200 hover:shadow-lg"
                   title="Preview PDF"
                 >
                   <Eye size={16} />
@@ -221,7 +221,7 @@ const Notes = () => {
                   download={note.filename}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 bg-indigo-600 text-white px-3 py-2 rounded-md hover:bg-indigo-700 transition text-sm"
+                  className="flex items-center justify-center gap-2 bg-indigo-600/80 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition-all duration-200 hover:shadow-lg"
                   title="Download PDF"
                 >
                   <Download size={16} />
@@ -238,62 +238,63 @@ const Notes = () => {
       {/* PDF Preview Modal */}
       {selectedPdf && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
           onClick={handleClosePreview}
         >
           <div
-            className="bg-gray-800 rounded-lg w-full max-w-6xl h-full max-h-[90vh] flex flex-col"
+            className="bg-gray-900 rounded-xl w-full max-w-6xl h-full max-h-[90vh] flex flex-col shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between items-center p-4 border-b border-gray-700">
-              <h3 className="text-xl font-semibold text-white">
+            <div className="flex justify-between items-center p-4 border-b border-gray-700 bg-gray-800 rounded-t-xl">
+              <h3 className="text-xl font-bold text-white truncate">
                 {selectedTitle} - Preview
               </h3>
               <button
                 onClick={handleClosePreview}
-                className="text-gray-400 hover:text-white transition p-1"
+                className="text-gray-400 hover:text-indigo-400 transition p-2 rounded-full hover:bg-gray-700"
                 title="Close Preview"
               >
-                <X size={24} />
+                <X size={22} />
               </button>
             </div>
 
             <div className="flex-1 p-4 relative">
               {isLoading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-gray-800 rounded-md z-10">
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-md z-10 transition-all">
                   <div className="flex flex-col items-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400"></div>
-                    <p className="text-gray-300 mt-4">Loading PDF...</p>
+                    <div className="w-12 h-12 border-4 border-transparent border-t-indigo-500 border-b-indigo-500 rounded-full animate-spin"></div>
+                    <p className="text-gray-300 mt-4 text-sm font-medium tracking-wide">Loading PDF...</p>
                   </div>
                 </div>
               )}
               <object
                 data={`${selectedPdf}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
                 type="application/pdf"
-                className="w-full h-full rounded-md"
+                className="w-full h-full rounded-md border-2 border-gray-700 shadow-inner"
                 onLoad={handleIframeLoad}
               >
-                <div className="flex flex-col items-center justify-center h-full text-center">
-                  <p className="text-gray-400 mb-4">
+                <div className="flex flex-col items-center justify-center h-full text-center space-y-4">
+                  <p className="text-gray-400 text-sm">
                     Unable to display PDF in browser.
                   </p>
                   <a
                     href={selectedPdf}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-indigo-400 hover:text-indigo-300 underline bg-gray-700 px-4 py-2 rounded-md"
+                    className="inline-flex items-center gap-2 text-indigo-400 hover:text-indigo-300 underline bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-md transition"
                   >
+                    
                     Open PDF in New Tab
                   </a>
                 </div>
               </object>
             </div>
 
-            <div className="p-4 border-t border-gray-700 flex justify-end">
+            <div className="p-4 border-t border-gray-700 flex justify-end bg-gray-800 rounded-b-lg">
               <a
                 href={selectedPdf}
                 download={notesData.find((note) => note.link === selectedPdf)?.filename}
-                className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition"
+                className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2 rounded-md shadow transition-all duration-200"
               >
                 <Download size={16} />
                 Download PDF

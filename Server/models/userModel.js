@@ -43,6 +43,21 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 5,
   },
+  streakBadges: {
+    firstStreak: { type: Boolean, default: false },
+    weekWarrior: { type: Boolean, default: false },
+    twoWeekChamp: { type: Boolean, default: false },
+    monthMaster: { type: Boolean, default: false },
+    streakLegend: { type: Boolean, default: false },
+  },
+  currentStreak: {
+    type: Number,
+    default: 0,
+  },
+  longestStreak: {
+    type: Number,
+    default: 0,
+  },
 });
 
 userSchema.pre('save', async function(next) {
