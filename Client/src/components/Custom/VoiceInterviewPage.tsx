@@ -39,15 +39,16 @@ const VoiceInterviewPage: React.FC = () => {
 
   // Check for speech recognition support
   useEffect(() => {
-    const SpeechRecognition = window.speechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition && 'speechSynthesis' in window) {
       setSpeechSupported(true);
-      recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = true;
-      recognitionRef.current.interimResults = true;
-      recognitionRef.current.lang = 'en-US';
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+      recognitionRef.current = recognition;
 
-      recognitionRef.current.onresult = (event: SpeechRecognitionEvent) => {
+      recognition.onresult = (event: SpeechRecognitionEvent) => {
         let finalTranscript = '';
         for (let i = event.resultIndex; i < event.results.length; i++) {
           if (event.results[i].isFinal) {
@@ -59,13 +60,13 @@ const VoiceInterviewPage: React.FC = () => {
         }
       };
 
-      recognitionRef.current.onend = () => {
+      recognition.onend = () => {
         if (isRecording) {
           setIsRecording(false);
         }
       };
 
-      recognitionRef.current.onerror = (event: SpeechRecognitionErrorEvent) => {
+      recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
         console.error('Speech recognition error:', event.error);
         setIsRecording(false);
       };
@@ -228,8 +229,7 @@ const VoiceInterviewPage: React.FC = () => {
       if (speechSupported) {
         speakText("Interview complete! " + feedback);
       }
-    } catch (error) {
-      console.error("Error generating feedback:", error);
+    } catch {
       const fallbackFeedback = "Good interview performance! Your responses showed clear thinking. Focus on providing more specific examples and structured answers using the STAR method for stronger impact.";
       setSession(prev => ({
         ...prev,
@@ -401,7 +401,6 @@ const VoiceInterviewPage: React.FC = () => {
                     </button>
                   )}
                 </div>
-
                 {/* Recording Status */}
                 <div className="mb-4">
                   {isRecording ? (

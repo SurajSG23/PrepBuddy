@@ -362,7 +362,7 @@ console.log('Example conceptual only');`,
   },
 ];
 
-export default function JavaScriptPractice(): JSX.Element {
+export default function JavaScriptPractice(): React.JSX.Element {
   const [query, setQuery] = useState<string>("");
   const [filter, setFilter] = useState<"All" | Level | "All">("All");
   const [expandedId, setExpandedId] = useState<number | null>(null);
@@ -396,17 +396,17 @@ export default function JavaScriptPractice(): JSX.Element {
     const logs: string[] = [];
     // custom console
     const customConsole = {
-      log: (...args: any[]) => {
+      log: (...args: unknown[]) => {
         try {
           logs.push(args.map((a) => (typeof a === "object" ? JSON.stringify(a) : String(a))).join(" "));
         } catch {
           logs.push(String(args));
         }
       },
-      error: (...args: any[]) => {
+      error: (...args: unknown[]) => {
         logs.push("Error: " + args.join(" "));
       },
-      warn: (...args: any[]) => {
+      warn: (...args: unknown[]) => {
         logs.push("Warning: " + args.join(" "));
       },
     };
@@ -428,8 +428,8 @@ export default function JavaScriptPractice(): JSX.Element {
         .finally(() => {
           setOutputs((prev) => ({ ...prev, [id]: logs.join("\n") || "No output" }));
         });
-    } catch (err: any) {
-      logs.push("Compile/Error: " + (err && err.message ? err.message : String(err)));
+    } catch (err: unknown) {
+      logs.push("Compile/Error: " + (err instanceof Error ? err.message : String(err)));
       setOutputs((prev) => ({ ...prev, [id]: logs.join("\n") }));
     }
   };
@@ -517,7 +517,7 @@ export default function JavaScriptPractice(): JSX.Element {
                       title={bookmarks.includes(q.id) ? "Remove Bookmark" : "Bookmark"}
                       className="p-2 rounded-md bg-gray-800 hover:bg-gray-700"
                     >
-                      {bookmarks.includes(q.id) ? <FiBookmarkFill className="text-yellow-400" /> : <FiBookmark className="text-gray-300" />}
+                      <FiBookmark className={bookmarks.includes(q.id) ? "text-yellow-400" : "text-gray-300"} />
                     </button>
 
                     <button
