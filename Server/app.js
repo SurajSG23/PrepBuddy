@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import registerRouter from "./routes/registerRouter.js";
 import testRouter from "./routes/testRouter.js";
 import uploadRouter from "./routes/uploadRouter.js";
+import loginRouter from "./routes/loginRoutes.js";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
 import path from "path";
@@ -71,6 +72,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/register", registerRouter);
+app.use("/login", loginRouter );
 app.use("/test", jwtAuthMiddleware, testRouter);
 app.use("/upload", jwtAuthMiddleware, uploadRouter);
 
