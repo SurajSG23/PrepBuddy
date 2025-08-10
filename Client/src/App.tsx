@@ -27,6 +27,7 @@ import AiInterviewOptionsPage from "./components/Custom/AiInterviewOptionsPage";
 import TextInterviewPage from "./components/Custom/TextInterviewPage";
 import VoiceInterviewPage from "./components/Custom/VoiceInterviewPage";
 import VideoInterviewPage from "./components/Custom/VideoInterviewPage";
+import FullInterviewPage from "./components/Custom/FullInterviewPage";
 import DsaSheet from "./components/Custom/DSASheet";
 import JavaScriptSheet from "./components/Custom/JavaScriptSheet";
 function App() {
@@ -52,6 +53,7 @@ function App() {
         <Route path="/ai-interview/text" element={<TextInterviewPage />} />
         <Route path="/ai-interview/voice" element={<VoiceInterviewPage />} />
         <Route path="/ai-interview/video" element={<VideoInterviewPage />} />
+        <Route path="/ai-interview/full" element={<FullInterviewPage />} />
         <Route path="/ai-interview" element={<AiInterviewPage />} />
         {/* Add contact page */}
         <Route path="/contact" element={<Contact/>} />
