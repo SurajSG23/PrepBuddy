@@ -5,7 +5,7 @@
 📌 Click [here](https://prep-buddy-test.vercel.app) to access PrepBuddy.
 
 
-## Features
+## ⭐️ Features
 
 - **Aptitude Tests** – Based on real company patterns.
 - **User Ranking** – Compare your score with others on the leaderboard.
@@ -15,7 +15,7 @@
 - **Unlockable Badges** – Earn achievement badges as you progress and perform better.
   
 
-## Tech Stack
+## ⭐️ Tech Stack
 
 ### Frontend
 - React + Vite (TypeScript)
@@ -30,7 +30,7 @@
 - Cloudinary + Multer
 
 
-## Badges
+## ⭐️ Badges
 
 ![React](https://img.shields.io/badge/Built%20With-React-blue)
 ![Node.js](https://img.shields.io/badge/Backend-Node.js-green)
@@ -41,7 +41,7 @@
 ![Made with Love](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red)
 
 
-## Preview
+## ⭐️ Preview
 
 <details>
 <summary><strong>Hero Section</strong></summary>
@@ -72,11 +72,12 @@
 </details>
 
 
-## Open for Contributions
+## ⭐️ Contributions
 
 We love open source. Feel free to contribute and make PrepBuddy even better!
 
 ### How to Contribute?
+
 
 📌 First, raise the issue you want to work on. Only when it is assigned to you, follow the steps below. 
 
@@ -107,7 +108,9 @@ We love open source. Feel free to contribute and make PrepBuddy even better!
    ```bash
    git push origin <your-feature-name>
    ```
-`your-feature-name` simply means the new branch you created. 
+
+📌 `your-feature-name` simply means the new branch you created. 
+
 
 6. Open a Pull Request
 
