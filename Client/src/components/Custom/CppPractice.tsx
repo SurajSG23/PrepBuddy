@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { cpp } from "@codemirror/lang-cpp";
 import { FiPlay, FiRotateCw, FiBookmark,  FiSearch } from "react-icons/fi";
@@ -343,7 +343,7 @@ int main(){ int x=1; auto f=[x](){ cout<<x<<endl; }; x=2; f(); }`,
   },
 ];
 
-export default function CppPractice(): JSX.Element {
+export default function CppPractice(){
   const [query, setQuery] = useState<string>("");
   const [filter, setFilter] = useState<"All" | Level | "All">("All");
   const [expandedId, setExpandedId] = useState<number | null>(null);
@@ -390,7 +390,7 @@ export default function CppPractice(): JSX.Element {
     setOutputs((prev) => ({ ...prev, [id]: "" }));
   };
 
-  const toggleBookmark = (id: number) => {
+  const toggleBookmark = (id: string) => {
     setBookmarks((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
