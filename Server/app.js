@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import registerRouter from "./routes/registerRouter.js";
 import testRouter from "./routes/testRouter.js";
 import uploadRouter from "./routes/uploadRouter.js";
+import progressRouter from "./routes/progressRouter.js";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
 import path from "path";
@@ -73,5 +74,7 @@ app.get("/", (req, res) => {
 app.use("/register", registerRouter);
 app.use("/test", jwtAuthMiddleware, testRouter);
 app.use("/upload", jwtAuthMiddleware, uploadRouter);
+// Progress endpoints are public because the client does not attach Authorization headers
+app.use("/progress", progressRouter);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
