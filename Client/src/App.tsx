@@ -30,7 +30,7 @@ import VideoInterviewPage from "./components/Custom/VideoInterviewPage";
 import FullInterviewPage from "./components/Custom/FullInterviewPage";
 import DsaSheet from "./components/Custom/DSASheet";
 import JavaScriptSheet from "./components/Custom/JavaScriptSheet";
-import CppPractice from "./components/Custom/CppPractice";
+
 function App() {
   const [userID, setUserId] = useState("");
   const [isChatOpen, setIsChatOpen] = useState(false); // State to control chat visibility
