@@ -117,7 +117,7 @@ const TechnicalQuestions: React.FC = () => {
     {
       name: "Java Programming",
       icon: <Coffee size={18} />,
-      slug: "java-programming",
+      slug: "javapractice",
     },
     {
       name: "C++ Programming",
