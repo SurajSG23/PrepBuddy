@@ -30,6 +30,8 @@ import VideoInterviewPage from "./components/Custom/VideoInterviewPage";
 import FullInterviewPage from "./components/Custom/FullInterviewPage";
 import DsaSheet from "./components/Custom/DSASheet";
 import JavaScriptSheet from "./components/Custom/JavaScriptSheet";
+import CppPractice from "./components/Custom/CppPractice";
+import JavaPractice from "./components/Custom/JavaPractice";
 
 function App() {
   const [userID, setUserId] = useState("");
@@ -68,6 +70,8 @@ function App() {
         />
         <Route path="/dsasheet" element={<DsaSheet />} />
         <Route path="/JavaScriptSheet" element={<JavaScriptSheet />} />
+        <Route path ="/CppPractice" element={<CppPractice/>}/>
+        <Route path ="/JavaPractice" element={<JavaPractice/>}/>
         <Route path="/practice/:topicName" element={<TopicPracticePage />} />
         <Route path="/aptitude-training" element={<AptitudeTrainingPage />} />
         <Route path="/aptitude-practice/:difficulty" element={<AptitudePracticePage />} />
