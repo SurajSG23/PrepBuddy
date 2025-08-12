@@ -14,6 +14,7 @@ import { MdLogout } from "react-icons/md";
 import { MdHistoryEdu } from "react-icons/md";
 import ThemeToggle from "./ThemeToggle";
 import QuestionOfTheDay from "./QuestionOfTheDay";
+import { useThemeSelector } from "../../store/hooks";
 
 // Update props to accept the chat state setter
 interface HeaderProps {
@@ -22,6 +23,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
   const location = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -31,6 +33,10 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
   const [profilePic, setProfilePic] = useState("");
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    console.log(darkMode)
+  })
 
   const handleLogout = async () => {
     setLoading(true);
@@ -144,8 +150,22 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
             </div>
             <nav className="boxy hidden md:flex space-x-8 items-center font-bold">
               <ThemeToggle />
-              <a href="#features" className="text-white hover:text-indigo-600 transition duration-300">Features</a>
-              <a href="#how-it-works" className="text-white hover:text-indigo-600 transition duration-300">How It Works</a>
+              {/* <a href="#features" className="text-white hover:text-indigo-600 transition duration-300">Features</a>
+              <a href="#how-it-works" className="text-white hover:text-indigo-600 transition duration-300">How It Works</a> */}
+              <a
+                href="#features"
+                className={`transition duration-300 ${darkMode ? "text-white hover:text-indigo-600" : "hover:text-[#0e0430] text-indigo-600"
+                  }`}
+              >
+                Features
+              </a>
+              <a
+                href="#how-it-works"
+                className={`transition duration-300 ${darkMode ? "text-white hover:text-indigo-600" : "hover:text-[#0e0430] text-indigo-600"
+                  }`}
+              >
+                How It Works
+              </a>
             </nav>
           </div>
           {isMobileMenuOpen && (
@@ -219,7 +239,7 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
                     <Link to="/favorites" className={`flex px-4 py-2 text-sm hover:bg-gray-700 gap-1 items-center ${location.pathname === "/favorites" ? "bg-gray-700" : ""}`} onClick={() => setIsDropdownOpen(false)}>
                       <IoTrophyOutline className="text-xl" /> Favorites
                     </Link>
-                    
+
                     {/* New Chat Option */}
                     <div
                       className="flex gap-1 w-full text-left px-4 py-2 text-sm hover:bg-gray-700 cursor-pointer"
