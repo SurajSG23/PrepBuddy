@@ -117,14 +117,14 @@ const TechnicalQuestions: React.FC = () => {
     {
       name: "Java Programming",
       icon: <Coffee size={18} />,
-      slug: "java-programming",
+      slug: "javapractice",
     },
     {
       name: "C++ Programming",
       icon: <FileCode size={18} />,
-      slug: "cpp-programming",
+      slug: "cpppractice",
     },
-    { name: "Javascript", icon: <FileCode size={18} />, slug: "javascript" },
+    { name: "Javascript", icon: <FileCode size={18} />, slug: "JavaScriptSheet" },
     { name: "HTML", icon: <FileCode size={18} />, slug: "html" },
     { name: "CSS", icon: <Paintbrush size={18} />, slug: "css" },
     { name: "Python", icon: <Terminal size={18} />, slug: "python" },

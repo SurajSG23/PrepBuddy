@@ -63,8 +63,6 @@ const AptitudePracticePage: React.FC = () => {
         const result = await AIchatSession.sendMessage(newPrompt);
         const responseText = result.response?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-        console.log("Gemini Response:", responseText);
-
         if (responseText) {
           // Parse questions
           const questions = responseText

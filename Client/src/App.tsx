@@ -23,14 +23,22 @@ import QuizPage from "./components/Custom/QuizPage";
 //import the Contact page
 import Contact from "./components/Custom/Contact";
 import AiInterviewPage from "./components/Custom/AiInterviewPage";
-import DsaSheet from "./components/Custom/DSASheet.tsx"; 
+import AiInterviewOptionsPage from "./components/Custom/AiInterviewOptionsPage";
+import TextInterviewPage from "./components/Custom/TextInterviewPage";
+import VoiceInterviewPage from "./components/Custom/VoiceInterviewPage";
+import VideoInterviewPage from "./components/Custom/VideoInterviewPage";
+import FullInterviewPage from "./components/Custom/FullInterviewPage";
+import DsaSheet from "./components/Custom/DSASheet";
+import JavaScriptSheet from "./components/Custom/JavaScriptSheet";
+import CppPractice from "./components/Custom/CppPractice";
+import JavaPractice from "./components/Custom/JavaPractice";
 
 function App() {
   const [userID, setUserId] = useState("");
   const [isChatOpen, setIsChatOpen] = useState(false); // State to control chat visibility
 
   return (
-    <div className="w-full min-h-[100vh] h-auto flex flex-col justify-between items-center text-white">
+    <div className="w-full min-h-[100vh] h-auto flex flex-col justify-between items-center text-white bg-gradient-to-br from-[#0f1419] via-[#1a1f2e] to-[#0f1419]">
       {/* Pass the chat state setter to the Header */}
       <Header setUserID={setUserId} setIsChatOpen={setIsChatOpen} />
       
@@ -44,7 +52,12 @@ function App() {
         <Route path="/score-board" element={<ScoreBoard />} />
         <Route path="/aptitude" element={<AptitudePage />} />
         <Route path="/quiz/:topic" element={<QuizPage />} />
-        <Route path="/ai-interview" element={<AiInterviewPage />} />       
+        <Route path="/ai-interview-options" element={<AiInterviewOptionsPage />} />
+        <Route path="/ai-interview/text" element={<TextInterviewPage />} />
+        <Route path="/ai-interview/voice" element={<VoiceInterviewPage />} />
+        <Route path="/ai-interview/video" element={<VideoInterviewPage />} />
+        <Route path="/ai-interview/full" element={<FullInterviewPage />} />
+        <Route path="/ai-interview" element={<AiInterviewPage />} />
         {/* Add contact page */}
         <Route path="/contact" element={<Contact/>} />
 
@@ -56,6 +69,9 @@ function App() {
           element={<TechnicalQuestionsPage />}
         />
         <Route path="/dsasheet" element={<DsaSheet />} />
+        <Route path="/JavaScriptSheet" element={<JavaScriptSheet />} />
+        <Route path ="/CppPractice" element={<CppPractice/>}/>
+        <Route path ="/JavaPractice" element={<JavaPractice/>}/>
         <Route path="/practice/:topicName" element={<TopicPracticePage />} />
         <Route path="/aptitude-training" element={<AptitudeTrainingPage />} />
         <Route path="/aptitude-practice/:difficulty" element={<AptitudePracticePage />} />

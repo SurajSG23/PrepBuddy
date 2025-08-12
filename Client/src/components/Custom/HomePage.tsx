@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "../../../lib/utils";
 import { Link } from "react-router-dom";
+import StreakWidget from "./StreakWidget";
+import MiniProgressChart from "./MiniProgressChart";
 
 interface HeaderProps {
   userID: string;
@@ -217,6 +219,17 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
           Welcome <span className="text-indigo-500">{userName}</span> to
           PrepBuddy! Get ready to test your skills!
         </h1>
+
+        {/* Progress Widgets - Only show if user is logged in */}
+        {userID && (
+          <div className="mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <StreakWidget userID={userID} compact={true} />
+              <MiniProgressChart userID={userID} type="tests" />
+              <MiniProgressChart userID={userID} type="scores" />
+            </div>
+          </div>
+        )}
 
         <div className="mb-10">
           <div className="flex border-b border-gray-700 mb-6 justify-center gap-6">
@@ -519,9 +532,9 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
               <h2 className="text-3xl font-extrabold mb-8 text-center text-indigo-400 tracking-wide">
                 Select a Practice Area
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
                 <Link to="/aptitude" className="block h-full">
-                  <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center">
+                  <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center min-h-[160px] flex flex-col justify-center">
                     <h3 className="text-xl font-semibold text-white mb-2">
                       Aptitude Training 🧠
                     </h3>
@@ -532,10 +545,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                 </Link>
 
                 <Link to="/technical-questions" className="block h-full">
-                  <div
-                    className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center"
-                    onClick={() => navigate("/technical-questions")}
-                  >
+                  <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center min-h-[160px] flex flex-col justify-center">
                     <h3 className="text-xl font-semibold text-white mb-2">
                       Technical Questions 💻
                     </h3>
@@ -545,8 +555,8 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                   </div>
                 </Link>
 
-                <Link to="/ai-interview" className="block h-full">
-                  <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 h-full flex flex-col justify-center text-center">
+                <Link to="/ai-interview-options" className="block h-full">
+                  <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center min-h-[160px] flex flex-col justify-center">
                     <h3 className="text-xl font-semibold text-white mb-2">
                       AI-Powered Interviews 🤖
                     </h3>
