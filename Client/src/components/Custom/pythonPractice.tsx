@@ -29,256 +29,256 @@ const QUESTIONS: Question[] = [
   {
     id: 2,
     title: "Sum of Two Numbers",
-    explanation: "Read two integers and print their sum.",
+    explanation: "Take two numbers and print their sum.",
     level: "Beginner",
-    tags: ["input", "arithmetic"],
-    code: `a = int(input())
-b = int(input())
+    tags: ["basics", "input", "math"],
+    code: `a = 5
+b = 3
 print(a + b)`,
-    expectedOutput: "If input is 3 and 5 → Output: 8",
+    expectedOutput: "8",
     topic: "Basics",
   },
   {
     id: 3,
-    title: "Even or Odd",
+    title: "Check Even or Odd",
     explanation: "Check if a number is even or odd.",
     level: "Beginner",
-    tags: ["conditionals", "modulus"],
-    code: `n = int(input())
+    tags: ["conditionals", "basics"],
+    code: `n = 4
 if n % 2 == 0:
     print("Even")
 else:
     print("Odd")`,
-    expectedOutput: "If input is 4 → Output: Even",
+    expectedOutput: "Even",
     topic: "Conditionals",
   },
   {
     id: 4,
     title: "Factorial",
-    explanation: "Find the factorial of a number.",
-    level: "Beginner",
-    tags: ["loops", "math"],
-    code: `n = int(input())
-fact = 1
-for i in range(1, n+1):
-    fact *= i
-print(fact)`,
-    expectedOutput: "If input is 5 → Output: 120",
-    topic: "Loops",
+    explanation: "Find the factorial of a number using recursion.",
+    level: "Intermediate",
+    tags: ["recursion", "math"],
+    code: `def factorial(n):
+    if n == 0:
+        return 1
+    return n * factorial(n - 1)
+
+print(factorial(5))`,
+    expectedOutput: "120",
+    topic: "Recursion",
   },
   {
     id: 5,
-    title: "Reverse String",
-    explanation: "Reverse a given string.",
-    level: "Beginner",
-    tags: ["string", "slicing"],
-    code: `s = input()
-print(s[::-1])`,
-    expectedOutput: "If input is hello → Output: olleh",
-    topic: "Strings",
-  },
-  {
-    id: 6,
-    title: "Palindrome Check",
-    explanation: "Check if a given string is a palindrome.",
-    level: "Beginner",
-    tags: ["string", "conditionals"],
-    code: `s = input()
-if s == s[::-1]:
-    print("Palindrome")
-else:
-    print("Not Palindrome")`,
-    expectedOutput: "If input is madam → Output: Palindrome",
-    topic: "Strings",
-  },
-  {
-    id: 7,
     title: "Fibonacci Series",
-    explanation: "Print the Fibonacci series up to N terms.",
-    level: "Beginner",
+    explanation: "Print first 5 Fibonacci numbers.",
+    level: "Intermediate",
     tags: ["loops", "math"],
-    code: `n = int(input())
-a, b = 0, 1
-for _ in range(n):
+    code: `a, b = 0, 1
+for _ in range(5):
     print(a, end=" ")
     a, b = b, a + b`,
-    expectedOutput: "If input is 5 → Output: 0 1 1 2 3",
+    expectedOutput: "0 1 1 2 3 ",
     topic: "Loops",
   },
   {
-    id: 8,
-    title: "Largest Number",
-    explanation: "Find the largest of three numbers.",
-    level: "Beginner",
-    tags: ["conditionals"],
-    code: `a = int(input())
-b = int(input())
-c = int(input())
-print(max(a, b, c))`,
-    expectedOutput: "If input is 3, 9, 7 → Output: 9",
-    topic: "Conditionals",
+    id: 6,
+    title: "List Comprehension",
+    explanation: "Create a list of squares from 1 to 5 using list comprehension.",
+    level: "Intermediate",
+    tags: ["lists", "comprehension"],
+    code: `squares = [x**2 for x in range(1, 6)]
+print(squares)`,
+    expectedOutput: "[1, 4, 9, 16, 25]",
+    topic: "Lists",
   },
   {
-    id: 9,
-    title: "Count Vowels",
-    explanation: "Count the number of vowels in a string.",
+    id: 7,
+    title: "Reverse String",
+    explanation: "Reverse a given string.",
     level: "Beginner",
-    tags: ["strings", "loops"],
-    code: `s = input().lower()
-count = 0
-for ch in s:
-    if ch in "aeiou":
-        count += 1
-print(count)`,
-    expectedOutput: "If input is hello → Output: 2",
+    tags: ["strings", "slicing"],
+    code: `text = "Python"
+print(text[::-1])`,
+    expectedOutput: "nohtyP",
     topic: "Strings",
   },
   {
-    id: 10,
-    title: "Sum of List Elements",
-    explanation: "Find the sum of all elements in a list.",
-    level: "Beginner",
-    tags: ["lists", "loops"],
-    code: `nums = list(map(int, input().split()))
-print(sum(nums))`,
-    expectedOutput: "If input is 1 2 3 → Output: 6",
-    topic: "Lists",
-  },
-  {
-    id: 11,
-    title: "List Sorting",
-    explanation: "Sort a list of integers in ascending order.",
-    level: "Beginner",
-    tags: ["lists", "sorting"],
-    code: `nums = list(map(int, input().split()))
-nums.sort()
-print(nums)`,
-    expectedOutput: "If input is 3 1 2 → Output: [1, 2, 3]",
-    topic: "Lists",
-  },
-  {
-    id: 12,
-    title: "Unique Elements",
-    explanation: "Print the unique elements from a list.",
-    level: "Beginner",
-    tags: ["sets", "lists"],
-    code: `nums = list(map(int, input().split()))
-print(list(set(nums)))`,
-    expectedOutput: "If input is 1 2 2 3 → Output: [1, 2, 3] (order may vary)",
-    topic: "Sets",
-  },
-  {
-    id: 13,
-    title: "Dictionary Word Count",
-    explanation: "Count word frequency in a given sentence.",
-    level: "Beginner",
-    tags: ["dict", "strings"],
-    code: `sentence = input().split()
+    id: 8,
+    title: "Count Characters",
+    explanation: "Count frequency of each character in a string.",
+    level: "Intermediate",
+    tags: ["strings", "dictionary"],
+    code: `text = "banana"
 freq = {}
-for word in sentence:
-    freq[word] = freq.get(word, 0) + 1
+for ch in text:
+    freq[ch] = freq.get(ch, 0) + 1
 print(freq)`,
-    expectedOutput: `If input is "hi hi hello" → Output: {'hi': 2, 'hello': 1}`,
-    topic: "Dictionaries",
+    expectedOutput: "{'b': 1, 'a': 3, 'n': 2}",
+    topic: "Strings",
   },
   {
-    id: 14,
-    title: "Check Prime",
+    id: 9,
+    title: "Prime Check",
     explanation: "Check if a number is prime.",
-    level: "Beginner",
+    level: "Intermediate",
     tags: ["math", "loops"],
-    code: `n = int(input())
-if n > 1:
-    for i in range(2, int(n**0.5) + 1):
-        if n % i == 0:
-            print("Not Prime")
-            break
-    else:
-        print("Prime")
-else:
-    print("Not Prime")`,
-    expectedOutput: "If input is 7 → Output: Prime",
+    code: `n = 7
+is_prime = True
+for i in range(2, int(n**0.5) + 1):
+    if n % i == 0:
+        is_prime = False
+        break
+print("Prime" if is_prime else "Not Prime")`,
+    expectedOutput: "Prime",
     topic: "Math",
   },
   {
-    id: 15,
-    title: "List Comprehension",
-    explanation: "Generate squares of numbers from 1 to N.",
+    id: 10,
+    title: "Palindrome Check",
+    explanation: "Check if a given string is a palindrome.",
     level: "Beginner",
-    tags: ["lists", "comprehension"],
-    code: `n = int(input())
-squares = [i**2 for i in range(1, n+1)]
+    tags: ["strings", "conditionals"],
+    code: `text = "madam"
+print("Palindrome" if text == text[::-1] else "Not Palindrome")`,
+    expectedOutput: "Palindrome",
+    topic: "Strings",
+  },
+  {
+    id: 11,
+    title: "Merge Dictionaries",
+    explanation: "Merge two dictionaries into one.",
+    level: "Intermediate",
+    tags: ["dictionary", "merge"],
+    code: `dict1 = {'a': 1, 'b': 2}
+dict2 = {'b': 3, 'c': 4}
+merged = {**dict1, **dict2}
+print(merged)`,
+    expectedOutput: "{'a': 1, 'b': 3, 'c': 4}",
+    topic: "Dictionary",
+  },
+  {
+    id: 12,
+    title: "Lambda Function",
+    explanation: "Square a number using lambda.",
+    level: "Beginner",
+    tags: ["lambda", "functions"],
+    code: `square = lambda x: x**2
+print(square(5))`,
+    expectedOutput: "25",
+    topic: "Functions",
+  },
+  {
+    id: 13,
+    title: "Map Function",
+    explanation: "Use map to square numbers from 1 to 3.",
+    level: "Intermediate",
+    tags: ["map", "lambda"],
+    code: `nums = [1, 2, 3]
+squares = list(map(lambda x: x**2, nums))
 print(squares)`,
-    expectedOutput: "If input is 5 → Output: [1, 4, 9, 16, 25]",
+    expectedOutput: "[1, 4, 9]",
+    topic: "Functional Programming",
+  },
+  {
+    id: 14,
+    title: "Filter Function",
+    explanation: "Use filter to find even numbers from 1 to 5.",
+    level: "Intermediate",
+    tags: ["filter", "lambda"],
+    code: `nums = [1, 2, 3, 4, 5]
+evens = list(filter(lambda x: x % 2 == 0, nums))
+print(evens)`,
+    expectedOutput: "[2, 4]",
+    topic: "Functional Programming",
+  },
+  {
+    id: 15,
+    title: "List Flatten",
+    explanation: "Flatten a list of lists using list comprehension.",
+    level: "Intermediate",
+    tags: ["lists", "nested"],
+    code: `nested = [[1, 2], [3, 4]]
+flat = [num for sublist in nested for num in sublist]
+print(flat)`,
+    expectedOutput: "[1, 2, 3, 4]",
     topic: "Lists",
   },
   {
     id: 16,
-    title: "Lambda Sort by Length",
-    explanation: "Sort strings by their length.",
-    level: "Intermediate",
-    tags: ["lambda", "sorting"],
-    code: `words = input().split()
-words.sort(key=lambda x: len(x))
-print(words)`,
-    expectedOutput: "If input is apple bat a → Output: ['a', 'bat', 'apple']",
-    topic: "Functions",
+    title: "Decorator Example",
+    explanation: "Use a decorator to log function execution.",
+    level: "Advanced",
+    tags: ["decorators", "functions"],
+    code: `def log(func):
+    def wrapper():
+        print("Function is running")
+        func()
+    return wrapper
+
+@log
+def hello():
+    print("Hello")
+
+hello()`,
+    expectedOutput: "Function is running\nHello",
+    topic: "Decorators",
   },
   {
     id: 17,
-    title: "Find Second Largest",
-    explanation: "Find the second largest number in a list.",
+    title: "Class Example",
+    explanation: "Create a class and an object.",
     level: "Intermediate",
-    tags: ["lists", "sorting"],
-    code: `nums = list(map(int, input().split()))
-nums = list(set(nums))
-nums.sort()
-print(nums[-2])`,
-    expectedOutput: "If input is 3 1 4 4 2 → Output: 3",
-    topic: "Lists",
+    tags: ["oop", "class"],
+    code: `class Person:
+    def __init__(self, name):
+        self.name = name
+
+    def greet(self):
+        print(f"Hello, {self.name}")
+
+p = Person("Alice")
+p.greet()`,
+    expectedOutput: "Hello, Alice",
+    topic: "OOP",
   },
   {
     id: 18,
-    title: "List Flattening",
-    explanation: "Flatten a nested list using recursion.",
-    level: "Intermediate",
-    tags: ["recursion", "lists"],
-    code: `def flatten(lst):
-    result = []
-    for i in lst:
-        if isinstance(i, list):
-            result.extend(flatten(i))
-        else:
-            result.append(i)
-    return result
-
-nested = [1, [2, [3, 4]], 5]
-print(flatten(nested))`,
-    expectedOutput: "[1, 2, 3, 4, 5]",
-    topic: "Recursion",
+    title: "List to Set",
+    explanation: "Convert a list to a set to remove duplicates.",
+    level: "Beginner",
+    tags: ["set", "list"],
+    code: `nums = [1, 2, 2, 3]
+unique_nums = set(nums)
+print(unique_nums)`,
+    expectedOutput: "{1, 2, 3}",
+    topic: "Sets",
   },
   {
     id: 19,
-    title: "File Reading",
-    explanation: "Read and print the contents of a file named 'data.txt'.",
-    level: "Intermediate",
-    tags: ["file", "io"],
-    code: `with open("data.txt", "r") as f:
-    print(f.read())`,
-    expectedOutput: "Contents of data.txt",
-    topic: "File Handling",
+    title: "JSON Handling",
+    explanation: "Convert dictionary to JSON string.",
+    level: "Advanced",
+    tags: ["json", "serialization"],
+    code: `import json
+data = {'name': 'Bob', 'age': 25}
+json_str = json.dumps(data)
+print(json_str)`,
+    expectedOutput: '{"name": "Bob", "age": 25}',
+    topic: "JSON",
   },
   {
     id: 20,
-    title: "Map Filter Example",
-    explanation: "Print squares of even numbers from a given list.",
-    level: "Intermediate",
-    tags: ["map", "filter", "lambda"],
-    code: `nums = list(map(int, input().split()))
-result = list(map(lambda x: x**2, filter(lambda x: x % 2 == 0, nums)))
-print(result)`,
-    expectedOutput: "If input is 1 2 3 4 → Output: [4, 16]",
-    topic: "Functional Programming",
+    title: "File Read",
+    explanation: "Read the contents of a file (sample.txt).",
+    level: "Advanced",
+    tags: ["file", "io"],
+    code: `with open("sample.txt", "w") as f:
+    f.write("Hello File")
+
+with open("sample.txt", "r") as f:
+    print(f.read())`,
+    expectedOutput: "Hello File",
+    topic: "File Handling",
   }
 ];
 
