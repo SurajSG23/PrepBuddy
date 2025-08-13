@@ -32,6 +32,7 @@ import DsaSheet from "./components/Custom/DSASheet";
 import JavaScriptSheet from "./components/Custom/JavaScriptSheet";
 import CppPractice from "./components/Custom/CppPractice";
 import JavaPractice from "./components/Custom/JavaPractice";
+import PythonPractice from "./components/Custom/pythonPractice";
 
 function App() {
   const [userID, setUserId] = useState("");
@@ -72,6 +73,7 @@ function App() {
         <Route path="/JavaScriptSheet" element={<JavaScriptSheet />} />
         <Route path ="/CppPractice" element={<CppPractice/>}/>
         <Route path ="/JavaPractice" element={<JavaPractice/>}/>
+        <Route path="/PythonPractice" element={<PythonPractice/>}/>
         <Route path="/practice/:topicName" element={<TopicPracticePage />} />
         <Route path="/aptitude-training" element={<AptitudeTrainingPage />} />
         <Route path="/aptitude-practice/:difficulty" element={<AptitudePracticePage />} />
