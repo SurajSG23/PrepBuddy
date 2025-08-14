@@ -131,7 +131,7 @@ const TechnicalQuestions: React.FC = () => {
     {
       name: "C Programming",
       icon: <FileCode size={18} />,
-      slug: "c-programming",
+      slug: "CPractice",
     },
   ];
 
