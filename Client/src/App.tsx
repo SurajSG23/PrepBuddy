@@ -33,6 +33,7 @@ import JavaScriptSheet from "./components/Custom/JavaScriptSheet";
 import CppPractice from "./components/Custom/CppPractice";
 import JavaPractice from "./components/Custom/JavaPractice";
 import PythonPractice from "./components/Custom/pythonPractice";
+import CPractice from "./components/Custom/CPractice";
 
 function App() {
   const [userID, setUserId] = useState("");
@@ -74,6 +75,7 @@ function App() {
         <Route path ="/CppPractice" element={<CppPractice/>}/>
         <Route path ="/JavaPractice" element={<JavaPractice/>}/>
         <Route path="/PythonPractice" element={<PythonPractice/>}/>
+        <Route path="/CPractice" element={<CPractice/>}/>
         <Route path="/practice/:topicName" element={<TopicPracticePage />} />
         <Route path="/aptitude-training" element={<AptitudeTrainingPage />} />
         <Route path="/aptitude-practice/:difficulty" element={<AptitudePracticePage />} />
