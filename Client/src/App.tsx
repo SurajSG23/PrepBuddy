@@ -34,6 +34,7 @@ import CppPractice from "./components/Custom/CppPractice";
 import JavaPractice from "./components/Custom/JavaPractice";
 import PythonPractice from "./components/Custom/pythonPractice";
 import CPractice from "./components/Custom/CPractice";
+import HtmlPractice from "./components/Custom/HtmlPractice";
 
 function App() {
   const [userID, setUserId] = useState("");
@@ -76,6 +77,7 @@ function App() {
         <Route path ="/JavaPractice" element={<JavaPractice/>}/>
         <Route path="/PythonPractice" element={<PythonPractice/>}/>
         <Route path="/CPractice" element={<CPractice/>}/>
+        <Route path="/HtmlPractice" element={<HtmlPractice/>}/>
         <Route path="/practice/:topicName" element={<TopicPracticePage />} />
         <Route path="/aptitude-training" element={<AptitudeTrainingPage />} />
         <Route path="/aptitude-practice/:difficulty" element={<AptitudePracticePage />} />
