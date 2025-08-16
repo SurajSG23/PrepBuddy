@@ -87,22 +87,25 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
   };
 
   useEffect(() => {
-    if (!userID) return;
+      if (!userID) {
+      setLoading(false);
+      return;
+    }
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/register/getuser2/${userID}`,
+          `${import.meta.env.VITE_API_BASE_URL}/auth/me`,
           { withCredentials: true }
         );
         setUserName(response.data.name);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching homepage data:", error);
       } finally {
         setLoading(false);
       }
     };
     fetchData();
-  }, [userID, navigate]);
+  }, [userID]);
 
   const addTest = async () => {
     try {

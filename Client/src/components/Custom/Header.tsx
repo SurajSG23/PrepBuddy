@@ -82,36 +82,32 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
   }, [isDropdownOpen]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setEmail(currentUser?.email || "");
-      if (!currentUser) {
-        setUserID(""); // Clear user ID on logout
-        navigate("/");
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    if (currentUser) {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/auth/me`,
+          { withCredentials: true }
+        );
+        
+        const userData = response.data;
+        setUserID(userData._id || "");
+        setUser(userData.name || "");
+        setProfilePic(userData.profilepic || "");
+        setEmail(userData.email || ""); 
+
+      } catch (error) {
+        console.error("Could not fetch user profile:", error);
+        handleLogout();
       }
-    });
-    return () => unsubscribe();
-  }, [navigate, setUserID]);
-
-  useEffect(() => {
-    if (email) {
-      const fetchData = async () => {
-        try {
-
-          const response = await axios.get(
-            `${import.meta.env.VITE_API_BASE_URL}/register/getuser/${email}`,
-            { withCredentials: true }
-          );
-          setUserID(response.data._id || "");
-          setUser(response.data.name || "");
-          setProfilePic(response.data.profilepic || "");
-          setEmail(response.data.email || "");
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-      };
-      fetchData();
+    } else {
+      setUserID("");
+      navigate("/");
     }
-  }, [email, navigate, setUserID]);
+  });
+
+  return () => unsubscribe();
+}, [navigate, setUserID]); 
 
   if (loading) {
     return (

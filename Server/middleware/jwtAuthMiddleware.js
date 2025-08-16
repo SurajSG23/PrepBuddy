@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
 
 async function jwtAuthMiddleware(req, res, next) {
-    if (!req.headers.authorization) return res.status(401).json({ error: "Unauthorised." });
-    const token = req.headers.authorization.split(" ")[1];
+    const token = req.cookies.token;
     if (!token) return res.status(401).json({ error: "Unauthorised." });
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -16,7 +15,7 @@ async function jwtAuthMiddleware(req, res, next) {
 }
 
 const generateToken = (payload) => {
-    return jwt.sign(payload,process.env.JWT_SECRET);
+    return jwt.sign(payload,process.env.JWT_SECRET, { expiresIn: '1d' });
 }
 
 export {generateToken, jwtAuthMiddleware};
