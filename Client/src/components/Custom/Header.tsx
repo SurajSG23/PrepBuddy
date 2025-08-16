@@ -29,7 +29,6 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState<string>("");
-  const [setEmail] = useState<string>("");
   const [profilePic, setProfilePic] = useState("");
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -94,8 +93,6 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
         setUserID(userData._id || "");
         setUser(userData.name || "");
         setProfilePic(userData.profilepic || "");
-        setEmail(userData.email || ""); 
-
       } catch (error) {
         console.error("Could not fetch user profile:", error);
         handleLogout();
