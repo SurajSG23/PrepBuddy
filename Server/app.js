@@ -1,11 +1,10 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import registerRouter from "./routes/registerRouter.js";
 import testRouter from "./routes/testRouter.js";
 import uploadRouter from "./routes/uploadRouter.js";
-import loginRouter from "./routes/loginRoutes.js";
 import progressRouter from "./routes/progressRouter.js";
+import authRouter from "./routes/authRouter.js";
 
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
@@ -73,11 +72,9 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
-app.use("/register", registerRouter);
-app.use("/login", loginRouter );
+app.use("/auth", authRouter);
 app.use("/test", jwtAuthMiddleware, testRouter);
 app.use("/upload", jwtAuthMiddleware, uploadRouter);
-// Progress endpoints are public because the client does not attach Authorization headers
 app.use("/progress", progressRouter);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

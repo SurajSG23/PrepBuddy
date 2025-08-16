@@ -45,18 +45,17 @@ const LandingPage: React.FC = () => {
       const profilepic = result.user.photoURL;
       try {
         await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/register`,
+          `${import.meta.env.VITE_API_BASE_URL}/auth/google`,
           { name, email, profilepic },
           { withCredentials: true }
         );
+        navigate("/homepage");
       } catch (error) {
         console.error("Error sending data:", error);
       }
     } catch (error) {
       console.error("Login failed:", error);
-    } finally {
-      navigate("/homepage");
-    }
+    } 
   };
 
   const GoogleLoginButton = ({ className = "", variant = "default" }) => (
