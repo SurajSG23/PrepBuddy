@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [setEmail] = useState<string>("");
   const [profilePic, setProfilePic] = useState("");
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
