@@ -14,6 +14,7 @@ import Notes from "./components/Custom/Notes";
 import TechnicalQuestionsPage from "./components/Custom/TechnicalQuestionsPage";
 import TopicPracticePage from "./components/Custom/TopicPracticePage";
 import MixedQuizPage from "./components/Custom/MixedQuizPage";
+import OperatingSystemsPage from "./components/Custom/OperatingSystemsPage";
 import AptitudeTrainingPage from "./components/Custom/AptitudeTrainingPage";
 import AptitudePracticePage from "./components/Custom/AptitudePracticePage";
 import AptitudeResultsPage from "./components/Custom/AptitudeResultsPage";
@@ -74,6 +75,7 @@ function App() {
           element={<TechnicalQuestionsPage />}
         />
         <Route path="/mixed-quiz" element={<MixedQuizPage />} />
+        <Route path="/operating-systems" element={<OperatingSystemsPage />} />
         <Route path="/dsasheet" element={<DsaSheet />} />
         <Route path="/JavaScriptSheet" element={<JavaScriptSheet />} />
         <Route path ="/CppPractice" element={<CppPractice/>}/>
