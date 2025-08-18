@@ -17,7 +17,7 @@ import AptitudeTrainingPage from "./components/Custom/AptitudeTrainingPage";
 import AptitudePracticePage from "./components/Custom/AptitudePracticePage";
 import AptitudeResultsPage from "./components/Custom/AptitudeResultsPage";
 import OnTopBar from "./components/Custom/OnTopBar";
-import ChatAssistant from "./components/Custom/ChatAssistant"; // Import the Chat Assistant
+import ChatWidget from "./components/Chat/ChatWidget"; // Import the new Chat Widget
 import AptitudePage from "./components/Custom/AptitudePage";
 import QuizPage from "./components/Custom/QuizPage";
 //import the Contact page
@@ -88,8 +88,8 @@ function App() {
       
       <OnTopBar />
 
-      {/* Render ChatAssistant if user is logged in */}
-      {userID && <ChatAssistant userID={userID} isChatOpen={isChatOpen} setIsChatOpen={setIsChatOpen} />}
+      {/* Render ChatWidget if user is logged in */}
+      {userID && <ChatWidget userID={userID} isChatOpen={isChatOpen} setIsChatOpen={setIsChatOpen} />}
 
       <Footer />
     </div>
