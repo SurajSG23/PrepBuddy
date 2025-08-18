@@ -8,11 +8,17 @@ const userSchema = new mongoose.Schema({
   },
   password:{
     type: String,
-    required: true
+    required: false
+  },
+  authProvider: {
+    type: String,
+    enum: ['local', 'google'],
+    default: 'local'
   },
   profilepic: {
     type: String,
-    required: true,
+    required: false,
+    default: "/default-profile.jpg"
   },
   email: {
     type: String,
@@ -63,7 +69,7 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', async function(next) {
   const user = this;
 
-  if (!user.isModified('password')) return next();
+  if (!user.isModified('password') || !user.password) return next();
   console.log(user.password);
   try {
     const passwordHashed = await bcrypt.hash(user.password, 10);
