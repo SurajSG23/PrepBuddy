@@ -13,6 +13,8 @@ import questionsData from "../../gemini/sampleSet";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useDetectTabSwitch from "../Custom/useDetectTabSwitch";
+import { useQuizTimer } from "../../hooks/useQuizTimer";
+import { quizStorage } from "../../utils/quizStorage";
 
 interface HeaderProps {
   userID: string;
@@ -20,7 +22,7 @@ interface HeaderProps {
 
 const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   useDetectTabSwitch();
-  const [currentTime, setCurrentTime] = useState(10 * 60);
+  const [sessionId, setSessionId] = useState<string>("");
   const [userAnswers, setUserAnswers] = useState<(string | null)[]>(
     Array(10).fill(null)
   );
@@ -43,87 +45,146 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   const [score, setScore] = useState<number>(0);
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [timeTaken, setTimeTaken] = useState<string>("");
+  const [resumeSession, setResumeSession] = useState<any>(null);
 
+  // Timer hook
+  const {
+    remainingTime,
+    isExpired,
+    formatTime,
+    syncWithServer,
+    saveProgress,
+    saveCurrentProgress,
+    startTimer,
+    stopTimer,
+    startAutoSave,
+    stopAutoSave
+  } = useQuizTimer({
+    sessionId,
+    onTimeUp: () => {
+      toast.warning("Time's up! Your test is being submitted.");
+      handleSubmitTest();
+    },
+    onSyncError: (error) => {
+      toast.error(error);
+    }
+  });
+
+  // Check for existing session on component mount
   useEffect(() => {
-    if (currentTime <= 0) return;
-    const timer = setInterval(() => {
-      setCurrentTime((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(timer);
-          toast.warning("Time's up! Your test is being submitted.");
-          handleSubmitTest();
-          return 0;
+    const checkExistingSession = async () => {
+      try {
+        // Check localStorage first
+        const localProgress = quizStorage.loadProgress();
+        const localSession = quizStorage.loadSession();
+        
+        if (localProgress && localSession) {
+          const sessionAge = quizStorage.getSessionAge();
+          if (sessionAge < 10) { // Less than 10 minutes old
+            setResumeSession({ localProgress, localSession });
+            return;
+          }
         }
-        return prevTime - 1;
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [currentTime, geminiQuestions, geminiOptions, geminiAnswers]);
+        
+        // Check server for active sessions
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/quiz/active-sessions/${userID}`,
+          { withCredentials: true }
+        );
+        
+        if (response.data.length > 0) {
+          const activeSession = response.data[0];
+          setResumeSession({ serverSession: activeSession });
+        }
+      } catch (error) {
+        console.error('Error checking existing sessions:', error);
+      }
+    };
+    
+    checkExistingSession();
+  }, [userID]);
 
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-      .toString()
-      .padStart(2, "0")}`;
-  };
+  // Auto-save effect - saves progress every 10 seconds when session is active
+  useEffect(() => {
+    if (!sessionId) return;
+    
+    const autoSaveInterval = setInterval(() => {
+      saveCurrentProgress(userAnswers, currentSlide - 1);
+    }, 10000);
+    
+    return () => clearInterval(autoSaveInterval);
+  }, [sessionId, userAnswers, currentSlide, saveCurrentProgress]);
+
+  // Remove the old formatTime function since it's now provided by the hook
 
   const handleSelectOption = (questionIndex: number, option: string) => {
     const newAnswers = [...userAnswers];
     newAnswers[questionIndex] = option;
     setUserAnswers(newAnswers);
+    
+    // Save progress immediately when user selects an answer
+    if (sessionId) {
+      saveCurrentProgress(newAnswers, currentSlide - 1);
+      
+      // Also save to localStorage as backup
+      quizStorage.saveProgress({
+        sessionId,
+        userAnswers: newAnswers,
+        currentQuestion: currentSlide - 1,
+        lastSaved: Date.now(),
+        topic: title,
+        title: title
+      });
+    }
   };
 
   const handleSubmitTest = async () => {
-    const score = userAnswers.reduce((total, answer, index) => {
-      return answer?.trim() === geminiAnswers[index].trim() ? total + 1 : total;
-    }, 0);
-    setScore(score);
-    setScoreBoard(true);
-    if (startTime) {
-      const endTime = new Date();
-      const diffSeconds = Math.floor(
-        (endTime.getTime() - startTime.getTime()) / 1000
-      );
-      const minutes = Math.floor(diffSeconds / 60);
-      const seconds = diffSeconds % 60;
-      const formattedTime = `${minutes}m ${seconds}s`;
-      setTimeTaken(formattedTime);
+    if (!sessionId) {
+      toast.error("No active quiz session found");
+      return;
     }
-    if (score == 10) {
-      try {
-        await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/test/updateBadge/${userID}`,
-          {
-            badges: 1,
-          },
-          { withCredentials: true }
-        );
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
+
     try {
-      await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/test/updateScore/${userID}`,
+      stopTimer();
+      stopAutoSave();
+      
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/quiz/submit/${sessionId}`,
         {
-          points: score,
+          userAnswers
         },
         { withCredentials: true }
       );
-      await axios.post(
-        `${
-          import.meta.env.VITE_API_BASE_URL
-        }/test/updateScoreInTestModel/${userID}`,
-        {
-          score: score,
-        },
-        { withCredentials: true }
-      );
-    } catch (error) {
-      console.error("Error fetching data:", error);
+
+      const { score: serverScore, timeTaken: serverTimeTaken } = response.data;
+      setScore(serverScore);
+      setTimeTaken(serverTimeTaken);
+      setScoreBoard(true);
+
+      // Clear local storage
+      quizStorage.clearProgress();
+
+      // Handle perfect score badge
+      if (serverScore === 10) {
+        try {
+          await axios.post(
+            `${import.meta.env.VITE_API_BASE_URL}/test/updateBadge/${userID}`,
+            {
+              badges: 1,
+            },
+            { withCredentials: true }
+          );
+        } catch (error) {
+          console.error("Error updating badge:", error);
+        }
+      }
+    } catch (error: any) {
+      console.error("Error submitting test:", error);
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Failed to submit test. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -221,10 +282,45 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
           .split("***")
           .map((answer) => answer.trim());
       setGeminiExplaination(geminiExp ?? []);
+
+      // Create quiz session on server
+      const sessionResponse = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/quiz/create-session`,
+        {
+          userId: userID,
+          topic: title,
+          title: title,
+          difficulty: difficulty,
+          questions: geminiQues,
+          options: geminiOps,
+          correctAnswers: geminiAns,
+          explanations: geminiExp
+        },
+        { withCredentials: true }
+      );
+
+      const { sessionId: newSessionId } = sessionResponse.data;
+      setSessionId(newSessionId);
+
+      // Start timer and auto-save
+      startTimer();
+      startAutoSave();
+
+      // Save session data to localStorage
+      quizStorage.saveSession({
+        sessionId: newSessionId,
+        questions: geminiQues,
+        options: geminiOps,
+        correctAnswers: geminiAns,
+        explanations: geminiExp,
+        topic: title,
+        title: title
+      });
+
     } catch (error) {
       console.error("Error generating questions:", error);
+      toast.error("Failed to generate questions. Please try again.");
     } finally {
-      setCurrentTime(10 * 60);
       setLoading(false);
     }
   };
@@ -254,6 +350,66 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
       window.removeEventListener("popstate", handleBack);
     };
   }, []);
+  // Resume session function
+  const resumeExistingSession = async (sessionData: any) => {
+    try {
+      setLoading(true);
+      
+      // Stop any existing timers first
+      stopTimer();
+      stopAutoSave();
+      
+      if (sessionData.localProgress && sessionData.localSession) {
+        // Resume from localStorage
+        const { localProgress, localSession } = sessionData;
+        
+        setSessionId(localProgress.sessionId);
+        setUserAnswers(localProgress.userAnswers);
+        setCurrentSlide(localProgress.currentQuestion + 1);
+        setGeminiQuestions(localSession.questions);
+        setGeminiOptions(localSession.options);
+        setGeminiAnswers(localSession.correctAnswers);
+        setGeminiExplaination(localSession.explanations);
+        setTitle(localSession.title);
+        setDifficulty("Hard"); // Default for AI-generated tests
+        
+        // Start timer and auto-save
+        startTimer();
+        startAutoSave();
+        
+        setConfirmation(false);
+        setStartTime(new Date());
+        
+      } else if (sessionData.serverSession) {
+        // Resume from server
+        const serverSession = sessionData.serverSession;
+        
+        setSessionId(serverSession._id);
+        setUserAnswers(serverSession.userAnswers);
+        setCurrentSlide(serverSession.currentQuestion + 1);
+        setGeminiQuestions(serverSession.questions);
+        setGeminiOptions(serverSession.options);
+        setGeminiAnswers(serverSession.correctAnswers);
+        setGeminiExplaination(serverSession.explanations);
+        setTitle(serverSession.title);
+        setDifficulty(serverSession.difficulty);
+        
+        // Start timer and auto-save
+        startTimer();
+        startAutoSave();
+        
+        setConfirmation(false);
+        setStartTime(new Date(serverSession.startTime));
+      }
+    } catch (error) {
+      console.error('Error resuming session:', error);
+      toast.error('Failed to resume session. Starting new test.');
+      setResumeSession(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (confirmation) {
     return (
       <div className="fixed inset-0 flex justify-center items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 z-50 backdrop-blur-sm">
@@ -261,6 +417,32 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
           <h1 className="text-3xl font-extrabold mb-6 text-indigo-400 tracking-wide text-center">
             📋 Test Instructions
           </h1>
+
+          {resumeSession && (
+            <div className="mb-6 p-4 bg-yellow-900/30 border border-yellow-500/50 rounded-lg">
+              <h3 className="text-yellow-400 font-semibold mb-2">🔄 Resume Previous Session</h3>
+              <p className="text-sm text-gray-300 mb-3">
+                We found an incomplete test session. You can resume where you left off or start a new test.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => resumeExistingSession(resumeSession)}
+                  className="bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                >
+                  Resume Test
+                </button>
+                <button
+                  onClick={() => {
+                    quizStorage.clearProgress();
+                    setResumeSession(null);
+                  }}
+                  className="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                >
+                  Start New
+                </button>
+              </div>
+            </div>
+          )}
 
           <ul className="text-left list-disc list-inside space-y-4 text-white text-base leading-relaxed">
             <li>
@@ -294,6 +476,12 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
               </span>
               .
             </li>
+            <li>
+              <span className="text-green-400 font-semibold">
+                Progress is automatically saved
+              </span>
+              .
+            </li>
           </ul>
           <span className="font-semibold text-2xl text-center text-indigo-300 flex justify-center items-center">
             All The Best
@@ -306,7 +494,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
               }}
               className="bg-indigo-600 cursor-pointer hover:bg-indigo-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 shadow-md hover:shadow-indigo-700/40"
             >
-              Start Test
+              Start New Test
             </button>
           </div>
         </div>
@@ -542,7 +730,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
                   d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span className="font-mono">{formatTime(currentTime)}</span>
+              <span className="font-mono">{formatTime(remainingTime)}</span>
             </div>
           </div>
         </div>
