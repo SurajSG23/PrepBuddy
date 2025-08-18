@@ -78,7 +78,7 @@ const TechnicalQuestions: React.FC = () => {
     {
       name: "Database Management Systems",
       icon: <Database size={18} />,
-      slug: "practice/dbms",
+      slug: "dbms",
     },
     {
       name: "Computer Architecture",

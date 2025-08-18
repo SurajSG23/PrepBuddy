@@ -15,11 +15,12 @@ import TechnicalQuestionsPage from "./components/Custom/TechnicalQuestionsPage";
 import TopicPracticePage from "./components/Custom/TopicPracticePage";
 import MixedQuizPage from "./components/Custom/MixedQuizPage";
 import OperatingSystemsPage from "./components/Custom/OperatingSystemsPage";
+import DBMSPage from "./components/Custom/DBMSPage";
 import AptitudeTrainingPage from "./components/Custom/AptitudeTrainingPage";
 import AptitudePracticePage from "./components/Custom/AptitudePracticePage";
 import AptitudeResultsPage from "./components/Custom/AptitudeResultsPage";
 import OnTopBar from "./components/Custom/OnTopBar";
-import ChatAssistant from "./components/Custom/ChatAssistant"; // Import the Chat Assistant
+import ChatAssistant from "./components/Custom/ChatAssistant";
 import AptitudePage from "./components/Custom/AptitudePage";
 import QuizPage from "./components/Custom/QuizPage";
 //import the Contact page
@@ -76,6 +77,7 @@ function App() {
         />
         <Route path="/mixed-quiz" element={<MixedQuizPage />} />
         <Route path="/operating-systems" element={<OperatingSystemsPage />} />
+        <Route path="/dbms" element={<DBMSPage />} />
         <Route path="/dsasheet" element={<DsaSheet />} />
         <Route path="/JavaScriptSheet" element={<JavaScriptSheet />} />
         <Route path ="/CppPractice" element={<CppPractice/>}/>
