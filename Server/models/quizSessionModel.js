@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const quizSessionSchema = mongoose.Schema({
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.Mixed, // Allow both ObjectId and String for anonymous users
     ref: "user",
     required: true,
   },
@@ -27,31 +27,37 @@ const quizSessionSchema = mongoose.Schema({
     required: true,
   },
   duration: {
-    type: Number,
-    required: true, // in seconds
+    type: Number, // in seconds
+    required: true,
+    default: 600, // 10 minutes
   },
-  questions: [{
-    type: String,
+  userAnswers: {
+    type: [String],
+    default: Array(10).fill(null),
+  },
+  questions: {
+    type: [String],
     required: true,
-  }],
-  options: [[{
-    type: String,
+  },
+  options: {
+    type: [[String]],
     required: true,
-  }]],
-  correctAnswers: [{
-    type: String,
+  },
+  correctAnswers: {
+    type: [String],
     required: true,
-  }],
-  explanations: [{
-    type: String,
-  }],
-  userAnswers: [{
-    type: String,
-    default: null,
-  }],
+  },
+  explanations: {
+    type: [String],
+    required: true,
+  },
   currentQuestion: {
     type: Number,
     default: 0,
+  },
+  isCompleted: {
+    type: Boolean,
+    default: false,
   },
   score: {
     type: Number,
@@ -59,17 +65,27 @@ const quizSessionSchema = mongoose.Schema({
   },
   timeTaken: {
     type: String,
-  },
-  isCompleted: {
-    type: Boolean,
-    default: false,
+    default: "",
   },
   lastSaved: {
     type: Date,
     default: Date.now,
   },
-}, {
-  timestamps: true,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+// Update the updatedAt field before saving
+quizSessionSchema.pre('save', function(next) {
+  this.updatedAt = new Date();
+  next();
 });
 
 export default mongoose.model("quizSession", quizSessionSchema);
+
