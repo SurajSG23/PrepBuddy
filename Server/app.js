@@ -18,8 +18,8 @@ import { jwtAuthMiddleware } from "./middleware/jwtAuthMiddleware.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-connectDB();
 dotenv.config();
+connectDB();
 
 const app = express();
 const PORT = process.env.PORT || 3000;

@@ -27,7 +27,8 @@ router.post("/google", async (req, res) => {
       user = new User({
         name,
         email,
-        profilepic,
+        profilepic: profilepic || "/default-profile.jpg",
+        authProvider: 'google'
       });
       await user.save();
     }

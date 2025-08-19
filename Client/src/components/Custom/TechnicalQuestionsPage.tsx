@@ -14,35 +14,6 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const ComingSoonButton = ({ children }: { children: React.ReactNode }) => (
-  <div className="relative group">
-    <button
-      disabled
-      className="w-full bg-gray-700 text-gray-400 px-4 py-2 rounded-md cursor-not-allowed transition-colors duration-300 flex items-center justify-center gap-2"
-    >
-      {children}
-    </button>
-    <div
-      className="absolute bottom-full mb-2 w-max px-3 py-1.5 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-      style={{ left: "50%", transform: "translateX(-50%)" }}
-    >
-      Coming Soon!
-      <div
-        className="tooltip-arrow"
-        data-popper-arrow
-        style={{
-          position: "absolute",
-          left: "50%",
-          bottom: "-4px",
-          width: "8px",
-          height: "8px",
-          backgroundColor: "#111827",
-          transform: "translateX(-50%) rotate(45deg)",
-        }}
-      ></div>
-    </div>
-  </div>
-);
 
 const PracticeButton = ({
   children,
@@ -102,31 +73,31 @@ const TechnicalQuestions: React.FC = () => {
     {
       name: "Computer Networks",
       icon: <ListChecks size={18} />,
-      slug: "computer-networks",
+      slug: "practice/computer-networks",
     },
     {
       name: "Database Management Systems",
       icon: <Database size={18} />,
-      slug: "dbms",
+      slug: "practice/dbms",
     },
     {
       name: "Computer Architecture",
       icon: <Cpu size={18} />,
-      slug: "computer-architecture",
+      slug: "practice/computer-architecture",
     },
     {
       name: "Java Programming",
       icon: <Coffee size={18} />,
-      slug: "javapractice",
+      slug: "practice/java-programming",
     },
     {
       name: "C++ Programming",
       icon: <FileCode size={18} />,
-      slug: "cpppractice",
+      slug: "practice/cpp-programming",
     },
-    { name: "Javascript", icon: <FileCode size={18} />, slug: "JavaScriptSheet" },
-    { name: "HTML", icon: <FileCode size={18} />, slug: "HtmlPractice" },
-    { name: "CSS", icon: <Paintbrush size={18} />, slug: "CssPractice" },
+    { name: "Javascript", icon: <FileCode size={18} />, slug: "practice/javascript" },
+    { name: "HTML", icon: <FileCode size={18} />, slug: "practice/html" },
+    { name: "CSS", icon: <Paintbrush size={18} />, slug: "practice/css" },
     { name: "Python", icon: <Terminal size={18} />, slug: "pythonpractice" },
     {
       name: "C Programming",
@@ -176,7 +147,10 @@ const TechnicalQuestions: React.FC = () => {
             icon={<Shuffle size={28} className="text-indigo-400" />}
             
           >
-            <ComingSoonButton>Start Mixed Quiz</ComingSoonButton>
+            <PracticeButton to="/mixed-quiz">
+              <Shuffle size={18} />
+              <span>Start Mixed Quiz</span>
+            </PracticeButton>
           </PracticeCard>
         </motion.main>
       </div>

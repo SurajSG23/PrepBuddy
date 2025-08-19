@@ -88,4 +88,3 @@ quizSessionSchema.pre('save', function(next) {
 });
 
 export default mongoose.model("quizSession", quizSessionSchema);
-

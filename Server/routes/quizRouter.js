@@ -75,7 +75,6 @@ router.delete("/:id", async (req, res) => {
 });
 
 // Advanced Quiz Session Management
-
 // Get server time and remaining duration for timer sync
 router.get("/sync/:sessionId", async (req, res) => {
   try {
