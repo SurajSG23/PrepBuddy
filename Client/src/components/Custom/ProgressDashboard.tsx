@@ -327,5 +327,3 @@ const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ userID, viewMode 
 };
 
 export default ProgressDashboard;
-
-

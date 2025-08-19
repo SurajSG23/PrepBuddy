@@ -11,7 +11,6 @@ interface Message {
   sender: "user" | "bot";
 }
 
-// Props are updated to control visibility from the parent component (App.tsx)
 interface ChatAssistantProps {
   userID: string;
   isChatOpen: boolean;
@@ -19,7 +18,6 @@ interface ChatAssistantProps {
 }
 
 const ChatAssistant: React.FC<ChatAssistantProps> = ({ userID, isChatOpen, setIsChatOpen }) => {
-  // The component no longer controls its own visibility. `isChatOpen` prop does.
   const [messages, setMessages] = useState<Message[]>([
     { text: "Hi! I'm PrepBuddy's assistant. Ask me about the app, scoring, or ask for a test suggestion!", sender: "bot" }
   ]);
@@ -32,7 +30,6 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ userID, isChatOpen, setIs
 
   useEffect(scrollToBottom, [messages]);
 
-  // This function now uses the setter from props to toggle the state in App.tsx
   const handleToggleChat = () => {
     setIsChatOpen(!isChatOpen);
   };
@@ -46,7 +43,6 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ userID, isChatOpen, setIs
     const currentInput = input;
     setInput("");
 
-    // Check for test suggestion keyword
     if (currentInput.toLowerCase().includes("suggest")) {
       setMessages(prev => [...prev, { text: "Sure, let me see...", sender: "bot" }]);
       try {
@@ -58,7 +54,6 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ userID, isChatOpen, setIs
         setMessages(prev => [...prev, errorMessage]);
       }
     } else {
-      // Get response from static FAQ data
       const botResponse: Message = { text: getResponse(currentInput), sender: "bot" };
       setTimeout(() => {
          setMessages((prev) => [...prev, botResponse]);
@@ -68,7 +63,6 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ userID, isChatOpen, setIs
 
   return (
     <div className="fixed bottom-5 right-4 z-[100]">
-      {/* Chat Window's visibility is now controlled by the isChatOpen prop */}
       {isChatOpen && (
         <div className="w-80 h-[28rem] bg-gray-800 border border-indigo-500 rounded-lg shadow-2xl flex flex-col animate-slide-in shadow-indigo-500/20 transition-all duration-300 glowing-border">
           {/* Header */}

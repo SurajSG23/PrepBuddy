@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FiRefreshCw, FiBookmark } from "react-icons/fi";
-
 const cssQuestions = [
   {
     id: 1,

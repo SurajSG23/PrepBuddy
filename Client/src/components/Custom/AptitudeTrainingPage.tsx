@@ -25,7 +25,6 @@ interface AptitudeStats {
     verbal: number;
   };
 }
-
 const AptitudeTrainingPage: React.FC = () => {
   const navigate = useNavigate();
   // const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);

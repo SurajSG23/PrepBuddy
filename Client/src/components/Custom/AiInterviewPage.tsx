@@ -186,7 +186,6 @@ const AiInterviewPage: React.FC = () => {
                   </p>
                 </InterviewCard>
               )}
-
               {status === "recording" && (
                  <InterviewCard
                     title="Your Answer"

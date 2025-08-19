@@ -364,5 +364,4 @@ const AptitudeResultsPage: React.FC = () => {
     </div>
   );
 };
-
 export default AptitudeResultsPage; 

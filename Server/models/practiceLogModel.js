@@ -2,8 +2,7 @@ import mongoose from "mongoose";
 
 const practiceLogSchema = new mongoose.Schema({
   userid: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
+    type: String,
     required: true,
     index: true,
   },

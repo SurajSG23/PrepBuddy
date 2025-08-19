@@ -6,7 +6,6 @@ interface QuizProgress {
   topic: string;
   title: string;
 }
-
 const QUIZ_PROGRESS_KEY = 'quiz_progress';
 const QUIZ_SESSION_KEY = 'quiz_session';
 

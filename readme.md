@@ -122,5 +122,3 @@ We'll review your PR soon!
 <a href="https://github.com/SurajSG23/PrepBuddy/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=SurajSG23/PrepBuddy" />
 </a>
-
-

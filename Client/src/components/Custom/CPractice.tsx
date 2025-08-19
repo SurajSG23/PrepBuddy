@@ -4,7 +4,6 @@ import { cpp } from "@codemirror/lang-cpp";
 import { FiPlay, FiRotateCw, FiBookmark, FiSearch } from "react-icons/fi";
 
 type Level = "Beginner" | "Intermediate" | "Advanced";
-
 type CppQ = {
   id: number;
   level: Level;

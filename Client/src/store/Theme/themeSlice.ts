@@ -12,7 +12,6 @@ const getInitialTheme = (): boolean => {
 const initialState: ThemeState = {
     darkMode: getInitialTheme()
 };
-
 const themeSlice = createSlice({
     name: "theme",
     initialState,

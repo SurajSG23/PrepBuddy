@@ -24,8 +24,7 @@ const testSchema = mongoose.Schema({
     default: Date.now, 
   },
   userid: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
+    type: String,
   },
 });
 

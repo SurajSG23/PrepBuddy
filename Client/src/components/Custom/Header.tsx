@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { auth } from "../../firebase/firebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import axios from "axios";
+
 import { CgProfile } from "react-icons/cg";
 import { TiHomeOutline } from "react-icons/ti";
 import { FaRegStickyNote } from "react-icons/fa";
@@ -83,20 +83,10 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
   useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
     if (currentUser) {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/auth/me`,
-          { withCredentials: true }
-        );
-        
-        const userData = response.data;
-        setUserID(userData._id || "");
-        setUser(userData.name || "");
-        setProfilePic(userData.profilepic || "");
-      } catch (error) {
-        console.error("Could not fetch user profile:", error);
-        handleLogout();
-      }
+      // Use Firebase user data directly
+      setUserID(currentUser.uid);
+      setUser(currentUser.displayName || "User");
+      setProfilePic(currentUser.photoURL || "/default-profile.jpg");
     } else {
       setUserID("");
       navigate("/");

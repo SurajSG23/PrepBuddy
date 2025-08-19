@@ -224,5 +224,3 @@ const StreakBadges: React.FC<StreakBadgesProps> = ({ userID, currentStreak }) =>
 };
 
 export default StreakBadges;
-
-

@@ -356,5 +356,4 @@ const HtmlPractice: React.FC = () => {
     </div>
   );
 };
-
 export default HtmlPractice;

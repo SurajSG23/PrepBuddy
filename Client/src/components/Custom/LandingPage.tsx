@@ -22,7 +22,7 @@ const LandingPage: React.FC = () => {
       }
     });
     return () => unsubscribe();
-  }, [auth, navigate]);
+  }, [navigate]);
 
   const handleLogin = async () => { };
   const provider = new GoogleAuthProvider();
@@ -46,8 +46,7 @@ const LandingPage: React.FC = () => {
       try {
         await axios.post(
           `${import.meta.env.VITE_API_BASE_URL}/auth/google`,
-          { name, email, profilepic },
-          { withCredentials: true }
+          { name, email, profilepic, firebaseUid: result.user.uid }
         );
         navigate("/homepage");
       } catch (error) {

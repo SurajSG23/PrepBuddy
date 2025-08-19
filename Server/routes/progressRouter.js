@@ -11,12 +11,15 @@ router.get("/daily-progress/:id", async (req, res) => {
     const { id: userid } = req.params;
     const { days = 7 } = req.query; // Default to 7 days, can request 30
     
+    // Ensure userid is treated as string for Firebase UID compatibility
+    const userIdString = String(userid);
+    
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - parseInt(days));
     startDate.setHours(0, 0, 0, 0);
     
     const logs = await practiceLogModel.find({
-      userid: userid,
+      userid: userIdString,
       date: { $gte: startDate }
     }).sort({ date: 1 });
     
@@ -54,12 +57,13 @@ router.get("/daily-progress/:id", async (req, res) => {
 router.get("/streak/:id", async (req, res) => {
   try {
     const { id: userid } = req.params;
+    const userIdString = String(userid);
     
-    const currentStreak = await practiceLogModel.calculateStreak(userid);
+    const currentStreak = await practiceLogModel.calculateStreak(userIdString);
     
     // Get longest streak
     const allLogs = await practiceLogModel.find({ 
-      userid: userid,
+      userid: userIdString,
       testsAttempted: { $gt: 0 }
     }).sort({ date: 1 });
     
@@ -116,16 +120,17 @@ router.get("/streak/:id", async (req, res) => {
 router.get("/stats/:id", async (req, res) => {
   try {
     const { id: userid } = req.params;
+    const userIdString = String(userid);
     
     // Get total tests from testModel (existing data)
-    const totalTests = await testModel.countDocuments({ userid });
+    const totalTests = await testModel.countDocuments({ userid: userIdString });
     
-    // Get user data
-    const user = await userModel.findById(userid);
+    // Get user data using Firebase UID as _id
+    const user = await userModel.findById(userIdString);
     
     // Get recent practice logs for trend analysis
     const recentLogs = await practiceLogModel.find({
-      userid: userid,
+      userid: userIdString,
       testsAttempted: { $gt: 0 }
     })
     .sort({ date: -1 })

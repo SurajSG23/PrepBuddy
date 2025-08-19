@@ -12,8 +12,6 @@ const aptitudeTopics = [
   "Probability",
 ];
 
-
-
 const AptitudePage = () => {
   return (
     <div className="text-white px-6 py-10 min-h-screen bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#0f172a]">

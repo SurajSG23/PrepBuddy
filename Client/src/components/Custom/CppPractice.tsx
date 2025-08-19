@@ -15,7 +15,6 @@ type CppQ = {
   expectedOutput: string;
   tags?: string[];
 };
-
 const QUESTIONS: CppQ[] = [
   // BEGINNER
   {

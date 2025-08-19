@@ -522,5 +522,4 @@ const AptitudePracticePage: React.FC = () => {
     </div>
   );
 };
-
 export default AptitudePracticePage; 

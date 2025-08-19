@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "../../../lib/utils";
 import { Link } from "react-router-dom";
-import StreakWidget from "./StreakWidget";
-import MiniProgressChart from "./MiniProgressChart";
+
 
 interface HeaderProps {
   userID: string;
@@ -14,7 +13,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
   const [testType, setTestType] = useState<"predefined" | "custom" | "focus">(
     "predefined"
   );
-  const [userName, setUserName] = useState("");
+
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState("");
   const [topic, setTopic] = useState("");
@@ -92,17 +91,8 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
       return;
     }
     const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/auth/me`,
-          { withCredentials: true }
-        );
-        setUserName(response.data.name);
-      } catch (error) {
-        console.error("Error fetching homepage data:", error);
-      } finally {
-        setLoading(false);
-      }
+      // User name will be set by Firebase auth in Header component
+      setLoading(false);
     };
     fetchData();
   }, [userID]);
@@ -117,8 +107,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
           topic: topic,
           userid: userID,
           createdAt: new Date(),
-        },
-        { withCredentials: true }
+        }
       );
       navigate("/testpage");
     } catch (error) {
@@ -219,20 +208,10 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
     <div>
       <main className="container mx-auto px-4 py-6">
         <h1 className="text-4xl font-extrabold mb-10 text-center text-gray-100">
-          Welcome <span className="text-indigo-500">{userName}</span> to
-          PrepBuddy! Get ready to test your skills!
+          Welcome to <span className="text-indigo-500">PrepBuddy!</span> Get ready to test your skills!
         </h1>
 
-        {/* Progress Widgets - Only show if user is logged in */}
-        {userID && (
-          <div className="mb-10">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <StreakWidget userID={userID} compact={true} />
-              <MiniProgressChart userID={userID} type="tests" />
-              <MiniProgressChart userID={userID} type="scores" />
-            </div>
-          </div>
-        )}
+
 
         <div className="mb-10">
           <div className="flex border-b border-gray-700 mb-6 justify-center gap-6">
