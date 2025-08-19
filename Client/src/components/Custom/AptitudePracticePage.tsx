@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useThemeSelector } from "../../store/hooks";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -36,6 +37,7 @@ interface PracticeSession {
 const AptitudePracticePage: React.FC = () => {
   const { difficulty } = useParams<{ difficulty: string }>();
   const navigate = useNavigate();
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
   
   const [session, setSession] = useState<PracticeSession | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
@@ -324,10 +326,10 @@ const AptitudePracticePage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 ${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"}`}>
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400 mx-auto mb-4"></div>
-          <p className="text-gray-300">Generating questions with AI...</p>
+          <div className={`animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4 ${darkMode ? "border-indigo-400" : "border-indigo-700"}`}></div>
+          <p className={darkMode ? "text-gray-300" : "text-gray-700"}>Generating questions with AI...</p>
         </div>
       </div>
     );
@@ -335,10 +337,10 @@ const AptitudePracticePage: React.FC = () => {
 
   if (!session || !getCurrentQuestion()) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 ${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"}`}>
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400 mx-auto mb-4"></div>
-          <p className="text-gray-300">Loading questions...</p>
+          <div className={`animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4 ${darkMode ? "border-indigo-400" : "border-indigo-700"}`}></div>
+          <p className={darkMode ? "text-gray-300" : "text-gray-700"}>Loading questions...</p>
         </div>
       </div>
     );
@@ -350,38 +352,44 @@ const AptitudePracticePage: React.FC = () => {
   const progressPercentage = getProgressPercentage();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+    <div
+      className={`min-h-screen transition-colors duration-300 ${
+        darkMode
+          ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white"
+          : "bg-gradient-to-br from-white via-gray-100 to-white text-gray-900"
+      }`}
+    >
       <div className="container mx-auto px-4 py-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <button
             onClick={() => navigate("/aptitude-training")}
-            className="flex items-center text-indigo-400 hover:text-indigo-300 transition-colors"
+            className={`flex items-center transition-colors ${darkMode ? "text-indigo-400 hover:text-indigo-300" : "text-indigo-700 hover:text-indigo-500"}`}
           >
-            <ArrowLeft className="w-5 h-5 mr-2" />
+            <ArrowLeft className={`w-5 h-5 mr-2 ${darkMode ? "text-indigo-400" : "text-indigo-700"}`} />
             Back to Training
           </button>
 
           <div className="flex items-center space-x-4">
-            <div className="flex items-center bg-gray-800 rounded-lg px-4 py-2">
-              <Brain className="w-5 h-5 mr-2 text-indigo-400" />
+            <div className={`flex items-center rounded-lg px-4 py-2 ${darkMode ? "bg-gray-800" : "bg-indigo-100"}`}>
+              <Brain className={`w-5 h-5 mr-2 ${darkMode ? "text-indigo-400" : "text-indigo-700"}`} />
               <span className="text-sm font-medium">
                 {session.currentQuestionIndex + 1} / {session.questions.length}
               </span>
             </div>
 
-            <div className="flex items-center bg-gray-800 rounded-lg px-4 py-2">
-              <Timer className="w-5 h-5 mr-2 text-red-400" />
-              <span className={`text-sm font-medium ${timeRemaining <= 5 ? 'text-red-400' : 'text-gray-300'}`}>
+            <div className={`flex items-center rounded-lg px-4 py-2 ${darkMode ? "bg-gray-800" : "bg-indigo-100"}`}>
+              <Timer className={`w-5 h-5 mr-2 ${darkMode ? "text-red-400" : "text-red-700"}`} />
+              <span className={`text-sm font-medium ${timeRemaining <= 5 ? (darkMode ? "text-red-400" : "text-red-700") : (darkMode ? "text-gray-300" : "text-gray-700")}`}>
                 {formatTime(timeRemaining)}
               </span>
             </div>
 
             <button
               onClick={() => setIsPaused(!isPaused)}
-              className="bg-gray-800 hover:bg-gray-700 rounded-lg p-2 transition-colors"
+              className={`rounded-lg p-2 transition-colors ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-indigo-100 hover:bg-indigo-200"}`}
             >
-              {isPaused ? <Play className="w-5 h-5" /> : <Pause className="w-5 h-5" />}
+              {isPaused ? <Play className={`w-5 h-5 ${darkMode ? "text-white" : "text-indigo-700"}`} /> : <Pause className={`w-5 h-5 ${darkMode ? "text-white" : "text-indigo-700"}`} />}
             </button>
           </div>
         </div>

@@ -3,6 +3,7 @@ import { LineChart, Line, ResponsiveContainer, Tooltip } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import axios from 'axios';
 import { TrendingUp, BarChart3 } from 'lucide-react';
+import { useThemeSelector } from "../../store/hooks";
 
 interface ProgressData {
   date: string;
@@ -20,6 +21,7 @@ interface MiniProgressChartProps {
 const MiniProgressChart: React.FC<MiniProgressChartProps> = ({ userID, type = 'tests' }) => {
   const [progressData, setProgressData] = useState<ProgressData[]>([]);
   const [loading, setLoading] = useState(true);
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
 
   useEffect(() => {
     if (!userID) return;
@@ -42,11 +44,11 @@ const MiniProgressChart: React.FC<MiniProgressChartProps> = ({ userID, type = 't
 
   if (loading) {
     return (
-      <Card className="bg-gray-800 border-gray-700">
+      <Card className={darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-indigo-200"}>
         <CardContent className="p-4">
           <div className="animate-pulse">
-            <div className="h-4 bg-gray-700 rounded w-3/4 mb-3"></div>
-            <div className="h-20 bg-gray-700 rounded"></div>
+            <div className={darkMode ? "h-4 bg-gray-700 rounded w-3/4 mb-3" : "h-4 bg-indigo-100 rounded w-3/4 mb-3"}></div>
+            <div className={darkMode ? "h-20 bg-gray-700 rounded" : "h-20 bg-indigo-100 rounded"}></div>
           </div>
         </CardContent>
       </Card>
@@ -82,36 +84,36 @@ const MiniProgressChart: React.FC<MiniProgressChartProps> = ({ userID, type = 't
   };
 
   const trend = getTrendDirection();
-  const trendColor = trend === 'up' ? 'text-green-400' : trend === 'down' ? 'text-red-400' : 'text-gray-400';
+  const trendColor = trend === 'up' ? (darkMode ? 'text-green-400' : 'text-green-600') : trend === 'down' ? (darkMode ? 'text-red-400' : 'text-red-600') : (darkMode ? 'text-gray-400' : 'text-gray-500');
   const trendIcon = trend === 'up' ? '↗' : trend === 'down' ? '↘' : '→';
 
   return (
-    <Card className="bg-gray-800 border-gray-700 hover:shadow-lg hover:shadow-indigo-500/20 transition-all">
+    <Card className={`${darkMode ? "bg-gray-800 border-gray-700 hover:shadow-lg hover:shadow-indigo-500/20" : "bg-white border-indigo-200 hover:shadow-lg hover:shadow-indigo-200/20"} transition-all`}>
       <CardHeader className="pb-3">
-        <CardTitle className="text-lg text-white flex items-center gap-2">
+        <CardTitle className={`text-lg flex items-center gap-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
           {type === 'tests' ? (
             <>
-              <BarChart3 className="h-5 w-5 text-indigo-400" />
+              <BarChart3 className={darkMode ? "h-5 w-5 text-indigo-400" : "h-5 w-5 text-indigo-600"} />
               Weekly Activity
             </>
           ) : (
             <>
-              <TrendingUp className="h-5 w-5 text-emerald-400" />
+              <TrendingUp className={darkMode ? "h-5 w-5 text-emerald-400" : "h-5 w-5 text-emerald-600"} />
               Score Trend
             </>
           )}
         </CardTitle>
-        <CardDescription className="text-gray-400 text-sm">
+        <CardDescription className={darkMode ? "text-gray-400 text-sm" : "text-gray-600 text-sm"}>
           {type === 'tests' ? 'Tests attempted this week' : 'Your average performance'}
         </CardDescription>
       </CardHeader>
       <CardContent className="pt-0">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <p className="text-2xl font-bold text-white">
+            <p className={`text-2xl font-bold ${darkMode ? "text-white" : "text-gray-900"}`}>
               {type === 'tests' ? totalTests : avgScore.toFixed(1)}
             </p>
-            <p className="text-sm text-gray-400">
+            <p className={darkMode ? "text-sm text-gray-400" : "text-sm text-gray-600"}>
               {type === 'tests' ? 'total tests' : 'avg score'}
             </p>
           </div>
@@ -122,44 +124,42 @@ const MiniProgressChart: React.FC<MiniProgressChartProps> = ({ userID, type = 't
             </p>
           </div>
         </div>
-        
         <div className="h-16">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={progressData}>
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: '#1f2937', 
-                  border: '1px solid #374151',
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: darkMode ? '#1f2937' : '#fff',
+                  border: darkMode ? '1px solid #374151' : '1px solid #c7d2fe',
                   borderRadius: '6px',
-                  fontSize: '12px'
+                  fontSize: '12px',
+                  color: darkMode ? '#fff' : '#111'
                 }}
                 labelFormatter={(label) => `Day: ${label}`}
                 formatter={(value) => [
-                  value, 
+                  value,
                   type === 'tests' ? 'Tests' : 'Score'
                 ]}
               />
-              <Line 
-                type="monotone" 
+              <Line
+                type="monotone"
                 dataKey={type === 'tests' ? 'testsAttempted' : 'averageScore'}
                 stroke={type === 'tests' ? '#6366f1' : getScoreColor(avgScore)}
                 strokeWidth={2}
                 dot={{ r: 3, fill: type === 'tests' ? '#6366f1' : getScoreColor(avgScore) }}
-                activeDot={{ r: 4, stroke: '#fff', strokeWidth: 2 }}
+                activeDot={{ r: 4, stroke: darkMode ? '#fff' : '#6366f1', strokeWidth: 2 }}
               />
             </LineChart>
           </ResponsiveContainer>
         </div>
-        
         {type === 'tests' && totalTests === 0 && (
           <div className="text-center py-2">
-            <p className="text-sm text-gray-500">Take your first test to see progress!</p>
+            <p className={darkMode ? "text-sm text-gray-500" : "text-sm text-gray-400"}>Take your first test to see progress!</p>
           </div>
         )}
-        
         {type === 'scores' && avgScore === 0 && (
           <div className="text-center py-2">
-            <p className="text-sm text-gray-500">No scores recorded yet</p>
+            <p className={darkMode ? "text-sm text-gray-500" : "text-sm text-gray-400"}>No scores recorded yet</p>
           </div>
         )}
       </CardContent>

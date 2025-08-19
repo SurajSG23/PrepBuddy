@@ -5,12 +5,15 @@ import { cn } from "../../../lib/utils";
 import { Link } from "react-router-dom";
 import StreakWidget from "./StreakWidget";
 import MiniProgressChart from "./MiniProgressChart";
+import ThemeToggle from "./ThemeToggle";
+import { useThemeSelector } from '../../store/hooks';
 
 interface HeaderProps {
   userID: string;
 }
 
 const HomePage: React.FC<HeaderProps> = ({ userID }) => {
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
   const [testType, setTestType] = useState<"predefined" | "custom" | "focus">(
     "predefined"
   );
@@ -216,9 +219,12 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
   }
 
   return (
-    <div>
+    <div className={darkMode ? 'bg-[#0e0430] text-gray-100' : 'bg-white text-gray-900'} style={{ minHeight: '100vh' }}>
+      <div className="flex justify-end items-center w-full px-4 pt-4">
+        <ThemeToggle />
+      </div>
       <main className="container mx-auto px-4 py-6">
-        <h1 className="text-4xl font-extrabold mb-10 text-center text-gray-100">
+        <h1 className={`text-4xl font-extrabold mb-10 text-center ${darkMode ? 'text-gray-100' : 'text-indigo-900'}`}>
           Welcome <span className="text-indigo-500">{userName}</span> to
           PrepBuddy! Get ready to test your skills!
         </h1>
@@ -274,7 +280,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                 <input
                   type="text"
                   placeholder="Search for a company..."
-                  className="w-full md:w-1/2 bg-gray-700/50 backdrop-blur-md border border-gray-600 rounded-xl px-5 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-gray-700/80 transition-all duration-300"
+                  className={`w-full md:w-1/2 rounded-xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 ${darkMode ? 'bg-gray-700/50 backdrop-blur-md border border-gray-600 text-white placeholder-gray-400 focus:bg-gray-700/80' : 'bg-gray-100 border border-gray-300 text-gray-900 placeholder-gray-400 focus:bg-white'}`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -286,7 +292,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
               )}
               <p
                 className={cn(
-                  "mt-2 mb-2 flex mx-auto justify-center items-center font-extrabold text-3xl text-indigo-500 tracking-wide relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-1 after:bg-indigo-500 after:rounded-full",
+                  "mt-2 mb-6 pb-2 mx-auto font-extrabold text-3xl text-indigo-500 tracking-wide text-center relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-1 after:bg-indigo-500 after:rounded-full",
                   filteredmaang.length === 0 && "hidden"
                 )}
               >
@@ -297,7 +303,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                   filteredmaang.map((company) => (
                     <div
                       key={company}
-                      className="bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-indigo-500/30 transform hover:-translate-y-2 transition-all duration-300 group relative overflow-hidden"
+                      className={`rounded-xl p-6 shadow-lg transform hover:-translate-y-2 transition-all duration-300 group relative overflow-hidden ${darkMode ? 'bg-gray-800 hover:shadow-indigo-500/30' : 'bg-white hover:shadow-indigo-200/40 border border-gray-200'}`}
                     >
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-xl font-semibold mb-3 group-hover:text-indigo-400 transition">
@@ -322,12 +328,12 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                           </button>
                         </div>
                       </div>
-                      <p className="text-gray-300 mb-6">
+                      <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-6`}>
                         Take the {company} aptitude test to practice for your
                         interview.
                       </p>
                       <button
-                        className="w-full bg-indigo-600/80 hover:bg-indigo-600 text-white font-medium py-2 rounded-lg transition-all duration-300 backdrop-blur-md hover:shadow-indigo-500/40 shadow-md"
+                        className={`w-full font-medium py-2 rounded-lg transition-all duration-300 shadow-md ${darkMode ? 'bg-indigo-600/80 hover:bg-indigo-600 text-white backdrop-blur-md hover:shadow-indigo-500/40' : 'bg-indigo-500 hover:bg-indigo-600 text-white hover:shadow-indigo-200/40'}`}
                         onClick={() => {
                           setTitle(company);
                           setDifficulty("Medium");
@@ -341,7 +347,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
               </div>
               <p
                 className={cn(
-                  "mt-7 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-500 text-center",
+                  "mt-7 mb-6 pb-2 mx-auto font-bold text-3xl text-indigo-500 text-center relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-1 after:bg-indigo-500 after:rounded-full",
                   filteredTier1.length === 0 && "hidden"
                 )}
               >
@@ -352,7 +358,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                   filteredTier1.map((company) => (
                     <div
                       key={company}
-                      className="bg-gray-800/70 rounded-xl p-6 shadow-lg hover:shadow-indigo-500/30 transform hover:-translate-y-2 transition-all duration-300 group backdrop-blur-md border border-gray-700/40"
+                      className={`rounded-xl p-6 shadow-lg transform hover:-translate-y-2 transition-all duration-300 group border ${darkMode ? 'bg-gray-800/70 hover:shadow-indigo-500/30 backdrop-blur-md border-gray-700/40' : 'bg-white hover:shadow-indigo-200/40 border-gray-200'}`}
                     >
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-xl font-semibold mb-3 group-hover:text-indigo-400 transition">
@@ -377,12 +383,12 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                           </button>
                         </div>
                       </div>
-                      <p className="text-gray-300 mb-6">
+                      <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-6`}>
                         Take the {company} aptitude test to practice for your
                         interview.
                       </p>
                       <button
-                        className="w-full bg-indigo-600/80 hover:bg-indigo-600 text-white font-medium py-2 rounded-lg transition-all duration-300 backdrop-blur-md hover:shadow-indigo-500/40 shadow-md"
+                        className={`w-full font-medium py-2 rounded-lg transition-all duration-300 shadow-md ${darkMode ? 'bg-indigo-600/80 hover:bg-indigo-600 text-white backdrop-blur-md hover:shadow-indigo-500/40' : 'bg-indigo-500 hover:bg-indigo-600 text-white hover:shadow-indigo-200/40'}`}
                         onClick={() => {
                           setTitle(company);
                           setDifficulty("Medium");
@@ -396,7 +402,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
               </div>
               <p
                 className={cn(
-                  "mt-7 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-400 text-center tracking-wide",
+                  "mt-7 mb-6 pb-2 mx-auto font-bold text-3xl text-indigo-400 text-center tracking-wide relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-1 after:bg-indigo-400 after:rounded-full",
                   filteredStartup.length === 0 && "hidden"
                 )}
               >
@@ -407,7 +413,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                   filteredStartup.map((company) => (
                     <div
                       key={company}
-                      className="bg-gray-800/60 backdrop-blur-md rounded-xl p-6 shadow-lg border border-gray-700/40 hover:shadow-indigo-500/30 hover:-translate-y-2 transition-all duration-300 "
+                      className={`rounded-xl p-6 shadow-lg border transition-all duration-300 ${darkMode ? 'bg-gray-800/60 backdrop-blur-md border-gray-700/40 hover:shadow-indigo-500/30 hover:-translate-y-2' : 'bg-white border-gray-200 hover:shadow-indigo-200/40 hover:-translate-y-2'}`}
                     >
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-xl font-semibold mb-3 group-hover:text-indigo-400 transition">
@@ -433,12 +439,12 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                           </button>
                         </div>
                       </div>
-                      <p className="text-gray-300 mb-4">
+                      <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-4`}>
                         Take the {company} aptitude test to practice for your
                         interview.
                       </p>
                       <button
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition-all hover:shadow-md hover:shadow-indigo-500/40"
+                        className={`px-4 py-2 rounded-md transition-all font-medium ${darkMode ? 'bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-md hover:shadow-indigo-500/40' : 'bg-indigo-500 hover:bg-indigo-600 text-white hover:shadow-indigo-200/40'}`}
                         onClick={() => {
                           setTitle(company);
                           setDifficulty("Medium");
@@ -454,8 +460,8 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
           )}
 
           {testType === "custom" && (
-            <div className="max-w-2xl mx-auto bg-gray-800/60 backdrop-blur-md rounded-2xl p-16 shadow-lg border border-gray-700/40">
-              <h2 className="text-2xl font-bold mb-6 text-white">
+            <div className={`max-w-2xl mx-auto rounded-2xl p-16 shadow-lg border ${darkMode ? 'bg-gray-800/60 backdrop-blur-md border-gray-700/40' : 'bg-white border-gray-200'}`}>
+              <h2 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-indigo-900'}`}>
                 Create Custom Test
               </h2>
               <form
@@ -465,7 +471,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                 }}
               >
                 <div className="mb-4">
-                  <label className="block text-gray-300 mb-2" htmlFor="title">
+                  <label className={`block mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`} htmlFor="title">
                     Test Topic
                   </label>
                   <input
@@ -476,13 +482,13 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                     onChange={(e) => {
                       setTopic(e.target.value);
                     }}
-                    className="w-full bg-gray-700/50 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                    className={`w-full rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition ${darkMode ? 'bg-gray-700/50 border border-gray-600 text-white' : 'bg-gray-100 border border-gray-300 text-gray-900'}`}
                     placeholder="e.g. Computer Networks"
                     required
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-gray-300 mb-2" htmlFor="title">
+                  <label className={`block mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`} htmlFor="title">
                     Company Name
                   </label>
                   <input
@@ -493,14 +499,14 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                     onChange={(e) => {
                       setTitle(e.target.value);
                     }}
-                    className="w-full bg-gray-700/50 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                    className={`w-full rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition ${darkMode ? 'bg-gray-700/50 border border-gray-600 text-white' : 'bg-gray-100 border border-gray-300 text-gray-900'}`}
                     placeholder="e.g. Cisco"
                     required
                   />
                 </div>
                 <div className="mb-4">
                   <label
-                    className="block text-gray-300 mb-2"
+                    className={`block mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}
                     htmlFor="difficulty"
                   >
                     Difficulty Level
@@ -512,7 +518,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                     onChange={(e) => {
                       setDifficulty(e.target.value);
                     }}
-                    className="w-full bg-gray-700/50 border border-gray-600 rounded-md px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+                    className={`w-full rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition ${darkMode ? 'bg-gray-700/50 border border-gray-600 text-white' : 'bg-gray-100 border border-gray-300 text-gray-900'}`}
                   >
                     <option value="Easy">Easy</option>
                     <option value="Medium">Medium</option>
@@ -522,7 +528,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
 
                 <button
                   type="submit"
-                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition-all hover:shadow-indigo-500/30 hover:shadow-lg"
+                  className={`w-full font-medium py-2 px-4 rounded-md transition-all hover:shadow-lg ${darkMode ? 'bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-indigo-500/30' : 'bg-indigo-500 hover:bg-indigo-600 text-white hover:shadow-indigo-200/40'}`}
                 >
                   Generate Test
                 </button>
@@ -532,38 +538,38 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
 
           {testType === "focus" && (
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-extrabold mb-8 text-center text-indigo-400 tracking-wide">
+              <h2 className={`text-3xl font-extrabold mb-8 text-center tracking-wide ${darkMode ? 'text-indigo-400' : 'text-indigo-700'}`}>
                 Select a Practice Area
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
                 <Link to="/aptitude" className="block h-full">
-                  <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center min-h-[160px] flex flex-col justify-center">
-                    <h3 className="text-xl font-semibold text-white mb-2">
+                  <div className={`p-8 rounded-lg shadow-lg transition-all duration-300 cursor-pointer text-center min-h-[160px] flex flex-col justify-center ${darkMode ? 'bg-gray-800 hover:bg-gray-700 hover:shadow-indigo-500/30' : 'bg-white hover:bg-gray-100 hover:shadow-indigo-200/40'}`}>
+                    <h3 className={`text-xl font-semibold mb-2 ${darkMode ? 'text-white' : 'text-indigo-900'}`}>
                       Aptitude Training 🧠
                     </h3>
-                    <p className="text-gray-400">
+                    <p className={darkMode ? 'text-gray-400' : 'text-gray-700'}>
                       Sharpen your logical and quantitative skills.
                     </p>
                   </div>
                 </Link>
 
                 <Link to="/technical-questions" className="block h-full">
-                  <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center min-h-[160px] flex flex-col justify-center">
-                    <h3 className="text-xl font-semibold text-white mb-2">
+                  <div className={`p-8 rounded-lg shadow-lg transition-all duration-300 cursor-pointer text-center min-h-[160px] flex flex-col justify-center ${darkMode ? 'bg-gray-800 hover:bg-gray-700 hover:shadow-indigo-500/30' : 'bg-white hover:bg-gray-100 hover:shadow-indigo-200/40'}`}>
+                    <h3 className={`text-xl font-semibold mb-2 ${darkMode ? 'text-white' : 'text-indigo-900'}`}>
                       Technical Questions 💻
                     </h3>
-                    <p className="text-gray-400">
+                    <p className={darkMode ? 'text-gray-400' : 'text-gray-700'}>
                       Practice questions on core CS subjects.
                     </p>
                   </div>
                 </Link>
 
                 <Link to="/ai-interview-options" className="block h-full">
-                  <div className="bg-gray-800 p-8 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-indigo-500/30 transition-all duration-300 cursor-pointer text-center min-h-[160px] flex flex-col justify-center">
-                    <h3 className="text-xl font-semibold text-white mb-2">
+                  <div className={`p-8 rounded-lg shadow-lg transition-all duration-300 cursor-pointer text-center min-h-[160px] flex flex-col justify-center ${darkMode ? 'bg-gray-800 hover:bg-gray-700 hover:shadow-indigo-500/30' : 'bg-white hover:bg-gray-100 hover:shadow-indigo-200/40'}`}>
+                    <h3 className={`text-xl font-semibold mb-2 ${darkMode ? 'text-white' : 'text-indigo-900'}`}>
                       AI-Powered Interviews 🤖
                     </h3>
-                    <p className="text-gray-400">
+                    <p className={darkMode ? 'text-gray-400' : 'text-gray-700'}>
                       Simulate real interviews with AI feedback.
                     </p>
                   </div>

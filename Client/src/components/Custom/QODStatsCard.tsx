@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useThemeSelector } from "../../store/hooks";
 import { Calendar, Award, Target, TrendingUp } from "lucide-react";
 
 interface QODStats {
@@ -10,6 +11,7 @@ interface QODStats {
 }
 
 const QODStatsCard = () => {
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
   const [stats, setStats] = useState<QODStats>({
     totalAnswered: 0,
     correctAnswers: 0,
@@ -53,57 +55,91 @@ const QODStatsCard = () => {
   };
 
   return (
-    <div className="bg-gray-800/50 backdrop-blur-md border border-gray-700/60 rounded-2xl p-6 shadow-md hover:shadow-indigo-500/30 transition-all duration-300 hover:scale-[1.02]">
-      <h3 className="text-2xl font-extrabold mb-4 flex items-center gap-3 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-400">
-        <Calendar className="text-indigo-400 drop-shadow-md" size={22} />
+    <div
+      className={
+        `backdrop-blur-md rounded-2xl p-6 shadow-md transition-all duration-300 hover:scale-[1.02] border ` +
+        (darkMode
+          ? 'bg-gray-800/50 border-gray-700/60 hover:shadow-indigo-500/30'
+          : 'bg-white border-indigo-200 hover:shadow-indigo-300/30')
+      }
+    >
+      <h3
+        className={
+          `text-2xl font-extrabold mb-4 flex items-center gap-3 text-transparent bg-clip-text bg-gradient-to-r ` +
+          (darkMode
+            ? 'from-indigo-400 via-purple-500 to-pink-400'
+            : 'from-indigo-700 via-purple-400 to-pink-400')
+        }
+      >
+        <Calendar className={darkMode ? "text-indigo-400 drop-shadow-md" : "text-indigo-700 drop-shadow-md"} size={22} />
         Question of the Day Stats
       </h3>
-      
+
       <div className="grid grid-cols-2 gap-5">
-        <div className="text-center p-4 bg-gray-800 rounded-lg border border-gray-700 shadow-md hover:shadow-indigo-500/20 hover:scale-[1.03] transition-all duration-300 cursor-pointer">
+        <div className={
+          `text-center p-4 rounded-lg border shadow-md transition-all duration-300 cursor-pointer ` +
+          (darkMode
+            ? 'bg-gray-800 border-gray-700 hover:shadow-indigo-500/20'
+            : 'bg-indigo-50 border-indigo-200 hover:shadow-indigo-300/20')
+        }>
           <div className="flex items-center justify-center mb-2">
-            <Target className="text-indigo-400 w-5 h-5 group-hover:scale-110 transition-transform" size={16} />
+            <Target className={darkMode ? "text-indigo-400 w-5 h-5 group-hover:scale-110 transition-transform" : "text-indigo-700 w-5 h-5 group-hover:scale-110 transition-transform"} size={16} />
           </div>
-          <div className="text-3xl font-bold text-indigo-300">{stats.totalAnswered}</div>
-          <div className="text-sm text-gray-400 mt-1">Questions Answered</div>
+          <div className={darkMode ? "text-3xl font-bold text-indigo-300" : "text-3xl font-bold text-indigo-700"}>{stats.totalAnswered}</div>
+          <div className={darkMode ? "text-sm text-gray-400 mt-1" : "text-sm text-gray-600 mt-1"}>Questions Answered</div>
         </div>
-        
-        <div className="text-center p-4 bg-gray-800 rounded-lg border border-gray-700 shadow-md hover:shadow-green-500/20 hover:scale-[1.03] transition-all duration-300 cursor-pointer">
+
+        <div className={
+          `text-center p-4 rounded-lg border shadow-md transition-all duration-300 cursor-pointer ` +
+          (darkMode
+            ? 'bg-gray-800 border-gray-700 hover:shadow-green-500/20'
+            : 'bg-green-50 border-green-200 hover:shadow-green-300/20')
+        }>
           <div className="flex items-center justify-center mb-3">
-            <TrendingUp className="text-green-400 w-5 h-5 group-hover:scale-110 transition-transform" size={16} />
+            <TrendingUp className={darkMode ? "text-green-400 w-5 h-5 group-hover:scale-110 transition-transform" : "text-green-600 w-5 h-5 group-hover:scale-110 transition-transform"} size={16} />
           </div>
-          <div className="text-3xl font-bold text-green-403">{stats.accuracy}%</div>
-          <div className="text-sm text-gray-400 mt-1 tracking-wide">Accuracy</div>
+          <div className={darkMode ? "text-3xl font-bold text-green-400" : "text-3xl font-bold text-green-700"}>{stats.accuracy}%</div>
+          <div className={darkMode ? "text-sm text-gray-400 mt-1 tracking-wide" : "text-sm text-gray-600 mt-1 tracking-wide"}>Accuracy</div>
         </div>
-        
-        <div className="text-center p-4 bg-gray-800 rounded-lg border border-yellow-500/20 shadow-md hover:shadow-yellow-500/30 hover:scale-[1.03] transition-all duration-300 cursor-pointer">
+
+        <div className={
+          `text-center p-4 rounded-lg border shadow-md transition-all duration-300 cursor-pointer ` +
+          (darkMode
+            ? 'bg-gray-800 border-yellow-500/20 hover:shadow-yellow-500/30'
+            : 'bg-yellow-50 border-yellow-200 hover:shadow-yellow-300/30')
+        }>
           <div className="flex items-center justify-center mb-3">
-            <Award className="text-yellow-400 w-5 h-5 group-hover:scale-110 transition-transform" size={16} />
+            <Award className={darkMode ? "text-yellow-400 w-5 h-5 group-hover:scale-110 transition-transform" : "text-yellow-600 w-5 h-5 group-hover:scale-110 transition-transform"} size={16} />
           </div>
-          <div className="text-3xl font-bold text-yellow-300">{stats.currentStreak}</div>
-          <div className="text-sm text-gray-400 mt-1 tracking-wide">Current Streak</div>
+          <div className={darkMode ? "text-3xl font-bold text-yellow-300" : "text-3xl font-bold text-yellow-700"}>{stats.currentStreak}</div>
+          <div className={darkMode ? "text-sm text-gray-400 mt-1 tracking-wide" : "text-sm text-gray-600 mt-1 tracking-wide"}>Current Streak</div>
         </div>
-        
-        <div className="text-center p-4 bg-gray-800 rounded-lg border border-yellow-500/20 shadow-md hover:shadow-yellow-500/30 hover:scale-[1.03] transition-all duration-300 cursor-pointer">
+
+        <div className={
+          `text-center p-4 rounded-lg border shadow-md transition-all duration-300 cursor-pointer ` +
+          (darkMode
+            ? 'bg-gray-800 border-yellow-500/20 hover:shadow-yellow-500/30'
+            : 'bg-orange-50 border-orange-200 hover:shadow-orange-300/30')
+        }>
           <div className="flex items-center justify-center mb-3">
-            <Award className="text-orange-400  w-5 h-5 group-hover:scale-110 transition-transform" size={16} />
+            <Award className={darkMode ? "text-orange-400 w-5 h-5 group-hover:scale-110 transition-transform" : "text-orange-600 w-5 h-5 group-hover:scale-110 transition-transform"} size={16} />
           </div>
-          <div className="text-3xl font-bold text-orange-300">{stats.longestStreak}</div>
-          <div className="text-sm text-gray-400 mt-1 tracking-wide">Best Streak</div>
+          <div className={darkMode ? "text-3xl font-bold text-orange-300" : "text-3xl font-bold text-orange-700"}>{stats.longestStreak}</div>
+          <div className={darkMode ? "text-sm text-gray-400 mt-1 tracking-wide" : "text-sm text-gray-600 mt-1 tracking-wide"}>Best Streak</div>
         </div>
       </div>
 
       {stats.totalAnswered === 0 && (
-        <div className="mt-4 p-4 bg-gradient-to-r from-blue-800/30 to-blue-900/20 border border-blue-700/50 rounded-xl text-center shadow-inner">
-          <p className="text-blue-300 text-sm tracking-wide animate-pulse">
+        <div className={darkMode ? "mt-4 p-4 bg-gradient-to-r from-blue-800/30 to-blue-900/20 border border-blue-700/50 rounded-xl text-center shadow-inner" : "mt-4 p-4 bg-gradient-to-r from-blue-100/30 to-blue-200/20 border border-blue-200/50 rounded-xl text-center shadow-inner"}>
+          <p className={darkMode ? "text-blue-300 text-sm tracking-wide animate-pulse" : "text-blue-700 text-sm tracking-wide animate-pulse"}>
             Start answering daily questions to see your stats here!
           </p>
         </div>
       )}
 
       {stats.currentStreak >= 7 && (
-        <div className="mt-4 p-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-lg text-center">
-          <p className="text-yellow-300 text-sm font-semibold tracking-wide animate-bounce">
+        <div className={darkMode ? "mt-4 p-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-lg text-center" : "mt-4 p-3 bg-gradient-to-r from-yellow-100/20 to-orange-100/20 border border-yellow-200/30 rounded-lg text-center"}>
+          <p className={darkMode ? "text-yellow-300 text-sm font-semibold tracking-wide animate-bounce" : "text-yellow-700 text-sm font-semibold tracking-wide animate-bounce"}>
             🔥 Amazing! You're on a {stats.currentStreak}-day streak!
           </p>
         </div>

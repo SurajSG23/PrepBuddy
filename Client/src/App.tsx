@@ -5,7 +5,8 @@ import LandingPage from "./components/Custom/LandingPage";
 import HomePage from "./components/Custom/HomePage";
 import TestPage from "./components/Custom/TestPage";
 import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useThemeSelector } from "./store/hooks";
 import Profile from "./components/Custom/Profile";
 import PrevTests from "./components/Custom/PrevTests";
 import ScoreBoard from "./components/Custom/ScoreBoard";
@@ -39,15 +40,19 @@ import CPractice from "./components/Custom/CPractice";
 import HtmlPractice from "./components/Custom/HtmlPractice";
 import CssPractice from "./components/Custom/CssPractice";
 
+
 function App() {
   const [userID, setUserId] = useState("");
-  const [isChatOpen, setIsChatOpen] = useState(false); // State to control chat visibility
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
+
+  useEffect(() => {
+    document.body.style.background = darkMode ? "#0e0430" : "#f3f4f6";
+  }, [darkMode]);
 
   return (
     <div className="w-full min-h-[100vh] h-auto flex flex-col justify-between items-center text-white bg-gradient-to-br from-[#0f1419] via-[#1a1f2e] to-[#0f1419]">
-      {/* Pass the chat state setter to the Header */}
       <Header setUserID={setUserId} setIsChatOpen={setIsChatOpen} />
-      
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/homepage" element={<HomePage userID={userID} />} />
@@ -64,16 +69,9 @@ function App() {
         <Route path="/ai-interview/video" element={<VideoInterviewPage />} />
         <Route path="/ai-interview/full" element={<FullInterviewPage />} />
         <Route path="/ai-interview" element={<AiInterviewPage />} />
-        {/* Add contact page */}
-        <Route path="/contact" element={<Contact/>} />
-
-
-        {/* Pass userID to pages that need it */}
+        <Route path="/contact" element={<Contact />} />
         <Route path="/favorites" element={<FavoritesPage />} />
-        <Route
-          path="/technical-questions"
-          element={<TechnicalQuestionsPage />}
-        />
+        <Route path="/technical-questions" element={<TechnicalQuestionsPage />} />
         <Route path="/mixed-quiz" element={<MixedQuizPage />} />
         <Route path="/operating-systems" element={<OperatingSystemsPage />} />
         <Route path="/dsasheet" element={<DsaSheet />} />
@@ -89,12 +87,8 @@ function App() {
         <Route path="/aptitude-practice/:difficulty" element={<AptitudePracticePage />} />
         <Route path="/aptitude-results/:difficulty" element={<AptitudeResultsPage />} />
       </Routes>
-      
       <OnTopBar />
-
-      {/* Render ChatAssistant if user is logged in */}
       {userID && <ChatAssistant userID={userID} isChatOpen={isChatOpen} setIsChatOpen={setIsChatOpen} />}
-
       <Footer />
     </div>
   );

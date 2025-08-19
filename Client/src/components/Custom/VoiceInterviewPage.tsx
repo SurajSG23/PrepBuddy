@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Bot, Mic, Volume2, VolumeX, RotateCcw, Square } from "lucide-react";
+import { useThemeSelector } from "../../store/hooks";
 import { AIchatSession } from "../../gemini/AiModel";
 
 interface VoiceInterviewSession {
@@ -14,6 +15,7 @@ interface VoiceInterviewSession {
 
 const VoiceInterviewPage: React.FC = () => {
   const navigate = useNavigate();
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
   const [session, setSession] = useState<VoiceInterviewSession>({
     questions: [],
     answers: [],
@@ -285,16 +287,16 @@ const VoiceInterviewPage: React.FC = () => {
 
   if (!speechSupported) {
     return (
-      <div className="text-white min-h-screen p-6 sm:p-10 flex items-center justify-center">
+      <div className={`${darkMode ? "text-white bg-gray-900" : "text-gray-900 bg-white"} min-h-screen p-6 sm:p-10 flex items-center justify-center`}>
         <div className="max-w-md text-center">
           <h1 className="text-2xl font-bold text-red-400 mb-4">Speech Not Supported</h1>
-          <p className="text-gray-400 mb-6">
+          <p className={`${darkMode ? "text-gray-400" : "text-gray-600"} mb-6`}>
             Your browser doesn't support speech recognition or text-to-speech. 
             Please use a modern browser like Chrome or Edge for voice features.
           </p>
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 mx-auto bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-all duration-300"
+            className={`flex items-center gap-2 mx-auto ${darkMode ? "bg-indigo-600 hover:bg-indigo-700 text-white" : "bg-indigo-200 hover:bg-indigo-300 text-indigo-700"} px-4 py-2 rounded-lg transition-all duration-300`}
           >
             <ArrowLeft size={20} />
             Go Back
@@ -305,23 +307,22 @@ const VoiceInterviewPage: React.FC = () => {
   }
 
   return (
-    <div className="text-white min-h-screen p-6 sm:p-10">
+    <div className={`${darkMode ? "text-white bg-gray-900" : "text-gray-900 bg-white"} min-h-screen p-6 sm:p-10`}>
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-6"
+            className={`flex items-center gap-2 ${darkMode ? "text-gray-400 hover:text-white" : "text-gray-600 hover:text-indigo-700"} transition-colors mb-6`}
           >
             <ArrowLeft size={20} />
             Back to Interview Options
           </button>
-          
           <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-extrabold text-indigo-400 mb-2">
+            <h1 className={`text-3xl md:text-4xl font-extrabold mb-2 ${darkMode ? "text-indigo-400" : "text-indigo-700"}`}>
               Voice AI Interview Practice
             </h1>
-            <p className="text-gray-400">
+            <p className={darkMode ? "text-gray-400" : "text-gray-700"}>
               {session.isCompleted ? 
                 "Interview Complete" : 
                 `Question ${session.currentQuestionIndex + 1} of 5`
@@ -331,21 +332,21 @@ const VoiceInterviewPage: React.FC = () => {
         </div>
 
         {/* Interview Content */}
-        <div className="space-y-6">
+  <div className="space-y-6">
           {/* Question Section */}
-          <div className="bg-gray-800/60 backdrop-blur-md rounded-2xl p-6 border border-gray-700/40">
+          <div className={`${darkMode ? "bg-gray-800/60 border-gray-700/40" : "bg-white/80 border-gray-300"} backdrop-blur-md rounded-2xl p-6 border`}>
             <div className="flex items-start gap-4">
-              <div className="bg-indigo-600 p-2 rounded-lg">
+              <div className={`${darkMode ? "bg-indigo-600" : "bg-indigo-200"} p-2 rounded-lg`}>
                 <Bot size={20} />
               </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-semibold text-white">AI Interviewer</h3>
+                  <h3 className={`font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>AI Interviewer</h3>
                   <div className="flex gap-2">
                     {isSpeaking ? (
                       <button
                         onClick={stopSpeaking}
-                        className="bg-red-600 hover:bg-red-700 p-2 rounded-lg transition-colors"
+                        className={`${darkMode ? "bg-red-600 hover:bg-red-700" : "bg-red-200 hover:bg-red-300"} p-2 rounded-lg transition-colors`}
                         title="Stop speaking"
                       >
                         <VolumeX size={16} />
@@ -354,7 +355,7 @@ const VoiceInterviewPage: React.FC = () => {
                       currentQuestion && (
                         <button
                           onClick={() => speakText(currentQuestion)}
-                          className="bg-blue-600 hover:bg-blue-700 p-2 rounded-lg transition-colors"
+                          className={`${darkMode ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-200 hover:bg-blue-300"} p-2 rounded-lg transition-colors`}
                           title="Repeat question"
                         >
                           <Volume2 size={16} />
@@ -364,12 +365,12 @@ const VoiceInterviewPage: React.FC = () => {
                   </div>
                 </div>
                 {isGeneratingQuestions ? (
-                  <div className="flex items-center gap-3 text-gray-400">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-indigo-400"></div>
+                  <div className={`flex items-center gap-3 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
+                    <div className={`animate-spin rounded-full h-4 w-4 border-b-2 ${darkMode ? "border-indigo-400" : "border-indigo-700"}`}></div>
                     <span>Loading...</span>
                   </div>
                 ) : (
-                  <p className="text-gray-300 leading-relaxed">{currentQuestion}</p>
+                  <p className={`${darkMode ? "text-gray-300" : "text-gray-700"} leading-relaxed`}>{currentQuestion}</p>
                 )}
               </div>
             </div>
@@ -377,16 +378,16 @@ const VoiceInterviewPage: React.FC = () => {
 
           {/* Voice Controls */}
           {currentQuestion && !session.isCompleted && (
-            <div className="bg-gray-800/60 backdrop-blur-md rounded-2xl p-6 border border-gray-700/40">
+            <div className={`${darkMode ? "bg-gray-800/60 border-gray-700/40" : "bg-white/80 border-gray-300"} backdrop-blur-md rounded-2xl p-6 border`}>
               <div className="text-center">
-                <h3 className="font-semibold text-white mb-4">Record Your Answer</h3>
+                <h3 className={`font-semibold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>Record Your Answer</h3>
                 
                 {/* Voice Recording Button */}
                 <div className="mb-6">
                   {!isRecording ? (
                     <button
                       onClick={startListening}
-                      className="bg-green-600 hover:bg-green-700 text-white p-4 rounded-full transition-all duration-300 transform hover:scale-105"
+                      className={`${darkMode ? "bg-green-600 hover:bg-green-700 text-white" : "bg-green-200 hover:bg-green-300 text-green-900"} p-4 rounded-full transition-all duration-300 transform hover:scale-105`}
                       title="Start recording"
                     >
                       <Mic size={24} />
@@ -394,7 +395,7 @@ const VoiceInterviewPage: React.FC = () => {
                   ) : (
                     <button
                       onClick={stopListening}
-                      className="bg-red-600 hover:bg-red-700 text-white p-4 rounded-full transition-all duration-300 animate-pulse"
+                      className={`${darkMode ? "bg-red-600 hover:bg-red-700 text-white" : "bg-red-200 hover:bg-red-300 text-red-900"} p-4 rounded-full transition-all duration-300 animate-pulse`}
                       title="Stop recording"
                     >
                       <Square size={24} />
@@ -411,15 +412,15 @@ const VoiceInterviewPage: React.FC = () => {
                   ) : transcript ? (
                     <p className="text-green-400">Ready to submit</p>
                   ) : (
-                    <p className="text-gray-400">Click to record</p>
+                    <p className={darkMode ? "text-gray-400" : "text-gray-500"}>Click to record</p>
                   )}
                 </div>
 
                 {/* Transcript Display */}
                 {transcript && (
-                  <div className="bg-gray-700 p-4 rounded-lg mb-4 text-left">
-                    <h4 className="text-sm font-semibold text-gray-300 mb-2">Response:</h4>
-                    <p className="text-white">{transcript}</p>
+                  <div className={`${darkMode ? "bg-gray-700" : "bg-gray-100"} p-4 rounded-lg mb-4 text-left`}>
+                    <h4 className={`text-sm font-semibold mb-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>Response:</h4>
+                    <p className={darkMode ? "text-white" : "text-gray-900"}>{transcript}</p>
                   </div>
                 )}
 
@@ -427,7 +428,7 @@ const VoiceInterviewPage: React.FC = () => {
                 <button
                   onClick={handleSubmitAnswer}
                   disabled={!transcript.trim() || isGeneratingFeedback}
-                  className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg transition-all duration-300"
+                  className={`px-6 py-3 rounded-lg transition-all duration-300 disabled:cursor-not-allowed font-semibold ${darkMode ? "bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 text-white" : "bg-indigo-200 hover:bg-indigo-300 disabled:bg-gray-300 text-indigo-700"}`}
                 >
                   {isGeneratingFeedback ? "Processing..." : 
                    session.currentQuestionIndex >= 4 ? "Finish Interview" : "Next Question"}
@@ -440,18 +441,18 @@ const VoiceInterviewPage: React.FC = () => {
           {session.isCompleted && (
             <div className="space-y-6">
               {/* AI Feedback */}
-              <div className="bg-blue-800/30 backdrop-blur-md rounded-2xl p-6 border border-blue-700/40">
+              <div className={`${darkMode ? "bg-blue-800/30 border-blue-700/40" : "bg-blue-100/80 border-blue-300"} backdrop-blur-md rounded-2xl p-6 border`}>
                 <div className="flex items-start gap-4">
-                  <div className="bg-blue-600 p-2 rounded-lg">
+                  <div className={`${darkMode ? "bg-blue-600" : "bg-blue-200"} p-2 rounded-lg`}>
                     <Bot size={20} />
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-semibold text-white">Interview Feedback</h3>
+                      <h3 className={`font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>Interview Feedback</h3>
                       {session.finalFeedback && (
                         <button
                           onClick={() => speakText(session.finalFeedback)}
-                          className="bg-blue-600 hover:bg-blue-700 p-2 rounded-lg transition-colors"
+                          className={`${darkMode ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-200 hover:bg-blue-300"} p-2 rounded-lg transition-colors`}
                           title="Listen to feedback"
                         >
                           <Volume2 size={16} />
@@ -459,12 +460,12 @@ const VoiceInterviewPage: React.FC = () => {
                       )}
                     </div>
                     {isGeneratingFeedback ? (
-                      <div className="flex items-center gap-3 text-gray-400">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-400"></div>
+                      <div className={`flex items-center gap-3 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
+                        <div className={`animate-spin rounded-full h-4 w-4 border-b-2 ${darkMode ? "border-blue-400" : "border-blue-700"}`}></div>
                         <span>Analyzing...</span>
                       </div>
                     ) : (
-                      <p className="text-gray-300 leading-relaxed">
+                      <p className={`${darkMode ? "text-gray-300" : "text-gray-700"} leading-relaxed`}>
                         {session.finalFeedback}
                       </p>
                     )}
@@ -476,14 +477,14 @@ const VoiceInterviewPage: React.FC = () => {
               <div className="flex gap-4 justify-center">
                 <button
                   onClick={handleStartOver}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2"
+                  className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center gap-2 ${darkMode ? "bg-indigo-600 hover:bg-indigo-700 text-white" : "bg-indigo-200 hover:bg-indigo-300 text-indigo-700"}`}
                 >
                   <RotateCcw size={16} />
                   Try Again
                 </button>
                 <button
                   onClick={() => navigate(-1)}
-                  className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
+                  className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${darkMode ? "bg-gray-600 hover:bg-gray-700 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-900"}`}
                 >
                   Back
                 </button>

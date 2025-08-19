@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useThemeSelector } from "../../store/hooks";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, CheckCircle, XCircle, LoaderCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,6 +12,7 @@ interface Question {
 
 const TopicPracticePage: React.FC = () => {
   const { topicName } = useParams<{ topicName: string }>();
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
@@ -61,8 +63,8 @@ const TopicPracticePage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center">
-        <LoaderCircle size={48} className="animate-spin text-indigo-400" />
+      <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} min-h-screen flex flex-col items-center justify-center`}>
+        <LoaderCircle size={48} className={`animate-spin ${darkMode ? "text-indigo-400" : "text-indigo-700"}`} />
         <p className="mt-4 text-lg">Loading Questions...</p>
       </div>
     );
@@ -70,12 +72,12 @@ const TopicPracticePage: React.FC = () => {
 
   if (error) {
     return (
-      <div className="bg-gray-900 text-white min-h-screen p-8 flex flex-col items-center justify-center">
+      <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} min-h-screen p-8 flex flex-col items-center justify-center`}>
         <h1 className="text-3xl font-bold text-red-500">Error</h1>
-        <p className="text-gray-400 mt-2">{error}</p>
+        <p className={`${darkMode ? "text-gray-400" : "text-gray-700"} mt-2`}>{error}</p>
         <Link
           to="/technical-questions"
-          className="mt-8 flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md"
+          className={`mt-8 flex items-center gap-2 ${darkMode ? "bg-indigo-600 hover:bg-indigo-700 text-white" : "bg-indigo-200 hover:bg-indigo-300 text-indigo-700"} px-4 py-2 rounded-md`}
         >
           <ArrowLeft size={20} />
           Back to Topics
@@ -106,14 +108,14 @@ const TopicPracticePage: React.FC = () => {
 
   if (!currentQuestion) {
     return (
-      <div className="bg-gray-900 text-white min-h-screen p-8 flex flex-col items-center justify-center">
+      <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} min-h-screen p-8 flex flex-col items-center justify-center`}>
         <h1 className="text-3xl font-bold text-red-500">No Questions Found</h1>
-        <p className="text-gray-400 mt-2">
+        <p className={`${darkMode ? "text-gray-400" : "text-gray-700"} mt-2`}>
           Practice questions for "{title}" are not available yet.
         </p>
         <Link
           to="/technical-questions"
-          className="mt-8 flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition-colors"
+          className={`mt-8 flex items-center gap-2 ${darkMode ? "bg-indigo-600 hover:bg-indigo-700 text-white" : "bg-indigo-200 hover:bg-indigo-300 text-indigo-700"} px-4 py-2 rounded-md transition-colors`}
         >
           <ArrowLeft size={20} />
           Back to Topics
@@ -123,56 +125,49 @@ const TopicPracticePage: React.FC = () => {
   }
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen p-4 sm:p-8 w-full">
+    <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} min-h-screen p-4 sm:p-8 w-full`}>
       <div className="container mx-auto max-w-3xl">
         <Link
           to="/technical-questions"
-          className="flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors mb-8"
+          className={`flex items-center gap-2 mb-8 ${darkMode ? "text-indigo-400 hover:text-indigo-300" : "text-indigo-700 hover:text-indigo-900"} transition-colors`}
         >
           <ArrowLeft size={20} />
           Back to Topics
         </Link>
-
         <header className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-bold">{title}</h1>
-          <p className="text-lg text-gray-400 mt-2">
+          <h1 className={`text-4xl md:text-5xl font-bold ${darkMode ? "text-white" : "text-gray-900"}`}>{title}</h1>
+          <p className={`text-lg mt-2 ${darkMode ? "text-gray-400" : "text-gray-700"}`}>
             Question {currentQuestionIndex + 1} of {questions.length}
           </p>
         </header>
-
         <motion.div
           key={currentQuestionIndex}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
-          className="bg-gray-800 p-8 rounded-lg shadow-xl"
+          className={`${darkMode ? "bg-gray-800" : "bg-gray-100"} p-8 rounded-lg shadow-xl`}
         >
-          <h2 className="text-2xl font-semibold text-white mb-6">
-            {currentQuestion.question}
-          </h2>
+          <h2 className={`text-2xl font-semibold mb-6 ${darkMode ? "text-white" : "text-gray-900"}`}>{currentQuestion.question}</h2>
           <div className="space-y-4">
             {currentQuestion.options.map((option: string) => {
               const isSelected = selectedOption === option;
-              let buttonClass = "bg-gray-700 hover:bg-gray-600"; // Default
+              let buttonClass = darkMode ? "bg-gray-700 hover:bg-gray-600" : "bg-white hover:bg-gray-200"; // Default
               if (showAnswer) {
                 if (option === currentQuestion.answer) {
-                  buttonClass = "bg-green-600"; // Correct answer
+                  buttonClass = darkMode ? "bg-green-600" : "bg-green-200"; // Correct answer
                 } else if (isSelected && !isCorrect) {
-                  buttonClass = "bg-red-600"; // Incorrect selection
+                  buttonClass = darkMode ? "bg-red-600" : "bg-red-200"; // Incorrect selection
                 }
               } else if (isSelected) {
-                buttonClass = "bg-indigo-600"; // Selected before revealing
+                buttonClass = darkMode ? "bg-indigo-600" : "bg-indigo-200"; // Selected before revealing
               }
-
               return (
                 <button
                   key={option}
                   onClick={() => handleOptionSelect(option)}
                   disabled={showAnswer}
-                  className={`w-full text-left p-4 rounded-md transition-colors duration-300 flex items-center justify-between ${buttonClass} ${
-                    !showAnswer ? "cursor-pointer" : "cursor-not-allowed"
-                  }`}
+                  className={`w-full text-left p-4 rounded-md transition-colors duration-300 flex items-center justify-between ${buttonClass} ${!showAnswer ? "cursor-pointer" : "cursor-not-allowed"} ${darkMode ? "text-white" : "text-gray-900"}`}
                 >
                   <span>{option}</span>
                   {showAnswer && option === currentQuestion.answer && (
@@ -185,7 +180,6 @@ const TopicPracticePage: React.FC = () => {
               );
             })}
           </div>
-
           <AnimatePresence>
             {showAnswer && (
               <motion.div
@@ -195,7 +189,7 @@ const TopicPracticePage: React.FC = () => {
               >
                 <button
                   onClick={handleNextQuestion}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-md transition-colors duration-300"
+                  className={`${darkMode ? "bg-indigo-600 hover:bg-indigo-700 text-white" : "bg-indigo-200 hover:bg-indigo-300 text-indigo-700"} px-8 py-3 rounded-md transition-colors duration-300`}
                 >
                   {currentQuestionIndex < questions.length - 1
                     ? "Next Question"

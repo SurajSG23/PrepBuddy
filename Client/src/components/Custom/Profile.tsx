@@ -16,6 +16,8 @@ import React from "react";
 import QODStatsCard from "./QODStatsCard";
 import ProgressDashboard from "./ProgressDashboard";
 import StreakBadges from "./StreakBadges";
+import ThemeToggle from "./ThemeToggle";
+import { useThemeSelector } from "../../store/hooks";
 
 interface HeaderProps {
   userID: string;
@@ -56,6 +58,7 @@ const userProfileData = {
 };
 
 const Profile: React.FC<HeaderProps> = ({ userID }) => {
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
   const [user, setUser] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [profilePic, setProfilePic] = useState("");
@@ -327,10 +330,14 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
     );
   }
   return (
-    <div className="min-h-screen bg-gray-900 text-white w-full">
+    <div className={`min-h-screen w-full transition-colors duration-300 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-800 rounded-lg p-6 shadow-lg mb-8 flex flex-col md:flex-row items-center gap-6">
+          {/* Theme Toggle Button */}
+          <div className="flex justify-end mb-4">
+            <ThemeToggle />
+          </div>
+          <div className={`rounded-lg p-6 shadow-lg mb-8 flex flex-col md:flex-row items-center gap-6 transition-colors duration-300 ${darkMode ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}> 
             <Avatar className="h-32 w-32 border-2 border-indigo-500 relative group">
               <AvatarImage src={profilePic || ""} alt={user || "User"} />
               <AvatarFallback className="bg-indigo-600 text-xl">
@@ -369,20 +376,20 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
               )}
 
               <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-4">
-                <div className="bg-gray-700 px-6 py-3 rounded-xl flex flex-col items-center">
+                <div className={`px-6 py-3 rounded-xl flex flex-col items-center ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}> 
                   <span className="text-xl font-bold">
                     {userProfileData.testsAttended}
                   </span>
                   <span className="text-sm text-gray-300">Tests Attended</span>
                 </div>
 
-                <div className="bg-gray-700 px-4 py-2 rounded-lg flex flex-col items-center shadow hover:shadow-indigo-500/30 transition duration-300">
+                <div className={`px-4 py-2 rounded-lg flex flex-col items-center shadow transition duration-300 ${darkMode ? 'bg-gray-700 hover:shadow-indigo-500/30' : 'bg-gray-200 hover:shadow-indigo-200'}`}> 
                   <span className="text-2xl font-bold text-indigo-400">
                     {userProfileData.totalPoints}
                   </span>
                   <span className="text-sm text-gray-300">Total Points</span>
                 </div>
-                <div className="bg-gray-700 px-4 py-2 rounded-lg flex flex-col items-center  shadow hover:shadow-indigo-500/30 transition duration-300">
+                <div className={`px-4 py-2 rounded-lg flex flex-col items-center shadow transition duration-300 ${darkMode ? 'bg-gray-700 hover:shadow-indigo-500/30' : 'bg-gray-200 hover:shadow-indigo-200'}`}> 
                   <span className="text-2xl font-bold text-indigo-400">
                     #{userProfileData.rank}
                   </span>
@@ -406,7 +413,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 flex flex-col gap-8">
-              <Card className="bg-gray-800 border border-gray-700 shadow-lg hover:shadow-indigo-500/20 transition">
+              <Card className={`${darkMode ? 'bg-gray-800 border border-gray-700 shadow-lg hover:shadow-indigo-500/20' : 'bg-white border border-gray-200 shadow-lg hover:shadow-indigo-200/20'} transition`}>
                 <CardHeader>
                   <CardTitle className="text-indigo-400 text-xl">Recent Tests</CardTitle>
                   <CardDescription className="text-gray-400">
@@ -419,7 +426,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                       {userProfileData.recentTests.map((test, index) => (
                         <div
                           key={index}
-                          className="bg-gray-700 rounded-lg p-4 flex justify-between items-center hover:bg-gray-600 transition"
+                          className={`rounded-lg p-4 flex justify-between items-center transition ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'}`}
                         >
                           <div>
                             <h4 className="font-medium text-white">{test.name}</h4>
@@ -444,7 +451,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                   </CardContent>
                 ) : (
                   <>
-                    <div className="text-center p-6 bg-gray-800 rounded-lg shadow-inner">
+                    <div className={`text-center p-6 rounded-lg shadow-inner ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
                       <h3 className="text-xl font-semibold text-white mb-2">
                         No Tests to Display
                       </h3>
@@ -453,7 +460,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                       </p>
                       <Link
                         to="/homepage"
-                        className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition"
+                        className={`inline-block px-4 py-2 rounded-md transition ${darkMode ? 'bg-indigo-600 hover:bg-indigo-700 text-white' : 'bg-indigo-500 hover:bg-indigo-600 text-white'}`}
                       >
                         Take Your First Test
                       </Link>
@@ -461,7 +468,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                   </>
                 )}
 
-                <CardFooter className="border-t border-gray-700 pt-4">
+                <CardFooter className={`pt-4 ${darkMode ? 'border-t border-gray-700' : 'border-t border-gray-200'}`}>
                   <Link
                     to="/previous-tests"
                     className="text-indigo-400 hover:text-indigo-300 transition text-sm"
@@ -472,7 +479,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
               </Card>
 
               {/* --- Delete Account Card --- */}
-              <Card className="bg-gray-800 border border-gray-700 shadow-lg hover:shadow-red-500/20 transition">
+              <Card className={`${darkMode ? 'bg-gray-800 border border-gray-700 shadow-lg hover:shadow-red-500/20' : 'bg-white border border-gray-200 shadow-lg hover:shadow-red-200/20'} transition`}>
                 <CardHeader>
                   <CardTitle className="text-red-400 text-xl">Delete Account</CardTitle>
                   <CardDescription className="text-gray-400">
@@ -497,7 +504,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
             </div>
 
             <div>
-              <Card className="bg-gray-800 border border-gray-700 shadow-lg hover:shadow-indigo-500/20 transition">
+              <Card className={`${darkMode ? 'bg-gray-800 border border-gray-700 shadow-lg hover:shadow-indigo-500/20' : 'bg-white border border-gray-200 shadow-lg hover:shadow-indigo-200/20'} transition`}>
                 <CardHeader>
                   <CardTitle  className="text-indigo-400 text-xl">Badges</CardTitle>
                   <CardDescription className="text-gray-400">
@@ -512,9 +519,9 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                           {badge.description}
                         </p>
                         <div
-                          className="bg-gray-700 rounded-lg p-3 flex items-center gap-4 relative overflow-hidden transition transform hover:scale-[1.02]"
+                          className={`rounded-lg p-3 flex items-center gap-4 relative overflow-hidden transition transform hover:scale-[1.02] ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}
                         >
-                          <div className="h-14 w-14 rounded-full flex items-center justify-center bg-gray-600 border-2 border-indigo-500 overflow-hidden ">
+                          <div className={`h-14 w-14 rounded-full flex items-center justify-center border-2 border-indigo-500 overflow-hidden ${darkMode ? 'bg-gray-600' : 'bg-gray-200'}`}>
                             <img
                               src={`${badge.img}`}
                               alt={badge.name}

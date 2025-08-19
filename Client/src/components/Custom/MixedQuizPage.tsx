@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { AIchatSession } from "../../gemini/AiModel";
 import technicalPrompt from "../../gemini/technicalPrompt";
+import { useThemeSelector } from "../../store/hooks";
 
 interface Question {
   question: string;
@@ -31,6 +32,7 @@ const MixedQuizPage: React.FC = () => {
   const [showExplanation, setShowExplanation] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [score, setScore] = useState(0);
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
 
   const generateQuestions = async () => {
     setIsLoading(true);
@@ -145,10 +147,10 @@ const MixedQuizPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4 sm:p-8">
+      <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} min-h-screen flex items-center justify-center p-4 sm:p-8`}>
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-indigo-400 mx-auto mb-4"></div>
-          <p className="text-lg text-gray-300">Generating your mixed quiz...</p>
+          <div className={`animate-spin rounded-full h-16 w-16 border-b-2 mx-auto mb-4 ${darkMode ? "border-indigo-400" : "border-indigo-600"}`}></div>
+          <p className={`text-lg ${darkMode ? "text-gray-300" : "text-gray-600"}`}>Generating your mixed quiz...</p>
         </div>
       </div>
     );
@@ -156,13 +158,13 @@ const MixedQuizPage: React.FC = () => {
 
   if (!session) {
     return (
-      <div className="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4 sm:p-8">
+      <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} min-h-screen flex items-center justify-center p-4 sm:p-8`}>
         <div className="text-center">
-          <XCircle size={48} className="text-red-400 mx-auto mb-4" />
-          <p className="text-lg text-gray-300 mb-4">Failed to generate questions</p>
+          <XCircle size={48} className={darkMode ? "text-red-400 mx-auto mb-4" : "text-red-600 mx-auto mb-4"} />
+          <p className={`text-lg mb-4 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>Failed to generate questions</p>
           <button
             onClick={generateQuestions}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition-colors"
+            className={`px-6 py-3 rounded-lg transition-colors ${darkMode ? "bg-indigo-600 hover:bg-indigo-700 text-white" : "bg-indigo-500 hover:bg-indigo-600 text-white"}`}
           >
             Try Again
           </button>
@@ -175,38 +177,36 @@ const MixedQuizPage: React.FC = () => {
     const percentage = Math.round((score / session.questions.length) * 100);
     
     return (
-      <div className="bg-gray-900 text-white min-h-screen p-4 sm:p-8 w-full">
+      <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} min-h-screen p-4 sm:p-8 w-full`}>
         <div className="container mx-auto max-w-3xl">
           <Link
             to="/technical-questions"
-            className="flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors mb-8"
+            className={`flex items-center gap-2 mb-8 transition-colors ${darkMode ? "text-indigo-400 hover:text-indigo-300" : "text-indigo-600 hover:text-indigo-400"}`}
           >
             <ArrowLeft size={20} />
             Back to Technical Questions
           </Link>
-
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gray-800 p-8 rounded-lg shadow-xl text-center"
+            className={`${darkMode ? "bg-gray-800" : "bg-indigo-50"} p-8 rounded-lg shadow-xl text-center`}
           >
-            <CheckCircle size={48} className="text-green-400 mx-auto mb-4" />
+            <CheckCircle size={48} className={darkMode ? "text-green-400 mx-auto mb-4" : "text-green-600 mx-auto mb-4"} />
             <h1 className="text-3xl font-bold mb-4">Quiz Completed!</h1>
-            <p className="text-xl text-gray-300 mb-6">
+            <p className={`text-xl mb-6 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
               You scored {score} out of {session.questions.length} ({percentage}%)
             </p>
-            
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={handleRestartQuiz}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition-colors flex items-center gap-2 justify-center"
+                className={`px-6 py-3 rounded-lg transition-colors flex items-center gap-2 justify-center ${darkMode ? "bg-indigo-600 hover:bg-indigo-700 text-white" : "bg-indigo-500 hover:bg-indigo-600 text-white"}`}
               >
                 <RotateCcw size={18} />
                 Take Another Quiz
               </button>
               <Link
                 to="/technical-questions"
-                className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition-colors text-center"
+                className={`px-6 py-3 rounded-lg transition-colors text-center ${darkMode ? "bg-gray-600 hover:bg-gray-700 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-900"}`}
               >
                 Back to Topics
               </Link>
@@ -221,66 +221,57 @@ const MixedQuizPage: React.FC = () => {
   const isCorrect = selectedOption === currentQuestion.answer;
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen p-4 sm:p-8 w-full">
+    <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} min-h-screen p-4 sm:p-8 w-full`}>
       <div className="container mx-auto max-w-3xl">
         <Link
           to="/technical-questions"
-          className="flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors mb-8"
+          className={`flex items-center gap-2 mb-8 transition-colors ${darkMode ? "text-indigo-400 hover:text-indigo-300" : "text-indigo-600 hover:text-indigo-400"}`}
         >
           <ArrowLeft size={20} />
           Back to Technical Questions
         </Link>
-
         <header className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-bold mb-2">Mixed Technical Quiz</h1>
-          <p className="text-lg text-gray-400">
+          <p className={`text-lg ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
             Question {session.currentQuestionIndex + 1} of {session.questions.length}
           </p>
         </header>
-
         <motion.div
           key={session.currentQuestionIndex}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
-          className="bg-gray-800 p-8 rounded-lg shadow-xl"
+          className={`${darkMode ? "bg-gray-800" : "bg-indigo-50"} p-8 rounded-lg shadow-xl`}
         >
-          <h2 className="text-2xl font-semibold text-white mb-6">
-            {currentQuestion.question}
-          </h2>
-
+          <h2 className={`text-2xl font-semibold mb-6 ${darkMode ? "text-white" : "text-gray-900"}`}>{currentQuestion.question}</h2>
           <div className="space-y-4">
             {currentQuestion.options.map((option, index) => {
               const isSelected = selectedOption === option;
-              let buttonClass = "bg-gray-700 hover:bg-gray-600";
-              
+              let buttonClass = darkMode ? "bg-gray-700 hover:bg-gray-600" : "bg-indigo-100 hover:bg-indigo-200";
               if (showExplanation) {
                 if (option === currentQuestion.answer) {
-                  buttonClass = "bg-green-600";
+                  buttonClass = darkMode ? "bg-green-600 text-white" : "bg-green-200 text-green-900";
                 } else if (isSelected && !isCorrect) {
-                  buttonClass = "bg-red-600";
+                  buttonClass = darkMode ? "bg-red-600 text-white" : "bg-red-200 text-red-900";
                 }
               } else if (isSelected) {
-                buttonClass = "bg-indigo-600";
+                buttonClass = darkMode ? "bg-indigo-600 text-white" : "bg-indigo-500 text-white";
               }
-
               return (
                 <button
                   key={index}
                   onClick={() => handleOptionSelect(option)}
                   disabled={showExplanation}
-                  className={`w-full text-left p-4 rounded-md transition-colors duration-300 flex items-center justify-between ${buttonClass} ${
-                    !showExplanation ? "cursor-pointer" : "cursor-not-allowed"
-                  }`}
+                  className={`w-full text-left p-4 rounded-md transition-colors duration-300 flex items-center justify-between ${buttonClass} ${!showExplanation ? "cursor-pointer" : "cursor-not-allowed"}`}
                 >
                   <span>{option}</span>
                   {showExplanation && (
                     <div className="flex items-center gap-2">
                       {option === currentQuestion.answer ? (
-                        <CheckCircle size={20} className="text-green-200" />
+                        <CheckCircle size={20} className={darkMode ? "text-green-200" : "text-green-700"} />
                       ) : isSelected ? (
-                        <XCircle size={20} className="text-red-200" />
+                        <XCircle size={20} className={darkMode ? "text-red-200" : "text-red-700"} />
                       ) : null}
                     </div>
                   )}
@@ -288,39 +279,36 @@ const MixedQuizPage: React.FC = () => {
               );
             })}
           </div>
-
           <AnimatePresence>
             {showExplanation && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="mt-6 p-4 bg-gray-700 rounded-lg"
+                className={`mt-6 p-4 rounded-lg ${darkMode ? "bg-gray-700" : "bg-indigo-100"}`}
               >
-                <p className="text-gray-300">
+                <p className={darkMode ? "text-gray-300" : "text-gray-700"}>
                   <strong>Explanation:</strong> {currentQuestion.explanation}
                 </p>
               </motion.div>
             )}
           </AnimatePresence>
-
           <div className="mt-8 flex justify-between items-center">
-            <div className="text-sm text-gray-400">
+            <div className={darkMode ? "text-sm text-gray-400" : "text-sm text-gray-600"}>
               Score: {score}/{session.currentQuestionIndex + (showExplanation ? 1 : 0)}
             </div>
-            
             {!showExplanation ? (
               <button
                 onClick={handleSubmitAnswer}
                 disabled={!selectedOption}
-                className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg transition-colors"
+                className={`px-6 py-3 rounded-lg transition-colors ${darkMode ? "bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white" : "bg-indigo-500 hover:bg-indigo-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white"}`}
               >
                 Submit Answer
               </button>
             ) : (
               <button
                 onClick={handleNextQuestion}
-                className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition-colors"
+                className={`px-6 py-3 rounded-lg transition-colors ${darkMode ? "bg-green-600 hover:bg-green-700 text-white" : "bg-green-500 hover:bg-green-600 text-white"}`}
               >
                 {session.currentQuestionIndex === session.questions.length - 1 ? "Finish Quiz" : "Next Question"}
               </button>

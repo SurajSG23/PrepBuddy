@@ -2,6 +2,7 @@ import React, { ChangeEvent, useMemo, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { java } from "@codemirror/lang-java";
 import { FiPlay, FiRotateCw, FiBookmark, FiSearch } from "react-icons/fi";
+import { useThemeSelector } from "../../store/hooks";
 
 type Level = "Beginner" | "Intermediate" | "Advanced";
 
@@ -445,6 +446,8 @@ export default function JavaPractice(): React.ReactElement {
   );
   const [outputs, setOutputs] = useState<Record<number, string>>({});
 
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
+
   const levels: ("All" | Level)[] = ["All", "Beginner", "Intermediate", "Advanced"];
 
   const filtered = useMemo(() => {
@@ -485,19 +488,19 @@ export default function JavaPractice(): React.ReactElement {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-6">
+    <div className={`min-h-screen p-6 transition-colors duration-300 ${darkMode ? "bg-gradient-to-b from-gray-900 to-black text-white" : "bg-gradient-to-b from-indigo-50 to-white text-gray-900"}`}>
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl font-extrabold text-indigo-300 mb-6 text-center">Java Practice Hub</h1>
+        <h1 className={`text-4xl font-extrabold mb-6 text-center ${darkMode ? "text-indigo-300" : "text-indigo-700"}`}>Java Practice Hub</h1>
 
         {/* Controls */}
         <div className="flex flex-col sm:flex-row gap-3 items-center justify-between mb-6">
-          <div className="flex items-center gap-2 bg-gray-800 px-3 py-2 rounded-lg border border-gray-700 w-full sm:w-auto">
-            <FiSearch className="text-gray-400" />
+          <div className={`flex items-center gap-2 px-3 py-2 rounded-lg border w-full sm:w-auto ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-indigo-200"}`}>
+            <FiSearch className={darkMode ? "text-gray-400" : "text-gray-500"} />
             <input
               value={query}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
               placeholder="Search by keyword, topic, or tag..."
-              className="bg-transparent outline-none text-sm text-gray-100 w-64"
+              className={`bg-transparent outline-none text-sm w-64 ${darkMode ? "text-gray-100" : "text-gray-900"}`}
             />
           </div>
 
@@ -506,9 +509,7 @@ export default function JavaPractice(): React.ReactElement {
               <button
                 key={lv}
                 onClick={() => setFilter(lv)}
-                className={`px-3 py-2 rounded-md text-sm font-medium ${
-                  filter === lv ? "bg-indigo-600 text-white shadow-md" : "bg-gray-800 text-gray-200"
-                }`}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${filter === lv ? (darkMode ? "bg-indigo-600 text-white shadow-md" : "bg-indigo-500 text-white shadow-md") : (darkMode ? "bg-gray-800 text-gray-200" : "bg-indigo-100 text-gray-900")}`}
               >
                 {lv}
               </button>
@@ -518,42 +519,34 @@ export default function JavaPractice(): React.ReactElement {
 
         {/* Questions list */}
         <div className="space-y-4">
-          {filtered.length === 0 && <div className="text-center text-gray-400 py-8">No questions found.</div>}
+          {filtered.length === 0 && <div className={`text-center py-8 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>No questions found.</div>}
 
           {filtered.map((q) => (
             <div
               key={q.id}
-              className="bg-gradient-to-br from-gray-800/80 to-gray-700/80 p-4 rounded-2xl border border-gray-600 shadow-sm"
+              className={`p-4 rounded-2xl border shadow-sm transition-all ${darkMode ? "bg-gradient-to-br from-gray-800/80 to-gray-700/80 border-gray-600" : "bg-gradient-to-br from-indigo-100/80 to-white/80 border-indigo-200"}`}
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 flex-wrap">
-                    <span className="text-lg font-semibold text-indigo-200">{q.title}</span>
+                    <span className={`text-lg font-semibold ${darkMode ? "text-indigo-200" : "text-indigo-700"}`}>{q.title}</span>
                     <span
-                      className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                        q.level === "Beginner"
-                          ? "bg-green-600"
-                          : q.level === "Intermediate"
-                          ? "bg-yellow-600"
-                          : "bg-red-600"
-                      }`}
+                      className={`text-xs font-semibold px-2 py-1 rounded-full ${q.level === "Beginner" ? (darkMode ? "bg-green-600 text-white" : "bg-green-200 text-green-900") : q.level === "Intermediate" ? (darkMode ? "bg-yellow-600 text-white" : "bg-yellow-100 text-yellow-900") : (darkMode ? "bg-red-600 text-white" : "bg-red-200 text-red-900")}`}
                     >
                       {q.level}
                     </span>
                     {q.topic && (
-                      <span className="text-xs text-gray-300 bg-gray-800/50 px-2 py-0.5 rounded">{q.topic}</span>
+                      <span className={`text-xs px-2 py-0.5 rounded ${darkMode ? "text-gray-300 bg-gray-800/50" : "text-gray-700 bg-indigo-100/50"}`}>{q.topic}</span>
                     )}
                     {q.tags && q.tags.length > 0 && (
                       <div className="ml-2 flex flex-wrap gap-2">
                         {q.tags.slice(0, 3).map((t) => (
-                          <span key={t} className="text-xs text-gray-300 bg-gray-800/50 px-2 py-0.5 rounded">
-                            {t}
-                          </span>
+                          <span key={t} className={`text-xs px-2 py-0.5 rounded ${darkMode ? "text-gray-300 bg-gray-800/50" : "text-gray-700 bg-indigo-100/50"}`}>{t}</span>
                         ))}
                       </div>
                     )}
                   </div>
-                  <p className="text-sm text-gray-300 mt-2 line-clamp-2">{q.explanation}</p>
+                  <p className={`text-sm mt-2 line-clamp-2 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>{q.explanation}</p>
                 </div>
 
                 <div className="flex flex-col items-end gap-2">
@@ -561,16 +554,16 @@ export default function JavaPractice(): React.ReactElement {
                     <button
                       onClick={() => toggleBookmark(q.id)}
                       title={bookmarks.includes(q.id) ? "Remove Bookmark" : "Bookmark"}
-                      className="p-2 rounded-md bg-gray-800 hover:bg-gray-700"
+                      className={`p-2 rounded-md transition-colors duration-200 ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-indigo-100 hover:bg-indigo-200"}`}
                     >
-                      <FiBookmark className={bookmarks.includes(q.id) ? "text-yellow-400" : "text-gray-300"} />
+                      <FiBookmark className={bookmarks.includes(q.id) ? "text-yellow-400" : darkMode ? "text-gray-300" : "text-gray-500"} />
                     </button>
 
                     <button
                       onClick={() => setExpandedId((id) => (id === q.id ? null : q.id))}
-                      className="p-2 rounded-md bg-gray-800 hover:bg-gray-700"
+                      className={`p-2 rounded-md transition-colors duration-200 ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-indigo-100 hover:bg-indigo-200"}`}
                     >
-                      <FiRotateCw className="text-gray-200" />
+                      <FiRotateCw className={darkMode ? "text-gray-200" : "text-gray-700"} />
                     </button>
                   </div>
                 </div>
@@ -579,12 +572,12 @@ export default function JavaPractice(): React.ReactElement {
               {/* Expand area */}
               {expandedId === q.id && (
                 <div className="mt-4">
-                  <div className="border border-gray-700 rounded-lg overflow-hidden">
+                  <div className={`border rounded-lg overflow-hidden ${darkMode ? "border-gray-700" : "border-indigo-200"}`}>
                     <CodeMirror
                       value={codeMap[q.id]}
                       height="200px"
                       extensions={[java()]}
-                      theme="dark"
+                      theme={darkMode ? "dark" : "light"}
                       onChange={(v) => setCodeMap((prev) => ({ ...prev, [q.id]: v || "" }))}
                     />
                   </div>
@@ -593,30 +586,30 @@ export default function JavaPractice(): React.ReactElement {
                   <div className="flex flex-wrap gap-3 items-center mt-3">
                     <button
                       onClick={() => runCode(q.id)}
-                      className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 px-3 py-2 rounded-md text-white font-semibold"
+                      className={`inline-flex items-center gap-2 px-3 py-2 rounded-md font-semibold transition-colors duration-200 ${darkMode ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white" : "bg-gradient-to-r from-indigo-500 to-purple-400 text-white"}`}
                     >
                       <FiPlay /> Run Code
                     </button>
 
                     <button
                       onClick={() => resetCode(q.id)}
-                      className="inline-flex items-center gap-2 bg-gray-800 border border-gray-600 px-3 py-2 rounded-md text-gray-200"
+                      className={`inline-flex items-center gap-2 px-3 py-2 rounded-md transition-colors duration-200 ${darkMode ? "bg-gray-800 border border-gray-600 text-gray-200" : "bg-indigo-100 border border-indigo-200 text-gray-900"}`}
                     >
                       <FiRotateCw /> Reset
                     </button>
 
-                    <div className="ml-auto text-sm text-gray-400">Question ID: {q.id}</div>
+                    <div className={`ml-auto text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>Question ID: {q.id}</div>
                   </div>
 
                   {/* Output / Console */}
-                  <div className="mt-3 bg-black bg-opacity-50 border border-gray-800 rounded-md p-3 text-sm text-gray-100">
-                    <div className="font-medium text-gray-300 mb-2">Output</div>
+                  <div className={`mt-3 rounded-md p-3 text-sm ${darkMode ? "bg-black bg-opacity-50 border border-gray-800 text-gray-100" : "bg-indigo-50 border border-indigo-200 text-gray-900"}`}>
+                    <div className={`font-medium mb-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>Output</div>
                     <pre className="whitespace-pre-wrap text-xs leading-5">{outputs[q.id] || "— No output yet —"}</pre>
                   </div>
 
                   {/* Explanation */}
-                  <div className="mt-3 text-sm text-gray-300">
-                    <strong className="text-indigo-200">Explanation:</strong>
+                  <div className={`mt-3 text-sm ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
+                    <strong className={darkMode ? "text-indigo-200" : "text-indigo-700"}>Explanation:</strong>
                     <p className="mt-1">{q.explanation}</p>
                   </div>
                 </div>

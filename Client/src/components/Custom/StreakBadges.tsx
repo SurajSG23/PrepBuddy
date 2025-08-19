@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useThemeSelector } from "../../store/hooks";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import axios from 'axios';
 import { Award, Lock, Star, Crown, Trophy, Zap } from 'lucide-react';
@@ -19,6 +20,7 @@ interface StreakBadgesProps {
 const StreakBadges: React.FC<StreakBadgesProps> = ({ userID, currentStreak }) => {
   const [badges, setBadges] = useState<UserStreakBadges | null>(null);
   const [loading, setLoading] = useState(true);
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
 
   const badgeDefinitions = [
     {
@@ -114,13 +116,13 @@ const StreakBadges: React.FC<StreakBadgesProps> = ({ userID, currentStreak }) =>
 
   if (loading) {
     return (
-      <Card className="bg-gray-800 border-gray-700">
+      <Card className={darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-indigo-200"}>
         <CardContent className="p-6">
           <div className="animate-pulse">
-            <div className="h-4 bg-gray-700 rounded w-1/2 mb-4"></div>
+            <div className={darkMode ? "h-4 bg-gray-700 rounded w-1/2 mb-4" : "h-4 bg-indigo-100 rounded w-1/2 mb-4"}></div>
             <div className="grid grid-cols-2 gap-3">
               {[1, 2, 3, 4].map(i => (
-                <div key={i} className="h-16 bg-gray-700 rounded"></div>
+                <div key={i} className={darkMode ? "h-16 bg-gray-700 rounded" : "h-16 bg-indigo-100 rounded"}></div>
               ))}
             </div>
           </div>
@@ -130,9 +132,9 @@ const StreakBadges: React.FC<StreakBadgesProps> = ({ userID, currentStreak }) =>
   }
 
   return (
-    <Card className="bg-gray-800 border-gray-700">
+    <Card className={darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-indigo-200"}>
       <CardHeader>
-        <CardTitle className="text-yellow-400 flex items-center gap-2">
+        <CardTitle className={`flex items-center gap-2 ${darkMode ? "text-yellow-400" : "text-yellow-600"}`}>
           <Award className="h-5 w-5" />
           Streak Achievements
         </CardTitle>
@@ -142,40 +144,33 @@ const StreakBadges: React.FC<StreakBadgesProps> = ({ userID, currentStreak }) =>
           {badgeDefinitions.map((badge) => {
             const key = badge.id as keyof UserStreakBadges;
             const isEarned = badges?.[key] || false;
-            // const isClose = currentStreak >= badge.requirement * 0.8; // Within 80% of requirement
             const IconComponent = badge.icon;
-            
             return (
               <div
                 key={badge.id}
-                className={`relative bg-gradient-to-br ${badge.color} rounded-lg p-4 text-center transition-all hover:scale-105 ${
-                  !isEarned ? 'opacity-50' : ''
-                }`}
+                className={`relative bg-gradient-to-br ${badge.color} rounded-lg p-4 text-center transition-all hover:scale-105 ${!isEarned ? 'opacity-50' : ''}`}
               >
                 {!isEarned && (
-                  <div className="absolute inset-0 bg-black bg-opacity-60 rounded-lg flex items-center justify-center">
-                    <Lock className="h-6 w-6 text-gray-400" />
+                  <div className={`absolute inset-0 rounded-lg flex items-center justify-center ${darkMode ? "bg-black bg-opacity-60" : "bg-white bg-opacity-60"}`}>
+                    <Lock className={darkMode ? "h-6 w-6 text-gray-400" : "h-6 w-6 text-gray-500"} />
                   </div>
                 )}
-                
                 <IconComponent className={`h-8 w-8 mx-auto mb-2 ${badge.textColor}`} />
-                <h4 className="font-semibold text-white text-sm">{badge.name}</h4>
-                <p className="text-xs text-gray-200 opacity-90">{badge.description}</p>
-                
+                <h4 className={`font-semibold text-sm ${darkMode ? "text-white" : "text-gray-900"}`}>{badge.name}</h4>
+                <p className={`text-xs opacity-90 ${darkMode ? "text-gray-200" : "text-gray-700"}`}>{badge.description}</p>
                 {!isEarned && (
                   <div className="mt-2">
-                    <div className="w-full bg-gray-700 rounded-full h-1.5">
+                    <div className={darkMode ? "w-full bg-gray-700 rounded-full h-1.5" : "w-full bg-indigo-100 rounded-full h-1.5"}>
                       <div 
                         className={`bg-gradient-to-r ${badge.color} h-1.5 rounded-full transition-all duration-300`}
                         style={{ width: `${getProgress(badge.requirement)}%` }}
                       ></div>
                     </div>
-                    <p className="text-xs text-gray-300 mt-1">
+                    <p className={`text-xs mt-1 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
                       {currentStreak}/{badge.requirement} days
                     </p>
                   </div>
                 )}
-                
                 {isEarned && (
                   <div className="absolute -top-2 -right-2 bg-green-500 rounded-full p-1">
                     <Star className="h-3 w-3 text-white fill-current" />
@@ -185,17 +180,16 @@ const StreakBadges: React.FC<StreakBadgesProps> = ({ userID, currentStreak }) =>
             );
           })}
         </div>
-        
         {/* Next Badge Goal */}
         {nextBadge && (
-          <div className="bg-gray-700/50 rounded-lg p-4">
-            <h4 className="text-sm font-semibold text-gray-300 mb-2">Next Goal</h4>
+          <div className={darkMode ? "bg-gray-700/50 rounded-lg p-4" : "bg-indigo-100 rounded-lg p-4"}>
+            <h4 className={`text-sm font-semibold mb-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>Next Goal</h4>
             <div className="flex items-center gap-3">
               <nextBadge.icon className={`h-6 w-6 ${nextBadge.textColor}`} />
               <div className="flex-1">
-                <p className="text-sm font-medium text-white">{nextBadge.name}</p>
-                <p className="text-xs text-gray-400">{nextBadge.description}</p>
-                <div className="mt-1 w-full bg-gray-600 rounded-full h-2">
+                <p className={`text-sm font-medium ${darkMode ? "text-white" : "text-gray-900"}`}>{nextBadge.name}</p>
+                <p className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-600"}`}>{nextBadge.description}</p>
+                <div className={darkMode ? "mt-1 w-full bg-gray-600 rounded-full h-2" : "mt-1 w-full bg-indigo-200 rounded-full h-2"}>
                   <div 
                     className={`bg-gradient-to-r ${nextBadge.color} h-2 rounded-full transition-all duration-300`}
                     style={{ width: `${getProgress(nextBadge.requirement)}%` }}
@@ -203,19 +197,18 @@ const StreakBadges: React.FC<StreakBadgesProps> = ({ userID, currentStreak }) =>
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-lg font-bold text-white">{currentStreak}</p>
-                <p className="text-xs text-gray-400">/{nextBadge.requirement}</p>
+                <p className={`text-lg font-bold ${darkMode ? "text-white" : "text-gray-900"}`}>{currentStreak}</p>
+                <p className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-600"}`}>/{nextBadge.requirement}</p>
               </div>
             </div>
           </div>
         )}
-        
         {/* Completion Message */}
         {!nextBadge && badges && Object.values(badges).every(earned => earned) && (
-          <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 rounded-lg p-4 text-center">
-            <Crown className="h-8 w-8 text-purple-400 mx-auto mb-2" />
-            <p className="text-purple-400 font-semibold">Legend Status Achieved!</p>
-            <p className="text-sm text-gray-300">You've earned all streak badges!</p>
+          <div className={darkMode ? "bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-500/30 rounded-lg p-4 text-center" : "bg-gradient-to-r from-indigo-100/70 to-pink-100/70 border border-indigo-200/30 rounded-lg p-4 text-center"}>
+            <Crown className={`h-8 w-8 mx-auto mb-2 ${darkMode ? "text-purple-400" : "text-purple-700"}`} />
+            <p className={darkMode ? "text-purple-400 font-semibold" : "text-purple-700 font-semibold"}>Legend Status Achieved!</p>
+            <p className={darkMode ? "text-sm text-gray-300" : "text-sm text-gray-700"}>You've earned all streak badges!</p>
           </div>
         )}
       </CardContent>

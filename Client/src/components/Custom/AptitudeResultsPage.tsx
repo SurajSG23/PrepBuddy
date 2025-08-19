@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useThemeSelector } from "../../store/hooks";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { 
@@ -127,36 +128,37 @@ const AptitudeResultsPage: React.FC = () => {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
   if (!results) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+      <div className={`min-h-screen flex items-center justify-center transition-colors duration-300 ${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"}`}>
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400 mx-auto mb-4"></div>
-          <p className="text-gray-300">Loading results...</p>
+          <div className={`animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4 ${darkMode ? "border-indigo-400" : "border-indigo-700"}`}></div>
+          <p className={darkMode ? "text-gray-300" : "text-gray-700"}>Loading results...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+    <div className={`min-h-screen transition-colors duration-300 ${darkMode ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white" : "bg-gradient-to-br from-white via-gray-100 to-white text-gray-900"}`}>
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <button
             onClick={() => navigate("/aptitude-training")}
-            className="flex items-center text-indigo-400 hover:text-indigo-300 transition-colors"
+            className={`flex items-center transition-colors ${darkMode ? "text-indigo-400 hover:text-indigo-300" : "text-indigo-700 hover:text-indigo-500"}`}
           >
-            <ArrowLeft className="w-5 h-5 mr-2" />
+            <ArrowLeft className={`w-5 h-5 mr-2 ${darkMode ? "text-indigo-400" : "text-indigo-700"}`} />
             Back to Training
           </button>
 
           <div className="flex items-center space-x-4">
             <button
               onClick={() => setShowDetailedResults(!showDetailedResults)}
-              className="bg-gray-800 hover:bg-gray-700 rounded-lg px-4 py-2 transition-colors flex items-center"
+              className={`rounded-lg px-4 py-2 transition-colors flex items-center ${darkMode ? "bg-gray-800 hover:bg-gray-700 text-white" : "bg-indigo-100 hover:bg-indigo-200 text-indigo-900"}`}
             >
-              <BarChart3 className="w-4 h-4 mr-2" />
+              <BarChart3 className={`w-4 h-4 mr-2 ${darkMode ? "text-white" : "text-indigo-700"}`} />
               {showDetailedResults ? "Hide Details" : "Show Details"}
             </button>
           </div>
@@ -166,7 +168,7 @@ const AptitudeResultsPage: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gray-800 rounded-xl p-8 border border-gray-700 mb-8"
+          className={`rounded-xl p-8 border mb-8 transition-colors duration-300 ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-indigo-200"}`}
         >
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mb-4">
@@ -180,32 +182,32 @@ const AptitudeResultsPage: React.FC = () => {
 
           {/* Score Overview */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div className="bg-gray-700 rounded-lg p-6 text-center">
-              <div className="text-3xl font-bold text-indigo-400 mb-2">
+            <div className={`rounded-lg p-6 text-center transition-colors duration-300 ${darkMode ? "bg-gray-700" : "bg-indigo-100"}`}>
+              <div className={`text-3xl font-bold mb-2 ${darkMode ? "text-indigo-400" : "text-indigo-700"}`}>
                 {results.correctAnswers}/{results.totalQuestions}
               </div>
-              <p className="text-gray-400">Score</p>
+              <p className={darkMode ? "text-gray-400" : "text-gray-600"}>Score</p>
             </div>
 
-            <div className="bg-gray-700 rounded-lg p-6 text-center">
-              <div className="text-3xl font-bold text-green-400 mb-2">
+            <div className={`rounded-lg p-6 text-center transition-colors duration-300 ${darkMode ? "bg-gray-700" : "bg-green-50"}`}>
+              <div className={`text-3xl font-bold mb-2 ${darkMode ? "text-green-400" : "text-green-700"}`}>
                 {results.accuracy}%
               </div>
-              <p className="text-gray-400">Accuracy</p>
+              <p className={darkMode ? "text-gray-400" : "text-gray-600"}>Accuracy</p>
             </div>
 
-            <div className="bg-gray-700 rounded-lg p-6 text-center">
-              <div className="text-3xl font-bold text-purple-400 mb-2">
+            <div className={`rounded-lg p-6 text-center transition-colors duration-300 ${darkMode ? "bg-gray-700" : "bg-purple-50"}`}>
+              <div className={`text-3xl font-bold mb-2 ${darkMode ? "text-purple-400" : "text-purple-700"}`}>
                 {formatTime(results.totalTime)}
               </div>
-              <p className="text-gray-400">Total Time</p>
+              <p className={darkMode ? "text-gray-400" : "text-gray-600"}>Total Time</p>
             </div>
 
-            <div className="bg-gray-700 rounded-lg p-6 text-center">
-              <div className="text-3xl font-bold text-yellow-400 mb-2">
+            <div className={`rounded-lg p-6 text-center transition-colors duration-300 ${darkMode ? "bg-gray-700" : "bg-yellow-50"}`}>
+              <div className={`text-3xl font-bold mb-2 ${darkMode ? "text-yellow-400" : "text-yellow-700"}`}>
                 {formatTime(results.averageTime)}
               </div>
-              <p className="text-gray-400">Avg. Time</p>
+              <p className={darkMode ? "text-gray-400" : "text-gray-600"}>Avg. Time</p>
             </div>
           </div>
 
@@ -219,7 +221,7 @@ const AptitudeResultsPage: React.FC = () => {
               {Object.entries(results.categoryBreakdown).map(([category, data]) => {
                 const percentage = Math.round((data.correct / data.total) * 100);
                 return (
-                  <div key={category} className="bg-gray-700 rounded-lg p-4">
+                  <div key={category} className={`rounded-lg p-4 transition-colors duration-300 ${darkMode ? "bg-gray-700" : "bg-indigo-50"}`}>
                     <div className="flex justify-between items-center mb-2">
                       <span className={`font-semibold capitalize ${getCategoryColor(category)}`}>
                         {category}
@@ -228,11 +230,11 @@ const AptitudeResultsPage: React.FC = () => {
                         {data.correct}/{data.total}
                       </span>
                     </div>
-                    <div className="w-full bg-gray-600 rounded-full h-2 mb-2">
+                    <div className={`w-full rounded-full h-2 mb-2 ${darkMode ? "bg-gray-600" : "bg-indigo-200"}`}>
                       <motion.div
                         className={`h-2 rounded-full ${
-                          percentage >= 80 ? 'bg-green-500' :
-                          percentage >= 60 ? 'bg-yellow-500' : 'bg-red-500'
+                          percentage >= 80 ? (darkMode ? 'bg-green-500' : 'bg-green-400') :
+                          percentage >= 60 ? (darkMode ? 'bg-yellow-500' : 'bg-yellow-400') : (darkMode ? 'bg-red-500' : 'bg-red-400')
                         }`}
                         initial={{ width: 0 }}
                         animate={{ width: `${percentage}%` }}
@@ -283,11 +285,11 @@ const AptitudeResultsPage: React.FC = () => {
               
               <div className="space-y-4">
                 {results.questions.map((question, index) => (
-                  <div key={index} className="bg-gray-700 rounded-lg p-4">
+                  <div key={index} className={`rounded-lg p-4 transition-colors duration-300 ${darkMode ? "bg-gray-700" : "bg-indigo-50"}`}>
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center">
                         <span className="text-sm text-gray-400 mr-3">Q{index + 1}</span>
-                        <span className={`text-xs px-2 py-1 rounded ${getCategoryColor(question.category)} bg-gray-600`}>
+                        <span className={`text-xs px-2 py-1 rounded ${getCategoryColor(question.category)} ${darkMode ? "bg-gray-600" : "bg-indigo-200"}`}>
                           {question.category}
                         </span>
                       </div>
@@ -303,19 +305,19 @@ const AptitudeResultsPage: React.FC = () => {
                       </div>
                     </div>
                     
-                    <p className="text-gray-300 mb-2">{question.question}</p>
+                    <p className={darkMode ? "text-gray-300" : "text-gray-700 mb-2"}>{question.question}</p>
                     
                     <div className="text-sm space-y-1">
                       <div className="flex items-center">
-                        <span className="text-gray-400 w-20">Your Answer:</span>
-                        <span className={question.isCorrect ? "text-green-400" : "text-red-400"}>
+                        <span className={darkMode ? "text-gray-400 w-20" : "text-gray-600 w-20"}>Your Answer:</span>
+                        <span className={question.isCorrect ? (darkMode ? "text-green-400" : "text-green-700") : (darkMode ? "text-red-400" : "text-red-700") }>
                           {question.userAnswer || "Not answered"}
                         </span>
                       </div>
                       {!question.isCorrect && (
                         <div className="flex items-center">
-                          <span className="text-gray-400 w-20">Correct:</span>
-                          <span className="text-green-400">{question.correctAnswer}</span>
+                          <span className={darkMode ? "text-gray-400 w-20" : "text-gray-600 w-20"}>Correct:</span>
+                          <span className={darkMode ? "text-green-400" : "text-green-700"}>{question.correctAnswer}</span>
                         </div>
                       )}
                     </div>
@@ -331,7 +333,7 @@ const AptitudeResultsPage: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-gray-800 rounded-xl p-8 border border-gray-700"
+          className={`rounded-xl p-8 border transition-colors duration-300 ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-indigo-200"}`}
         >
           <h3 className="text-xl font-semibold mb-6 flex items-center">
             <Star className="w-5 h-5 mr-2" />
@@ -345,16 +347,16 @@ const AptitudeResultsPage: React.FC = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 + index * 0.1 }}
-                className="flex items-start space-x-3 p-4 bg-gray-700 rounded-lg"
+                className={`flex items-start space-x-3 p-4 rounded-lg transition-colors duration-300 ${darkMode ? "bg-gray-700" : "bg-indigo-50"}`}
               >
-                <div className="w-2 h-2 bg-indigo-400 rounded-full mt-2 flex-shrink-0"></div>
-                <p className="text-gray-300">{recommendation}</p>
+                <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${darkMode ? "bg-indigo-400" : "bg-indigo-700"}`}></div>
+                <p className={darkMode ? "text-gray-300" : "text-gray-700"}>{recommendation}</p>
               </motion.div>
             ))}
           </div>
 
-          <div className="mt-6 p-4 bg-indigo-600/20 border border-indigo-500/30 rounded-lg">
-            <p className="text-indigo-300 text-sm">
+          <div className={`mt-6 p-4 border rounded-lg transition-colors duration-300 ${darkMode ? "bg-indigo-600/20 border-indigo-500/30" : "bg-indigo-100 border-indigo-300"}`}>
+            <p className={`text-sm ${darkMode ? "text-indigo-300" : "text-indigo-700"}`}>
               💡 <strong>Tip:</strong> Regular practice is key to improving your aptitude skills. 
               Try to practice for at least 15-20 minutes daily to see significant improvement over time.
             </p>

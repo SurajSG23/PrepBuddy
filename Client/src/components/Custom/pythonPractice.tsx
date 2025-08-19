@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useMemo, useState } from "react";
+import { useThemeSelector } from "../../store/hooks";
 import CodeMirror from "@uiw/react-codemirror";
 import { java } from "@codemirror/lang-java";
 import { FiPlay, FiRotateCw, FiBookmark, FiSearch } from "react-icons/fi";
@@ -283,6 +284,7 @@ with open("sample.txt", "r") as f:
 ];
 
 export default function PythonPractice(): React.ReactElement {
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
   const [query, setQuery] = useState<string>("");
   const [filter, setFilter] = useState<"All" | Level>("All");
   const [expandedId, setExpandedId] = useState<number | null>(null);
@@ -335,19 +337,32 @@ export default function PythonPractice(): React.ReactElement {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-6">
+    <div className={
+      `min-h-screen p-6 ` +
+      (darkMode
+        ? 'bg-gradient-to-b from-gray-900 to-black text-white'
+        : 'bg-gradient-to-b from-white to-indigo-50 text-gray-900')
+    }>
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl font-extrabold text-indigo-300 mb-6 text-center">Python Practice Hub</h1>
+        <h1 className={`text-4xl font-extrabold mb-6 text-center ${darkMode ? 'text-indigo-300' : 'text-indigo-700'}`}>Python Practice Hub</h1>
 
         {/* Controls */}
         <div className="flex flex-col sm:flex-row gap-3 items-center justify-between mb-6">
-          <div className="flex items-center gap-2 bg-gray-800 px-3 py-2 rounded-lg border border-gray-700 w-full sm:w-auto">
-            <FiSearch className="text-gray-400" />
+          <div className={
+            `flex items-center gap-2 px-3 py-2 rounded-lg border w-full sm:w-auto ` +
+            (darkMode
+              ? 'bg-gray-800 border-gray-700'
+              : 'bg-white border-indigo-200')
+          }>
+            <FiSearch className={darkMode ? 'text-gray-400' : 'text-gray-500'} />
             <input
               value={query}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
               placeholder="Search by keyword, topic, or tag..."
-              className="bg-transparent outline-none text-sm text-gray-100 w-64"
+              className={
+                `bg-transparent outline-none text-sm w-64 ` +
+                (darkMode ? 'text-gray-100' : 'text-gray-900')
+              }
             />
           </div>
 
@@ -356,9 +371,10 @@ export default function PythonPractice(): React.ReactElement {
               <button
                 key={lv}
                 onClick={() => setFilter(lv)}
-                className={`px-3 py-2 rounded-md text-sm font-medium ${
-                  filter === lv ? "bg-indigo-600 text-white shadow-md" : "bg-gray-800 text-gray-200"
-                }`}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-all ` +
+                  (filter === lv
+                    ? (darkMode ? 'bg-indigo-600 text-white shadow-md' : 'bg-indigo-500 text-white shadow-md')
+                    : (darkMode ? 'bg-gray-800 text-gray-200' : 'bg-indigo-100 text-gray-900 hover:bg-indigo-200'))}
               >
                 {lv}
               </button>
@@ -368,42 +384,47 @@ export default function PythonPractice(): React.ReactElement {
 
         {/* Questions list */}
         <div className="space-y-4">
-          {filtered.length === 0 && <div className="text-center text-gray-400 py-8">No questions found.</div>}
+          {filtered.length === 0 && <div className={darkMode ? "text-center text-gray-400 py-8" : "text-center text-gray-500 py-8"}>No questions found.</div>}
 
           {filtered.map((q) => (
             <div
               key={q.id}
-              className="bg-gradient-to-br from-gray-800/80 to-gray-700/80 p-4 rounded-2xl border border-gray-600 shadow-sm"
+              className={
+                `p-4 rounded-2xl border shadow-sm ` +
+                (darkMode
+                  ? 'bg-gradient-to-br from-gray-800/80 to-gray-700/80 border-gray-600'
+                  : 'bg-gradient-to-br from-indigo-50/80 to-white/80 border-indigo-200')
+              }
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 flex-wrap">
-                    <span className="text-lg font-semibold text-indigo-200">{q.title}</span>
+                    <span className={darkMode ? "text-lg font-semibold text-indigo-200" : "text-lg font-semibold text-indigo-700"}>{q.title}</span>
                     <span
                       className={`text-xs font-semibold px-2 py-1 rounded-full ${
                         q.level === "Beginner"
-                          ? "bg-green-600"
+                          ? (darkMode ? "bg-green-600" : "bg-green-200 text-green-800")
                           : q.level === "Intermediate"
-                          ? "bg-yellow-600"
-                          : "bg-red-600"
+                          ? (darkMode ? "bg-yellow-600" : "bg-yellow-200 text-yellow-800")
+                          : (darkMode ? "bg-red-600" : "bg-red-200 text-red-800")
                       }`}
                     >
                       {q.level}
                     </span>
                     {q.topic && (
-                      <span className="text-xs text-gray-300 bg-gray-800/50 px-2 py-0.5 rounded">{q.topic}</span>
+                      <span className={darkMode ? "text-xs text-gray-300 bg-gray-800/50 px-2 py-0.5 rounded" : "text-xs text-gray-700 bg-indigo-100 px-2 py-0.5 rounded"}>{q.topic}</span>
                     )}
                     {q.tags && q.tags.length > 0 && (
                       <div className="ml-2 flex flex-wrap gap-2">
                         {q.tags.slice(0, 3).map((t) => (
-                          <span key={t} className="text-xs text-gray-300 bg-gray-800/50 px-2 py-0.5 rounded">
+                          <span key={t} className={darkMode ? "text-xs text-gray-300 bg-gray-800/50 px-2 py-0.5 rounded" : "text-xs text-gray-700 bg-indigo-100 px-2 py-0.5 rounded"}>
                             {t}
                           </span>
                         ))}
                       </div>
                     )}
                   </div>
-                  <p className="text-sm text-gray-300 mt-2 line-clamp-2">{q.explanation}</p>
+                  <p className={darkMode ? "text-sm text-gray-300 mt-2 line-clamp-2" : "text-sm text-gray-700 mt-2 line-clamp-2"}>{q.explanation}</p>
                 </div>
 
                 <div className="flex flex-col items-end gap-2">
@@ -411,16 +432,16 @@ export default function PythonPractice(): React.ReactElement {
                     <button
                       onClick={() => toggleBookmark(q.id)}
                       title={bookmarks.includes(q.id) ? "Remove Bookmark" : "Bookmark"}
-                      className="p-2 rounded-md bg-gray-800 hover:bg-gray-700"
+                      className={darkMode ? "p-2 rounded-md bg-gray-800 hover:bg-gray-700" : "p-2 rounded-md bg-indigo-100 hover:bg-indigo-200"}
                     >
-                      <FiBookmark className={bookmarks.includes(q.id) ? "text-yellow-400" : "text-gray-300"} />
+                      <FiBookmark className={bookmarks.includes(q.id) ? "text-yellow-400" : (darkMode ? "text-gray-300" : "text-gray-500")} />
                     </button>
 
                     <button
                       onClick={() => setExpandedId((id) => (id === q.id ? null : q.id))}
-                      className="p-2 rounded-md bg-gray-800 hover:bg-gray-700"
+                      className={darkMode ? "p-2 rounded-md bg-gray-800 hover:bg-gray-700" : "p-2 rounded-md bg-indigo-100 hover:bg-indigo-200"}
                     >
-                      <FiRotateCw className="text-gray-200" />
+                      <FiRotateCw className={darkMode ? "text-gray-200" : "text-gray-500"} />
                     </button>
                   </div>
                 </div>
@@ -429,12 +450,12 @@ export default function PythonPractice(): React.ReactElement {
               {/* Expand area */}
               {expandedId === q.id && (
                 <div className="mt-4">
-                  <div className="border border-gray-700 rounded-lg overflow-hidden">
+                  <div className={darkMode ? "border border-gray-700 rounded-lg overflow-hidden" : "border border-indigo-200 rounded-lg overflow-hidden"}>
                     <CodeMirror
                       value={codeMap[q.id]}
                       height="200px"
                       extensions={[java()]}
-                      theme="dark"
+                      theme={darkMode ? "dark" : "light"}
                       onChange={(v) => setCodeMap((prev) => ({ ...prev, [q.id]: v || "" }))}
                     />
                   </div>
@@ -443,30 +464,35 @@ export default function PythonPractice(): React.ReactElement {
                   <div className="flex flex-wrap gap-3 items-center mt-3">
                     <button
                       onClick={() => runCode(q.id)}
-                      className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 px-3 py-2 rounded-md text-white font-semibold"
+                      className={
+                        `inline-flex items-center gap-2 px-3 py-2 rounded-md font-semibold ` +
+                        (darkMode
+                          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white'
+                          : 'bg-gradient-to-r from-indigo-400 to-purple-300 text-white')
+                      }
                     >
                       <FiPlay /> Run Code
                     </button>
 
                     <button
                       onClick={() => resetCode(q.id)}
-                      className="inline-flex items-center gap-2 bg-gray-800 border border-gray-600 px-3 py-2 rounded-md text-gray-200"
+                      className={darkMode ? "inline-flex items-center gap-2 bg-gray-800 border border-gray-600 px-3 py-2 rounded-md text-gray-200" : "inline-flex items-center gap-2 bg-indigo-100 border border-indigo-200 px-3 py-2 rounded-md text-gray-700"}
                     >
                       <FiRotateCw /> Reset
                     </button>
 
-                    <div className="ml-auto text-sm text-gray-400">Question ID: {q.id}</div>
+                    <div className={darkMode ? "ml-auto text-sm text-gray-400" : "ml-auto text-sm text-gray-500"}>Question ID: {q.id}</div>
                   </div>
 
                   {/* Output / Console */}
-                  <div className="mt-3 bg-black bg-opacity-50 border border-gray-800 rounded-md p-3 text-sm text-gray-100">
-                    <div className="font-medium text-gray-300 mb-2">Output</div>
-                    <pre className="whitespace-pre-wrap text-xs leading-5">{outputs[q.id] || "— No output yet —"}</pre>
+                  <div className={darkMode ? "mt-3 bg-black bg-opacity-50 border border-gray-800 rounded-md p-3 text-sm text-gray-100" : "mt-3 bg-indigo-50 border border-indigo-200 rounded-md p-3 text-sm text-gray-900"}>
+                    <div className={darkMode ? "font-medium text-gray-300 mb-2" : "font-medium text-gray-700 mb-2"}>Output</div>
+                    <pre className={darkMode ? "whitespace-pre-wrap text-xs leading-5" : "whitespace-pre-wrap text-xs leading-5"}>{outputs[q.id] || "— No output yet —"}</pre>
                   </div>
 
                   {/* Explanation */}
-                  <div className="mt-3 text-sm text-gray-300">
-                    <strong className="text-indigo-200">Explanation:</strong>
+                  <div className={darkMode ? "mt-3 text-sm text-gray-300" : "mt-3 text-sm text-gray-700"}>
+                    <strong className={darkMode ? "text-indigo-200" : "text-indigo-700"}>Explanation:</strong>
                     <p className="mt-1">{q.explanation}</p>
                   </div>
                 </div>

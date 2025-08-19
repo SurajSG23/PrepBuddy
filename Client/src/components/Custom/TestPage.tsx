@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useThemeSelector } from "../../store/hooks";
 import {
   Carousel,
   CarouselContent,
@@ -20,6 +21,7 @@ interface HeaderProps {
 
 const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   useDetectTabSwitch();
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
   const [currentTime, setCurrentTime] = useState(10 * 60);
   const [userAnswers, setUserAnswers] = useState<(string | null)[]>(
     Array(10).fill(null)
@@ -256,8 +258,8 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   }, []);
   if (confirmation) {
     return (
-      <div className="fixed inset-0 flex justify-center items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 z-50 backdrop-blur-sm">
-        <div className="bg-gray-900 rounded-3xl shadow-2xl p-10 text-white w-[90%] max-w-lg border border-indigo-500/30 transition-all duration-300">
+      <div className={`fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm ${darkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-gray-100 via-gray-200 to-white'}`}>
+        <div className={`rounded-3xl shadow-2xl p-10 w-[90%] max-w-lg border transition-all duration-300 ${darkMode ? 'bg-gray-900 text-white border-indigo-500/30' : 'bg-white text-gray-900 border-indigo-200/30'}`}>
           <h1 className="text-3xl font-extrabold mb-6 text-indigo-400 tracking-wide text-center">
             📋 Test Instructions
           </h1>
@@ -315,8 +317,8 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   }
   if (submitConfirmation) {
     return (
-      <div className="fixed inset-0 flex justify-center items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 z-50 backdrop-blur-sm">
-        <div className="bg-gray-900 rounded-3xl shadow-2xl p-10 text-white w-[90%] max-w-lg border border-indigo-500/30 transition-all duration-300">
+      <div className={`fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm ${darkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-gray-100 via-gray-200 to-white'}`}>
+        <div className={`rounded-3xl shadow-2xl p-10 w-[90%] max-w-lg border transition-all duration-300 ${darkMode ? 'bg-gray-900 text-white border-indigo-500/30' : 'bg-white text-gray-900 border-indigo-200/30'}`}>
           <h1 className="text-3xl font-extrabold mb-6 text-indigo-400 tracking-wide text-center">
             Are you sure you want to submit?
           </h1>
@@ -358,8 +360,8 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   }
   if (scoreBoard) {
     return (
-      <div className="fixed inset-0 flex justify-center items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 z-50 backdrop-blur-sm">
-        <div className="bg-gray-900 rounded-3xl shadow-2xl p-10 text-white w-full h-full overflow-y-auto border border-indigo-500/30 transition-all duration-300">
+      <div className={`fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm ${darkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-gray-100 via-gray-200 to-white'}`}>
+        <div className={`rounded-3xl shadow-2xl p-10 w-full h-full overflow-y-auto border transition-all duration-300 ${darkMode ? 'bg-gray-900 text-white border-indigo-500/30' : 'bg-white text-gray-900 border-indigo-200/30'}`}>
           <h1 className="text-3xl font-extrabold mb-6 text-indigo-400 tracking-wide text-center">
             🎉 Test Completed!
           </h1>
@@ -402,25 +404,19 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
                     return (
                       <li
                         key={index}
-                        className="bg-gray-800 p-4 rounded-xl shadow-md border border-red-500/30"
+                        className={`p-4 rounded-xl shadow-md border ${darkMode ? 'bg-gray-800 border-red-500/30' : 'bg-red-50 border-red-200'}`}
                       >
-                        <p className="text-white font-medium mb-1">
+                        <p className={`font-medium mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                           ❌ Question {index + 1}
                         </p>
                         <p className="text-red-400">
-                          Your Answer:{" "}
-                          <span className="font-semibold">{user}</span>
+                          Your Answer: <span className="font-semibold">{user}</span>
                         </p>
                         <p className="text-green-400">
-                          Correct Answer:{" "}
-                          <span className="font-semibold">{correct}</span>
+                          Correct Answer: <span className="font-semibold">{correct}</span>
                         </p>
-
-                        <p className="text-white">
-                          Explaination:{" "}
-                          <span className="font-semibold">
-                            {geminiExplaination[index]}
-                          </span>
+                        <p className={darkMode ? 'text-white' : 'text-gray-900'}>
+                          Explaination: <span className="font-semibold">{geminiExplaination[index]}</span>
                         </p>
                       </li>
                     );
@@ -439,16 +435,16 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
                     return (
                       <li
                         key={index}
-                        className="bg-gray-800 p-4 rounded-xl shadow-md border border-red-500/30"
+                        className={`p-4 rounded-xl shadow-md border transition-colors duration-300 ${darkMode ? 'bg-gray-800 border-red-500/30' : 'bg-red-50 border-red-200'}`}
                       >
-                        <p className="text-white font-medium mb-1">
+                        <p className={`font-medium mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                           ✔️ Question {index + 1}
                         </p>
-                        <p className="text-green-400">
+                        <p className={darkMode ? 'text-green-400' : 'text-green-700'}>
                           Your Answer:{" "}
                           <span className="font-semibold">{user}</span>
                         </p>
-                        <p className="text-white">
+                        <p className={darkMode ? 'text-white' : 'text-gray-900'}>
                           Explaination:{" "}
                           <span className="font-semibold">
                             {geminiExplaination[index]}
@@ -478,8 +474,8 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   }
   if (quitConfirmation) {
     return (
-      <div className="fixed inset-0 flex justify-center items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 z-50 backdrop-blur-sm">
-        <div className="bg-gray-900 rounded-3xl shadow-2xl p-10 text-white w-[90%] max-w-lg border border-indigo-500/30 transition-all duration-300">
+      <div className={`fixed inset-0 flex justify-center items-center z-50 backdrop-blur-sm ${darkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-gray-100 via-gray-200 to-white'}`}>
+        <div className={`rounded-3xl shadow-2xl p-10 w-[90%] max-w-lg border transition-all duration-300 ${darkMode ? 'bg-gray-900 text-white border-indigo-500/30' : 'bg-white text-gray-900 border-indigo-200/30'}`}>
           <h1 className="text-3xl font-extrabold mb-6 text-indigo-400 tracking-wide text-center">
             Are you sure you want to quit?
           </h1>
@@ -510,10 +506,10 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   if (loading) {
     return (
       <>
-        <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-99">
+        <div className={`flex absolute top-0 justify-center items-center h-screen w-full z-99 transition-colors duration-200 ${darkMode ? 'bg-gray-900' : 'bg-white'}`}>
           <div className="flex flex-col items-center">
-            <div className="w-16 h-16 border-4 border-transparent border-t-blue-500 border-b-blue-500 rounded-full animate-spin"></div>
-            <p className="text-white mt-4 text-lg font-semibold">
+            <div className={`w-16 h-16 border-4 border-transparent rounded-full animate-spin ${darkMode ? 'border-t-blue-500 border-b-blue-500' : 'border-t-indigo-500 border-b-indigo-500'}`}></div>
+            <p className={`mt-4 text-lg font-semibold animate-pulse ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Generating Questions...
             </p>
           </div>
@@ -523,14 +519,14 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white w-full absolute">
+    <div className={`min-h-screen w-full absolute transition-colors duration-300 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
       {/* Header */}
-      <header className="bg-gray-800 shadow-md">
+      <header className={`${darkMode ? 'bg-gray-800' : 'bg-white shadow-md border-b border-gray-200'}`}>
         <div className="container mx-auto px-4 py-3 flex justify-end items-center">
           <div className="flex items-center">
-            <div className="bg-gray-700 px-4 py-2 rounded-md flex items-center">
+            <div className={`px-4 py-2 rounded-md flex items-center ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}>
               <svg
-                className="h-5 w-5 mr-2 text-indigo-500"
+                className={`h-5 w-5 mr-2 ${darkMode ? 'text-indigo-500' : 'text-indigo-700'}`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -548,18 +544,18 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
         </div>
       </header>
 
-      <div className="bg-gray-800 py-2 px-4">
+      <div className={`${darkMode ? 'bg-gray-800' : 'bg-gray-200'} py-2 px-4`}>
         <div className="container mx-auto">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-sm text-gray-300">Progress</span>
-            <span className="text-sm text-gray-300">
+            <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Progress</span>
+            <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               {userAnswers.filter((ans) => ans !== null).length} /{" "}
               {geminiQuestions.length} answered
             </span>
           </div>
-          <div className="w-full bg-gray-700 rounded-full h-2 overflow-hidden">
+          <div className={`w-full rounded-full h-2 overflow-hidden ${darkMode ? 'bg-gray-700' : 'bg-gray-300'}`}>
             <div
-              className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
+              className={`h-2 rounded-full transition-all duration-300 ${darkMode ? 'bg-indigo-600' : 'bg-indigo-400'}`}
               style={{
                 width: `${
                   (userAnswers.filter((ans) => ans !== null).length /
@@ -578,12 +574,10 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
           <CarouselContent>
             {geminiQuestions.map((question, index) => (
               <CarouselItem key={index}>
-                <div className="bg-gray-800 rounded-lg p-6 shadow-lg h-full">
+                <div className={`rounded-lg p-6 shadow-lg h-full ${darkMode ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}> 
                   <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-xl font-bold text-indigo-500">
-                      Question {index + 1}
-                    </h3>
-                    <span className="bg-gray-700 px-2 py-1 rounded text-sm">
+                    <h3 className={`text-xl font-bold ${darkMode ? 'text-indigo-500' : 'text-indigo-700'}`}>Question {index + 1}</h3>
+                    <span className={`px-2 py-1 rounded text-sm ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-200 text-gray-900'}`}>
                       {index + 1} of {geminiQuestions.length}
                     </span>
                   </div>
@@ -594,11 +588,13 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
                     {geminiOptions[index].map((option, optionIndex) => (
                       <div
                         key={optionIndex}
-                        className={`border border-gray-700 rounded-md p-3 cursor-pointer transition-colors ${
-                          userAnswers[index] === option
-                            ? "bg-indigo-600 border-indigo-500"
-                            : "hover:bg-gray-700"
-                        }`}
+                        className={`border rounded-md p-3 cursor-pointer transition-colors ${userAnswers[index] === option
+                          ? darkMode
+                            ? 'bg-indigo-600 border-indigo-500 text-white'
+                            : 'bg-indigo-100 border-indigo-400 text-indigo-900'
+                          : darkMode
+                            ? 'border-gray-700 hover:bg-gray-700 text-white'
+                            : 'border-gray-300 hover:bg-gray-100 text-gray-900'}`}
                         onClick={() => handleSelectOption(index, option)}
                       >
                         {option}
@@ -617,7 +613,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
               }}
             >
               <CarouselPrevious
-                className="relative right-0 left-auto bg-gray-800 border-gray-700 hover:bg-gray-700 text-white cursor-pointer"
+                className={`relative right-0 left-auto cursor-pointer ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-700 text-white' : 'bg-white border-gray-300 hover:bg-gray-200 text-gray-900'}`}
                 ref={prevRef}
               />
             </div>
@@ -628,7 +624,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
               }}
             >
               <CarouselNext
-                className="relative right-0 left-auto bg-gray-800 border-gray-700 hover:bg-gray-700 text-white cursor-pointer"
+                className={`relative right-0 left-auto cursor-pointer ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-gray-700 text-white' : 'bg-white border-gray-300 hover:bg-gray-200 text-gray-900'}`}
                 ref={nextRef}
               />
             </div>
@@ -642,11 +638,13 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
             {questionsData.map((_, index) => (
               <button
                 key={index}
-                className={`h-10 w-10 rounded-md flex items-center justify-center ${
-                  userAnswers[index] !== null
-                    ? "bg-indigo-600 text-white"
-                    : "bg-gray-800 text-gray-300 border border-gray-700"
-                } cursor-pointer hover:bg-gray-700`}
+                className={`h-10 w-10 rounded-md flex items-center justify-center cursor-pointer transition-colors duration-200 ${userAnswers[index] !== null
+                  ? darkMode
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-indigo-100 text-indigo-900'
+                  : darkMode
+                    ? 'bg-gray-800 text-gray-300 border border-gray-700 hover:bg-gray-700'
+                    : 'bg-white text-gray-900 border border-gray-300 hover:bg-gray-100'}`}
                 onClick={() => {
                   changeSlide(index);
                 }}
@@ -662,8 +660,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
               }}
               className="relative w-[120px] mt-6 mx-auto"
             >
-              <p className=" bg-red-600 hover:bg-red-700 text-white text-center font-medium py-2 px-4 rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                {" "}
+              <p className="bg-red-600 hover:bg-red-700 text-white text-center font-medium py-2 px-4 rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
                 Quit Test
               </p>
             </div>
@@ -673,25 +670,22 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
               }}
               className="relative w-[120px] mt-6 mx-auto"
             >
-              <button className=" bg-indigo-600 hover:bg-indigo-700 text-center text-white font-medium py-2 px-4 rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                {" "}
+              <button className="bg-indigo-600 hover:bg-indigo-700 text-center text-white font-medium py-2 px-4 rounded-md transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
                 Submit Test
               </button>
             </div>
           </div>
           <p className="text-center m-3">
-            {" "}
             <span className="font-semibold text-indigo-400">Notice:</span> If
-            you encounter any errors in generating questions or options, <br />{" "}
-            please click{" "}
+            you encounter any errors in generating questions or options, <br />
+            please click
             <span
               className="text-red-400 cursor-pointer hover:text-red-500"
               onClick={GenerateQuestions}
             >
-              {" "}
-              here{" "}
-            </span>{" "}
-            to regenerate them.{" "}
+              here
+            </span>
+            to regenerate them.
           </p>
         </div>
       </main>

@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Camera, CameraOff, Play, Square, ArrowRight, RotateCcw } from "lucide-react";
+import { useThemeSelector } from "../../store/hooks";
 import { AIchatSession } from "../../gemini/AiModel";
 
 const VideoInterviewPage: React.FC = () => {
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
   const [isRecording, setIsRecording] = useState(false);
   const [isCameraOn, setIsCameraOn] = useState(false);
 
@@ -157,17 +159,17 @@ const VideoInterviewPage: React.FC = () => {
 
   if (isComplete) {
     return (
-      <div className="min-h-screen text-white p-6">
+      <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} min-h-screen p-6`}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-indigo-400 mb-4">Interview Complete!</h1>
-            <div className="bg-gray-800 rounded-lg p-6">
-              <h2 className="text-xl font-semibold mb-4">AI Feedback</h2>
-              <p className="text-gray-300 leading-relaxed">{feedback}</p>
+            <h1 className={`text-3xl font-bold mb-4 ${darkMode ? "text-indigo-400" : "text-indigo-700"}`}>Interview Complete!</h1>
+            <div className={`${darkMode ? "bg-gray-800" : "bg-gray-100"} rounded-lg p-6`}>
+              <h2 className={`text-xl font-semibold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>AI Feedback</h2>
+              <p className={`${darkMode ? "text-gray-300" : "text-gray-700"} leading-relaxed`}>{feedback}</p>
             </div>
             <button
               onClick={resetInterview}
-              className="mt-6 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 mx-auto"
+              className={`mt-6 px-6 py-3 rounded-lg flex items-center gap-2 mx-auto font-semibold transition-all duration-300 ${darkMode ? "bg-indigo-600 hover:bg-indigo-700 text-white" : "bg-indigo-200 hover:bg-indigo-300 text-indigo-700"}`}
             >
               <RotateCcw className="w-5 h-5" />
               Start New Interview
@@ -179,17 +181,17 @@ const VideoInterviewPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen text-white p-6">
+    <div className={`${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"} min-h-screen p-6`}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-indigo-400 mb-2">Video Interview Practice</h1>
-          <p className="text-gray-400">Question {currentQuestion + 1} of {totalQuestions}</p>
+          <h1 className={`text-3xl font-bold mb-2 ${darkMode ? "text-indigo-400" : "text-indigo-700"}`}>Video Interview Practice</h1>
+          <p className={darkMode ? "text-gray-400" : "text-gray-700"}>Question {currentQuestion + 1} of {totalQuestions}</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Video Section */}
-          <div className="bg-gray-800 rounded-lg p-6">
-            <div className="aspect-video bg-gray-900 rounded-lg mb-4 relative overflow-hidden">
+          <div className={`${darkMode ? "bg-gray-800" : "bg-gray-100"} rounded-lg p-6`}>
+            <div className={`aspect-video rounded-lg mb-4 relative overflow-hidden ${darkMode ? "bg-gray-900" : "bg-white"}`}>
               {isCameraOn ? (
                 <video
                   ref={videoRef}
@@ -198,7 +200,7 @@ const VideoInterviewPage: React.FC = () => {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="flex items-center justify-center h-full text-gray-500">
+                <div className={`flex items-center justify-center h-full ${darkMode ? "text-gray-500" : "text-gray-400"}`}>
                   <CameraOff className="w-16 h-16" />
                 </div>
               )}
@@ -212,8 +214,13 @@ const VideoInterviewPage: React.FC = () => {
             <div className="flex justify-center gap-4">
               <button
                 onClick={isCameraOn ? stopCamera : startCamera}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
-                  isCameraOn ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${isCameraOn
+                  ? darkMode
+                    ? 'bg-red-600 hover:bg-red-700 text-white'
+                    : 'bg-red-200 hover:bg-red-300 text-red-900'
+                  : darkMode
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-green-200 hover:bg-green-300 text-green-900'
                 }`}
               >
                 {isCameraOn ? <CameraOff className="w-5 h-5" /> : <Camera className="w-5 h-5" />}
@@ -223,8 +230,13 @@ const VideoInterviewPage: React.FC = () => {
               {isCameraOn && (
                 <button
                   onClick={isRecording ? stopRecording : startRecording}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
-                    isRecording ? 'bg-red-600 hover:bg-red-700' : 'bg-indigo-600 hover:bg-indigo-700'
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-300 ${isRecording
+                    ? darkMode
+                      ? 'bg-red-600 hover:bg-red-700 text-white'
+                      : 'bg-red-200 hover:bg-red-300 text-red-900'
+                    : darkMode
+                      ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                      : 'bg-indigo-200 hover:bg-indigo-300 text-indigo-700'
                   }`}
                 >
                   {isRecording ? <Square className="w-5 h-5" /> : <Play className="w-5 h-5" />}
@@ -235,31 +247,31 @@ const VideoInterviewPage: React.FC = () => {
           </div>
 
           {/* Question Section */}
-          <div className="bg-gray-800 rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-4">Current Question</h2>
+          <div className={`${darkMode ? "bg-gray-800" : "bg-gray-100"} rounded-lg p-6`}>
+            <h2 className={`text-xl font-semibold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>Current Question</h2>
             
             {isLoading ? (
               <div className="text-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500 mx-auto"></div>
-                <p className="mt-2 text-gray-400">Generating questions...</p>
+                <div className={`animate-spin rounded-full h-8 w-8 border-b-2 mx-auto ${darkMode ? "border-indigo-400" : "border-indigo-700"}`}></div>
+                <p className={`mt-2 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Generating questions...</p>
               </div>
             ) : (
-              <div className="bg-gray-900 rounded-lg p-4 mb-6">
-                <p className="text-lg text-gray-300">
+              <div className={`${darkMode ? "bg-gray-900" : "bg-white"} rounded-lg p-4 mb-6`}>
+                <p className={`text-lg ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
                   {questions[currentQuestion] || "Loading question..."}
                 </p>
               </div>
             )}
 
             {responses[currentQuestion] && (
-              <div className="bg-gray-900 rounded-lg p-4 mb-6">
-                <h3 className="font-semibold mb-2">Your Response:</h3>
-                <p className="text-gray-300">{responses[currentQuestion]}</p>
+              <div className={`${darkMode ? "bg-gray-900" : "bg-white"} rounded-lg p-4 mb-6`}>
+                <h3 className={`font-semibold mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>Your Response:</h3>
+                <p className={`${darkMode ? "text-gray-300" : "text-gray-700"}`}>{responses[currentQuestion]}</p>
               </div>
             )}
 
             <div className="flex justify-between">
-              <div className="text-sm text-gray-400">
+              <div className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
                 {isRecording ? "Speaking... Your response is being captured." : "Click 'Start Recording' to answer"}
               </div>
               
@@ -267,7 +279,7 @@ const VideoInterviewPage: React.FC = () => {
                 <button
                   onClick={nextQuestion}
                   disabled={isLoading}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+                  className={`px-4 py-2 rounded-lg flex items-center gap-2 font-semibold transition-all duration-300 ${darkMode ? "bg-indigo-600 hover:bg-indigo-700 text-white" : "bg-indigo-200 hover:bg-indigo-300 text-indigo-700"}`}
                 >
                   {currentQuestion === totalQuestions - 1 ? 'Finish Interview' : 'Next Question'}
                   <ArrowRight className="w-4 h-4" />
