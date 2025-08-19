@@ -6,6 +6,7 @@ import uploadRouter from "./routes/uploadRouter.js";
 import progressRouter from "./routes/progressRouter.js";
 import authRouter from "./routes/authRouter.js";
 import chatRouter from "./routes/chatRouter.js";
+import quizRouter from "./routes/quizRouter.js";
 
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/db.js";
@@ -78,5 +79,6 @@ app.use("/test", jwtAuthMiddleware, testRouter);
 app.use("/upload", jwtAuthMiddleware, uploadRouter);
 app.use("/progress", progressRouter);
 app.use("/chat", jwtAuthMiddleware, chatRouter);
+app.use("/quiz", jwtAuthMiddleware, quizRouter);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
