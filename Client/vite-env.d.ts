@@ -7,7 +7,6 @@ interface ImportMetaEnv {
 
 interface ImportMeta {
   readonly env: ImportMetaEnv;
-<<<<<<< HEAD
 }
 
 // Web Speech API declarations
@@ -38,6 +37,3 @@ interface SpeechRecognitionEvent extends Event {
 interface SpeechRecognitionErrorEvent extends Event {
   error: string;
 }
-=======
-}
->>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e

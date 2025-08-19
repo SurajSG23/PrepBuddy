@@ -22,15 +22,9 @@ const LandingPage: React.FC = () => {
       }
     });
     return () => unsubscribe();
-<<<<<<< HEAD
   }, [navigate]);
 
   const handleLogin = async () => { };
-=======
-  }, [auth, navigate]);
-
-  const handleLogin = async () => {};
->>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
   const provider = new GoogleAuthProvider();
 
   useGSAP(() => {
@@ -51,29 +45,16 @@ const LandingPage: React.FC = () => {
       const profilepic = result.user.photoURL;
       try {
         await axios.post(
-<<<<<<< HEAD
           `${import.meta.env.VITE_API_BASE_URL}/auth/google`,
           { name, email, profilepic, firebaseUid: result.user.uid }
         );
         navigate("/homepage");
-=======
-          `${import.meta.env.VITE_API_BASE_URL}/register`,
-          { name, email, profilepic },
-          { withCredentials: true }
-        );
->>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
       } catch (error) {
         console.error("Error sending data:", error);
       }
     } catch (error) {
       console.error("Login failed:", error);
-<<<<<<< HEAD
     } 
-=======
-    } finally {
-      navigate("/homepage");
-    }
->>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
   };
 
   const GoogleLoginButton = ({ className = "", variant = "default" }) => (
@@ -83,16 +64,9 @@ const LandingPage: React.FC = () => {
         relative inline-flex items-center justify-center transition-colors 
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 
         focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none 
-<<<<<<< HEAD
         ${variant === "default"
           ? "bg-indigo-600 text-white hover:bg-indigo-700"
           : "border border-gray-300 bg-white hover:bg-gray-50 text-gray-700"
-=======
-        ${
-          variant === "default"
-            ? "bg-indigo-600 text-white hover:bg-indigo-700"
-            : "border border-gray-300 bg-white hover:bg-gray-50 text-gray-700"
->>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
         }
         ${className}
       `}
@@ -306,7 +280,6 @@ const LandingPage: React.FC = () => {
 
           <div className="grid md:grid-cols-3 gap-10">
             {features.map((feature, index) => (
-<<<<<<< HEAD
               //  <div
               //    key={index}
               //    className="bg-white p-6 rounded-xl shadow-sm border border-black hover:shadow-md transition "
@@ -332,20 +305,6 @@ const LandingPage: React.FC = () => {
                  <p className="text-gray-600 dark:text-gray-400">{feature.description}</p>
                </div>
 
-=======
-              <div
-                key={index}
-                className="bg-white p-6 rounded-xl shadow-sm border border-black hover:shadow-md transition "
-              >
-                <div className="mb-4 p-3 rounded-full bg-indigo-100 inline-block">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-semibold mb-3 text-gray-800">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </div>
->>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
             ))}
           </div>
         </div>

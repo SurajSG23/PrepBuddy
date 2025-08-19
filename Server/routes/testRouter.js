@@ -1,16 +1,9 @@
-<<<<<<< HEAD
 import express from "express";
 import testModel from "../models/testModel.js";
 import userModel from "../models/userModel.js";
 import practiceLogModel from "../models/practiceLogModel.js";
 
 const router = express.Router();
-=======
-const express = require("express");
-const router = express.Router();
-const testModel = require("../models/testModel");
-const userModel = require("../models/userModel");
->>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
 
 router.get("/", (req, res) => {
   res.send("Register page1");
@@ -41,14 +34,12 @@ router.post("/updateScore/:id", async (req, res) => {
     if (!test) {
       return res.status(404).send("User not found");
     }
-<<<<<<< HEAD
 
     // Log practice activity for progress tracking
     try {
       const score = req.body.score || Math.floor(req.body.points / 10); // Assuming 10 points per correct answer
       const testType = req.body.testType || 'general';
       
-      const todaysLog = await practiceLogModel.getTodaysLog(req.params.id);
       todaysLog.testsAttempted += 1;
       todaysLog.totalScore += score;
       todaysLog.averageScore = todaysLog.totalScore / todaysLog.testsAttempted;
@@ -69,8 +60,6 @@ router.post("/updateScore/:id", async (req, res) => {
       // Continue execution even if logging fails
     }
 
-=======
->>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
     res.send(test);
   } catch (error) {
     console.error("Error updating score:", error.message);
@@ -123,18 +112,11 @@ router.get("/gettest/:id", async (req, res) => {
   res.send(test);
 });
 router.get("/getTop3Tests/:id", async (req, res) => {
-<<<<<<< HEAD
   try {
     const topTests = await testModel
       .find({ userid: req.params.id })
       .sort({ createdAt: -1 })
       .limit(3);
-=======
- try {
-    const topTests = await testModel.find({ userid: req.params.id })
-      .sort({ createdAt: -1 })
-      .limit(3); 
->>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
 
     res.send(topTests);
   } catch (error) {
@@ -144,23 +126,16 @@ router.get("/getTop3Tests/:id", async (req, res) => {
 });
 
 router.get("/getAllTests/:id", async (req, res) => {
-<<<<<<< HEAD
   const test = await testModel
     .find({ userid: req.params.id })
     .sort({
       createdAt: -1,
     })
     .limit(20);
-=======
-  const test = await testModel.find({ userid: req.params.id }).sort({
-    createdAt: -1,
-  }).limit(20);
->>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
   console.log(test);
   res.send(test);
 });
 
-<<<<<<< HEAD
 
 
 router.get("/suggest/:id", async (req, res) => {
@@ -264,6 +239,3 @@ async function updateUserStreak(userid, currentStreak) {
 }
 
 export default router;
-=======
-module.exports = router;
->>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e

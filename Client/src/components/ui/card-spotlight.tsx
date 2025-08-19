@@ -23,7 +23,7 @@ const CardSpotlight = ({
     clientX,
     clientY,
   }: ReactMouseEvent<HTMLDivElement>) {
-    let { left, top } = currentTarget.getBoundingClientRect();
+    const { left, top } = currentTarget.getBoundingClientRect();
 
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
@@ -73,8 +73,4 @@ const CardSpotlight = ({
   );
 };
 
-<<<<<<< HEAD
 export default CardSpotlight;
-=======
-export default CardSpotlight;
->>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e

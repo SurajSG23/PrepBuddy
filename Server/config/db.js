@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-=======
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
->>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
 
 dotenv.config();
 
@@ -18,8 +13,4 @@ const connectDB = async () => {
   }
 };
 
-<<<<<<< HEAD
 export { connectDB };
-=======
-module.exports = connectDB;
->>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
