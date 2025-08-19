@@ -50,12 +50,8 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   // Timer hook
   const {
     remainingTime,
-    isExpired,
     formatTime,
-    syncWithServer,
-    saveProgress,
     saveCurrentProgress,
-    startTimer,
     stopTimer,
     startAutoSave,
     stopAutoSave
