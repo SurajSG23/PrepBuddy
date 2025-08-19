@@ -238,4 +238,8 @@ const ScoreBoard: React.FC = () => {
   );
 };
 
+<<<<<<< HEAD
 export default ScoreBoard;
+=======
+export default ScoreBoard;
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e

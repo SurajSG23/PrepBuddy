@@ -9,6 +9,7 @@ import { useState } from "react";
 import Profile from "./components/Custom/Profile";
 import PrevTests from "./components/Custom/PrevTests";
 import ScoreBoard from "./components/Custom/ScoreBoard";
+<<<<<<< HEAD
 import FavoritesPage from "./components/Custom/FavoritesPage";
 import Notes from "./components/Custom/Notes";
 import TechnicalQuestionsPage from "./components/Custom/TechnicalQuestionsPage";
@@ -49,11 +50,19 @@ function App() {
       {/* Pass the chat state setter to the Header */}
       <Header setUserID={setUserId} setIsChatOpen={setIsChatOpen} />
       
+=======
+function App() {
+  const [userID, setUserId] = useState("");
+  return (
+    <div className="w-full min-h-[100vh] h-auto bg-gradient-to-r from-gray-900 to-gray-800 flex flex-col justify-between items-center text-white">
+      <Header setUserID={setUserId} />
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/homepage" element={<HomePage userID={userID} />} />
         <Route path="/testpage" element={<TestPage userID={userID} />} />
         <Route path="/profile" element={<Profile userID={userID} />} />
+<<<<<<< HEAD
         <Route path="/notes" element={<Notes />} />
         <Route path="/previous-tests" element={<PrevTests userID={userID} />} />
         <Route path="/score-board" element={<ScoreBoard />} />
@@ -97,9 +106,18 @@ function App() {
       {/* Render ChatAssistant if user is logged in */}
       {userID && <ChatAssistant userID={userID} isChatOpen={isChatOpen} setIsChatOpen={setIsChatOpen} />}
 
+=======
+        <Route path="/previous-tests" element={<PrevTests userID={userID} />} />
+        <Route path="/score-board" element={<ScoreBoard/>} />
+      </Routes>
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
       <Footer />
     </div>
   );
 }
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App;
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e

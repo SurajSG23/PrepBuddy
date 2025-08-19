@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+<<<<<<< HEAD
 import testRouter from "./routes/testRouter.js";
 import uploadRouter from "./routes/uploadRouter.js";
 import progressRouter from "./routes/progressRouter.js";
@@ -19,10 +20,20 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config();
 connectDB();
+=======
+import registerRouter from "./routes/registerRouter.js";
+import testRouter from "./routes/testRouter.js";
+import uploadRouter from "./routes/uploadRouter.js";
+import cookieParser from "cookie-parser";
+const connectDB = require("./config/db.js");
+connectDB();
+dotenv.config();
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+<<<<<<< HEAD
 const questionsPath = path.join(
   __dirname,
   "..",
@@ -86,20 +97,36 @@ app.use(
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: false,
+=======
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://prep-buddy-test.vercel.app"],
+    credentials: true,
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
   })
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: "true" }));
+<<<<<<< HEAD
 
+=======
+app.use(cookieParser());
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
 
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
+<<<<<<< HEAD
 app.use("/auth", authRouter);
 app.use("/test", testRouter);
 app.use("/upload", uploadRouter);
 app.use("/progress", progressRouter);
 app.use("/quiz", quizRouter);
+=======
+app.use("/register", registerRouter);
+app.use("/test", testRouter);
+app.use("/upload", uploadRouter);
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

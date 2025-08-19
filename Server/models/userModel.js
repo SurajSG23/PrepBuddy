@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema({
+=======
+const mongoose = require("mongoose");
+
+const userSchema = mongoose.Schema({
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
   name: {
     type: String,
     required: true,
   },
+<<<<<<< HEAD
   password:{
     type: String,
     required: false
@@ -19,6 +26,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,
     default: "/default-profile.jpg"
+=======
+  profilepic: {
+    type: String,
+    required: true,
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
   },
   email: {
     type: String,
@@ -49,6 +61,7 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 5,
   },
+<<<<<<< HEAD
   streakBadges: {
     firstStreak: { type: Boolean, default: false },
     weekWarrior: { type: Boolean, default: false },
@@ -91,3 +104,8 @@ userSchema.methods.comparePassword = async function(password){
 
 
 export default mongoose.model("user", userSchema);;
+=======
+});
+
+module.exports = mongoose.model("user", userSchema);
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e

@@ -13,8 +13,11 @@ import questionsData from "../../gemini/sampleSet";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useDetectTabSwitch from "../Custom/useDetectTabSwitch";
+<<<<<<< HEAD
 import { useQuizTimer } from "../../hooks/useQuizTimer";
 import { quizStorage } from "../../utils/quizStorage";
+=======
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
 
 interface HeaderProps {
   userID: string;
@@ -22,7 +25,11 @@ interface HeaderProps {
 
 const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   useDetectTabSwitch();
+<<<<<<< HEAD
   const [sessionId, setSessionId] = useState<string>("");
+=======
+  const [currentTime, setCurrentTime] = useState(10 * 60);
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
   const [userAnswers, setUserAnswers] = useState<(string | null)[]>(
     Array(10).fill(null)
   );
@@ -43,6 +50,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   const [submitConfirmation, setSubmitConfirmation] = useState(false);
   const [scoreBoard, setScoreBoard] = useState(false);
   const [score, setScore] = useState<number>(0);
+<<<<<<< HEAD
   const [startTime, setStartTime] = useState<Date | null>(null);
   const [timeTaken, setTimeTaken] = useState<string>("");
   const [resumeSession, setResumeSession] = useState<any>(null);
@@ -116,11 +124,38 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   }, [sessionId, userAnswers, currentSlide, saveCurrentProgress]);
 
   // Remove the old formatTime function since it's now provided by the hook
+=======
+
+  useEffect(() => {
+    if (currentTime <= 0) return;
+    const timer = setInterval(() => {
+      setCurrentTime((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(timer);
+          toast.warning("Time's up! Your test is being submitted.");
+          handleSubmitTest();
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [currentTime, geminiQuestions, geminiOptions, geminiAnswers]);
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
 
   const handleSelectOption = (questionIndex: number, option: string) => {
     const newAnswers = [...userAnswers];
     newAnswers[questionIndex] = option;
     setUserAnswers(newAnswers);
+<<<<<<< HEAD
     
     // Save progress immediately when user selects an answer
     if (sessionId) {
@@ -185,6 +220,50 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
       } else {
         toast.error("Failed to submit test. Please try again.");
       }
+=======
+  };
+
+  const handleSubmitTest = async () => {
+    const score = userAnswers.reduce((total, answer, index) => {
+      return answer?.trim() === geminiAnswers[index].trim() ? total + 1 : total;
+    }, 0);
+    setScore(score);
+    setScoreBoard(true);
+    if (score == 10) {
+      try {
+        await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/test/updateBadge/${userID}`,
+          {
+            badges: 1,
+          },
+          { withCredentials: true }
+        );
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/test/updateScore/${userID}`,
+        {
+          points: score,
+        },
+        { withCredentials: true }
+      );
+      await axios.post(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/test/updateScoreInTestModel/${userID}`,
+        {
+          score: score,
+        },
+        { withCredentials: true }
+      );
+    } catch (error) {
+      console.error("Error fetching data:", error);
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
     } finally {
       setLoading(false);
     }
@@ -243,7 +322,10 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   //Calling Gemini
   const GenerateQuestions = async () => {
     setLoading(true);
+<<<<<<< HEAD
     setStartTime(new Date());
+=======
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
     try {
       const result = await AIchatSession.sendMessage(newPrompt);
       const geminiQues =
@@ -268,7 +350,11 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
         navigate("/homepage");
         return null;
       }
+<<<<<<< HEAD
 
+=======
+      
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
       const geminiAns =
         result.response?.candidates?.[0]?.content?.parts?.[0]?.text
           ?.split("<answers>")[1]
@@ -282,6 +368,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
           .split("***")
           .map((answer) => answer.trim());
       setGeminiExplaination(geminiExp ?? []);
+<<<<<<< HEAD
 
       // Create quiz session on server
       const sessionResponse = await axios.post(
@@ -321,6 +408,12 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
       console.error("Error generating questions:", error);
       toast.error("Failed to generate questions. Please try again.");
     } finally {
+=======
+    } catch (error) {
+      console.error("Error generating questions:", error);
+    } finally {
+      setCurrentTime(10 * 60);
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
       setLoading(false);
     }
   };
@@ -350,6 +443,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
       window.removeEventListener("popstate", handleBack);
     };
   }, []);
+<<<<<<< HEAD
   // Resume session function
   const resumeExistingSession = async (sessionData: any) => {
     try {
@@ -410,6 +504,8 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
     }
   };
 
+=======
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
   if (confirmation) {
     return (
       <div className="fixed inset-0 flex justify-center items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 z-50 backdrop-blur-sm">
@@ -418,6 +514,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
             📋 Test Instructions
           </h1>
 
+<<<<<<< HEAD
           {resumeSession && (
             <div className="mb-6 p-4 bg-yellow-900/30 border border-yellow-500/50 rounded-lg">
               <h3 className="text-yellow-400 font-semibold mb-2">🔄 Resume Previous Session</h3>
@@ -444,6 +541,8 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
             </div>
           )}
 
+=======
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
           <ul className="text-left list-disc list-inside space-y-4 text-white text-base leading-relaxed">
             <li>
               Company:{" "}
@@ -476,12 +575,15 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
               </span>
               .
             </li>
+<<<<<<< HEAD
             <li>
               <span className="text-green-400 font-semibold">
                 Progress is automatically saved
               </span>
               .
             </li>
+=======
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
           </ul>
           <span className="font-semibold text-2xl text-center text-indigo-300 flex justify-center items-center">
             All The Best
@@ -494,7 +596,11 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
               }}
               className="bg-indigo-600 cursor-pointer hover:bg-indigo-700 px-6 py-3 rounded-xl font-medium transition-all duration-200 shadow-md hover:shadow-indigo-700/40"
             >
+<<<<<<< HEAD
               Start New Test
+=======
+              Start Test
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
             </button>
           </div>
         </div>
@@ -563,10 +669,13 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
               <span className="text-indigo-400 font-semibold">Percentage:</span>{" "}
               {score * 10}%
             </p>
+<<<<<<< HEAD
             <p>
               <span className="text-indigo-400 font-semibold">Time Taken:</span>{" "}
               {timeTaken}
             </p>
+=======
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
             <p className="text-green-400 font-medium">
               {score == 10
                 ? "Perfect Score!"
@@ -730,7 +839,11 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
                   d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
+<<<<<<< HEAD
               <span className="font-mono">{formatTime(remainingTime)}</span>
+=======
+              <span className="font-mono">{formatTime(currentTime)}</span>
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
             </div>
           </div>
         </div>
@@ -887,4 +1000,8 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   );
 };
 
+<<<<<<< HEAD
 export default TestPage;
+=======
+export default TestPage;
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e

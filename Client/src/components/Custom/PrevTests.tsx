@@ -60,9 +60,15 @@ const PrevTests: React.FC<HeaderProps> = ({ userID }) => {
   return userProfileData.array.length > 0 ? (
     <div className="grid grid-cols-1 gap-8 w-full py-8">
       <div className="lg:col-span-2">
+<<<<<<< HEAD
         <Card className="bg-gray-800 border-gray-700 shadow-xl hover:shadow-2xl transition-all duration-300">
           <CardHeader>
             <CardTitle className="text-white">Recent Tests</CardTitle>
+=======
+        <Card className="bg-gray-800 border-gray-700">
+          <CardHeader>
+            <CardTitle>Recent Tests</CardTitle>
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
             <CardDescription className="text-gray-400">
               Your latest test performances
             </CardDescription>
@@ -72,10 +78,17 @@ const PrevTests: React.FC<HeaderProps> = ({ userID }) => {
               {userProfileData.array.map((test) => (
                 <div
                   key={test._id}
+<<<<<<< HEAD
                   className="bg-gray-700 hover:bg-gray-600 rounded-lg p-4 flex justify-between items-center transition duration-200 group"
                 >
                   <div>
                     <h4 className="font-medium group-hover:text-indigo-400 transition">{test.title}</h4>
+=======
+                  className="bg-gray-700 rounded-lg p-4 flex justify-between items-center"
+                >
+                  <div>
+                    <h4 className="font-medium">{test.title}</h4>
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
                     <p className="text-sm text-gray-400">
                       {new Date(test.createdAt).toLocaleDateString("en-GB", {
                         day: "2-digit",
@@ -107,6 +120,7 @@ const PrevTests: React.FC<HeaderProps> = ({ userID }) => {
   ) : (
     <>
       <div className="text-center mt-10">
+<<<<<<< HEAD
         <h2 className="text-2xl font-semibold text-white mb-4">
           🚫 No Tests Taken Yet
         </h2>
@@ -128,10 +142,27 @@ const PrevTests: React.FC<HeaderProps> = ({ userID }) => {
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
     </svg>
     Take a Test
+=======
+        <h2 className="text-2xl font-semibold text-gray-300 mb-4">
+          No Tests Taken Yet
+        </h2>
+        <p className="text-gray-400 mb-6">
+          Looks like you haven’t attempted any tests so far.
+        </p>
+        <Link
+          to="/homepage"
+          className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
+        >
+          Take a Test
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
         </Link>
       </div>
     </>
   );
 };
 
+<<<<<<< HEAD
 export default PrevTests;
+=======
+export default PrevTests;
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e

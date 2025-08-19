@@ -61,4 +61,8 @@ const TextGenerateEffect = ({
   );
 };
 
+<<<<<<< HEAD
 export default TextGenerateEffect;
+=======
+export default TextGenerateEffect;
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import * as React from "react";
+=======
+import React from "react";
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
 
 interface GoogleLoginButtonProps {
   className?: string;
@@ -21,4 +25,8 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ className, onClic
   );
 };
 
+<<<<<<< HEAD
 export default GoogleLoginButton;
+=======
+export default GoogleLoginButton;
+>>>>>>> 1e061faa48b29d975b4f2c516a5b3184d56ae42e
