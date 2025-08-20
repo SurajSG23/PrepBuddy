@@ -1,7 +1,7 @@
-const express = require("express");
+import express from "express";
+import testModel from "../models/testModel.js";
+import userModel from "../models/userModel.js";
 const router = express.Router();
-const testModel = require("../models/testModel");
-const userModel = require("../models/userModel");
 
 router.get("/", (req, res) => {
   res.send("Register page1");
@@ -104,4 +104,4 @@ router.get("/getAllTests/:id", async (req, res) => {
   res.send(test);
 });
 
-module.exports = router;
+export default router;
