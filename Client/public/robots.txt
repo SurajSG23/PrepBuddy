@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://prep-buddy-test.vercel.app/sitemap.xml
+
+# Disallow admin or private routes if any
+# Disallow: /admin/
+
+

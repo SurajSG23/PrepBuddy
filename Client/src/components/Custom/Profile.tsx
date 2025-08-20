@@ -12,6 +12,8 @@ import axios from "axios";
 import { FaLock } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
+import SEOHead from "../SEO/SEOHead";
+import { useSEO } from "../../hooks/useSEO";
 
 interface HeaderProps {
   userID: string;
@@ -52,6 +54,7 @@ const userProfileData = {
 };
 
 const Profile: React.FC<HeaderProps> = ({ userID }) => {
+  const { seoData, dynamicData } = useSEO();
   const [user, setUser] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [profilePic, setProfilePic] = useState("");
@@ -168,6 +171,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
   if (loading) {
     return (
       <>
+        <SEOHead seoData={seoData} dynamicData={dynamicData} />
         <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-99">
           <div className="flex flex-col items-center">
             <div className="w-16 h-16 border-4 border-transparent border-t-blue-500 border-b-blue-500 rounded-full animate-spin"></div>
@@ -263,6 +267,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
   }
   return (
     <div className="min-h-screen bg-gray-900 text-white w-full">
+      <SEOHead seoData={seoData} dynamicData={dynamicData} />
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="bg-gray-800 rounded-lg p-6 shadow-lg mb-8 flex flex-col md:flex-row items-center gap-6">

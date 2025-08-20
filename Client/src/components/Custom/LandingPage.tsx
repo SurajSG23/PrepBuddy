@@ -12,8 +12,11 @@ import {
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import SEOHead from "../SEO/SEOHead";
+import { useSEO } from "../../hooks/useSEO";
 
 const LandingPage: React.FC = () => {
+  const { seoData, dynamicData } = useSEO();
   const navigate = useNavigate();
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -182,6 +185,7 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col w-full">
+      <SEOHead seoData={seoData} dynamicData={dynamicData} />
       <BackgroundBeamsWithCollision className="relative flex-grow flex items-center bg-zinc-900 min-h-[90vh] h-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-gray-100 to-white -z-10"></div>
         <div className="container mx-auto px-4 py-20 md:py-32">
