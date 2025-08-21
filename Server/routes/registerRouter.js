@@ -1,6 +1,6 @@
-const express = require("express");
+import express from "express";
+import userModel from "../models/userModel.js";
 const router = express.Router();
-const userModel = require("../models/userModel");
 
 router.get("/", (req, res) => {
   res.send("Register page1");
@@ -91,4 +91,4 @@ router.post("/changeProfilePic/:id", async (req, res) => {
   res.send(user);
 });
 
-module.exports = router;
+export default router;
