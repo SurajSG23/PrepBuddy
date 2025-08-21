@@ -8,6 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
+import SEOHead from "../SEO/SEOHead";
+import { useSEO } from "../../hooks/useSEO";
 
 interface HeaderProps {
   userID: string;
@@ -20,6 +22,7 @@ interface Test {
 }
 
 const PrevTests: React.FC<HeaderProps> = ({ userID }) => {
+  const { seoData, dynamicData } = useSEO();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -48,6 +51,7 @@ const PrevTests: React.FC<HeaderProps> = ({ userID }) => {
   if (loading) {
     return (
       <>
+        <SEOHead seoData={seoData} dynamicData={dynamicData} />
         <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-99">
           <div className="flex flex-col items-center">
             <div className="w-16 h-16 border-4 border-transparent border-t-blue-500 border-b-blue-500 rounded-full animate-spin"></div>
@@ -59,6 +63,7 @@ const PrevTests: React.FC<HeaderProps> = ({ userID }) => {
   }
   return userProfileData.array.length > 0 ? (
     <div className="grid grid-cols-1 gap-8 w-full py-8">
+      <SEOHead seoData={seoData} dynamicData={dynamicData} />
       <div className="lg:col-span-2">
         <Card className="bg-gray-800 border-gray-700">
           <CardHeader>

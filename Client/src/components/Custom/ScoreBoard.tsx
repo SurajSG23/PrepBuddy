@@ -14,6 +14,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import SEOHead from "../SEO/SEOHead";
+import { useSEO } from "../../hooks/useSEO";
 
 let leaderboardData = [
   {
@@ -120,6 +122,7 @@ const RankBadge = ({ rank }: { rank: number }) => {
 };
 
 const ScoreBoard: React.FC = () => {
+  const { seoData, dynamicData } = useSEO();
   const navigate = useNavigate();
   const [loading, setLoading] = React.useState(true);
 
@@ -161,6 +164,7 @@ const ScoreBoard: React.FC = () => {
   if (loading) {
     return (
       <>
+        <SEOHead seoData={seoData} dynamicData={dynamicData} />
         <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-99">
           <div className="flex flex-col items-center">
             <div className="w-16 h-16 border-4 border-transparent border-t-blue-500 border-b-blue-500 rounded-full animate-spin"></div>
@@ -172,6 +176,7 @@ const ScoreBoard: React.FC = () => {
   }
   return (
     <Card className="w-full ">
+      <SEOHead seoData={seoData} dynamicData={dynamicData} />
       <CardHeader className="bg-black text-white rounded-lg">
         <CardTitle className="text-center text-2xl">Leaderboard</CardTitle>
       </CardHeader>

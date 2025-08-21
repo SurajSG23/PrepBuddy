@@ -1,11 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SEOHead from "../SEO/SEOHead";
+import { useSEO } from "../../hooks/useSEO";
 interface HeaderProps {
   userID: string;
 }
 
 const HomePage: React.FC<HeaderProps> = ({ userID }) => {
+  const { seoData, dynamicData } = useSEO();
   const [testType, setTestType] = useState<"predefined" | "custom">(
     "predefined"
   );
@@ -61,6 +64,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
   if (loading) {
     return (
       <>
+        <SEOHead seoData={seoData} dynamicData={dynamicData} />
         <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-99">
           <div className="flex flex-col items-center">
             <div className="w-16 h-16 border-4 border-transparent border-t-blue-500 border-b-blue-500 rounded-full animate-spin"></div>
@@ -144,6 +148,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
   }
   return (
     <div>
+      <SEOHead seoData={seoData} dynamicData={dynamicData} />
       <main className="container mx-auto px-4 py-6">
         <h1 className="text-3xl font-bold mb-8 text-center">
           Welcome <span className="text-indigo-500">{userName}</span> to

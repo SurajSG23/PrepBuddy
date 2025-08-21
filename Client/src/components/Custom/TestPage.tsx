@@ -11,6 +11,8 @@ import geminiPrompt from "../../gemini/prompt";
 import { AIchatSession } from "../../gemini/AiModel";
 import questionsData from "../../gemini/sampleSet";
 import { useNavigate } from "react-router-dom";
+import SEOHead from "../SEO/SEOHead";
+import { useSEO } from "../../hooks/useSEO";
 import axios from "axios";
 import useDetectTabSwitch from "../Custom/useDetectTabSwitch";
 
@@ -19,6 +21,11 @@ interface HeaderProps {
 }
 
 const TestPage: React.FC<HeaderProps> = ({ userID }) => {
+  const { seoData, dynamicData } = useSEO({
+    title: "Company Aptitude Test - PrepBuddy",
+    description:
+      "Practice company-specific aptitude questions and coding problems. Prepare for placement tests with real company patterns.",
+  });
   useDetectTabSwitch();
   const [currentTime, setCurrentTime] = useState(10 * 60);
   const [userAnswers, setUserAnswers] = useState<(string | null)[]>(
@@ -244,6 +251,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   if (confirmation) {
     return (
       <div className="fixed inset-0 flex justify-center items-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 z-50 backdrop-blur-sm">
+        <SEOHead seoData={seoData} dynamicData={dynamicData} />
         <div className="bg-gray-900 rounded-3xl shadow-2xl p-10 text-white w-[90%] max-w-lg border border-indigo-500/30 transition-all duration-300">
           <h1 className="text-3xl font-extrabold mb-6 text-indigo-400 tracking-wide text-center">
             📋 Test Instructions
@@ -507,6 +515,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white w-full absolute">
+      <SEOHead seoData={seoData} dynamicData={dynamicData} />
       {/* Header */}
       <header className="bg-gray-800 shadow-md">
         <div className="container mx-auto px-4 py-3 flex justify-end items-center">
