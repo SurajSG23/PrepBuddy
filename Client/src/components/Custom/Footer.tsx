@@ -14,13 +14,13 @@ export default function Footer() {
           </div>
 
           <div className="flex space-x-6">
-            <a href="https://www.instagram.com/suraj_sg23/" className="p-3 rounded-full bg-slate-800/70 hover:bg-blue-600 hover:text-white transition transform hover:scale-110">
+            <a href="https://www.instagram.com/suraj_sg23/" target="_blank" rel="noopener noreferrer" className="p-3 rounded-full bg-slate-800/70 hover:bg-blue-600 hover:text-white transition transform hover:scale-110">
               <i className="fab fa-instagram" />
             </a>
-            <a href="https://www.linkedin.com/in/suraj-s-g-dhanva-995a23298/" className="p-3 rounded-full bg-slate-800/70 hover:bg-blue-600 hover:text-white transition transform hover:scale-110">
+            <a href="https://www.linkedin.com/in/suraj-s-g-dhanva-995a23298/" target="_blank" rel="noopener noreferrer" className="p-3 rounded-full bg-slate-800/70 hover:bg-blue-600 hover:text-white transition transform hover:scale-110">
               <i className="fab fa-linkedin" />
             </a>
-            <a href="https://github.com/SurajSG23" className="p-3 rounded-full bg-slate-800/70 hover:bg-blue-600 hover:text-white transition transform hover:scale-110">
+            <a href="https://github.com/SurajSG23" target="_blank" rel="noopener noreferrer" className="p-3 rounded-full bg-slate-800/70 hover:bg-blue-600 hover:text-white transition transform hover:scale-110">
               <i className="fab fa-github" />
             </a>
           </div>
