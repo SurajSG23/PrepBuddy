@@ -12,6 +12,12 @@ import axios from "axios";
 import { FaLock } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
+import React from "react";
+import QODStatsCard from "./QODStatsCard";
+import ProgressDashboard from "./ProgressDashboard";
+import StreakBadges from "./StreakBadges";
+import ThemeToggle from "./ThemeToggle";
+import { useThemeSelector } from "../../store/hooks";
 
 interface HeaderProps {
   userID: string;
@@ -52,6 +58,7 @@ const userProfileData = {
 };
 
 const Profile: React.FC<HeaderProps> = ({ userID }) => {
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
   const [user, setUser] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [profilePic, setProfilePic] = useState("");
@@ -61,6 +68,8 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
   const [confirmation2, setConfirmation2] = useState(false);
   const [newName, setNewName] = useState<string>("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [currentStreak, setCurrentStreak] = useState(0);
 
   useEffect(() => {
     setLoading(true);
@@ -111,6 +120,17 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
           { withCredentials: true }
         );
         userProfileData.rank = response3.data.rank || 0;
+
+        // Fetch current streak
+        try {
+          const streakResponse = await axios.get(
+            `${import.meta.env.VITE_API_BASE_URL}/progress/streak/${userID}`,
+            { withCredentials: true }
+          );
+          setCurrentStreak(streakResponse.data.currentStreak || 0);
+        } catch (streakError) {
+          console.error("Error fetching streak data:", streakError);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -164,14 +184,33 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
       window.location.reload();
     }
   };
+  const handleDeleteAccount = async () => {
+    setLoading(true);
+    try {
+      await axios.delete(
+        `${import.meta.env.VITE_API_BASE_URL}/register/deleteAccount/${userID}`,
+        {
+          withCredentials: true,
+          timeout: 30000, // 30 seconds
+        }
+      );
+      navigate("/landing");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Status:", error.response?.status);
+        console.error("Response:", error.response?.data);
+      }
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return (
       <>
-        <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-99">
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 border-4 border-transparent border-t-blue-500 border-b-blue-500 rounded-full animate-spin"></div>
-            <p className="text-white mt-4 text-lg font-semibold">
+        <div className="flex absolute top-0 justify-center items-center h-screen  w-full z-[99] bg-gray-900/80 backdrop-blur-md">
+          <div className="flex flex-col items-center anmate-fadeIn">
+            <div className="w-16 h-16 border-4 border-transparent border-t-indigo-500 border-b-indigo-500 rounded-full animate-spin shadow-xl"></div>
+            <p className="text-white mt-4 text-lg font-semibold animate-pulse">
               Loading Profile...
             </p>
           </div>
@@ -181,9 +220,9 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
   }
   if (confirmation) {
     return (
-      <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-50">
-        <div className="bg-gray-800 rounded-2xl shadow-lg p-8 text-white w-[90%] max-w-md text-center flex flex-col gap-6">
-          <h1 className="text-2xl font-bold mb-2">Change Your Dislplay Name</h1>
+      <div className="flex absolute top-0 justify-center items-center h-screen w-full z-50 bg-gray-900/80 backdrop-blur-md">
+        <div className="bg-gray-800 rounded-2xl shadow-2xl p-8 text-white w-[90%] max-w-md text-center flex flex-col gap-6 animate-fadeIn">
+          <h1 className="text-2xl font-bold mb-2 text-indigo-400">Change Your Dislplay Name</h1>
           <div className="flex justify-center items-center my-4">
             <input
               value={newName}
@@ -191,7 +230,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
               name="newName"
               id="newName"
               placeholder="Enter your new name"
-              className="w-1/2 px-4 py-2 border-2 border-white bg-transparent text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-2/3 px-4 py-2 border-2 border-white/20 bg-white/10 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 placeholder-gray-400 transition-all"
               onChange={(e) => setNewName(e.target.value)}
             />
           </div>
@@ -200,12 +239,12 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
               onClick={() => {
                 setConfirmation(false);
               }}
-              className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition"
+              className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition-all shadow-md hover:scale-105"
             >
               Cancel
             </button>
             <button
-              className="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition"
+              className="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition-all shadow-md hover:scale-105"
               onClick={() => {
                 changeName();
                 setConfirmation(false);
@@ -220,9 +259,9 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
   }
   if (confirmation2) {
     return (
-      <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-50">
-        <div className="bg-gray-800 rounded-2xl shadow-lg p-8 text-white w-[90%] max-w-md text-center flex flex-col gap-6">
-          <h1 className="text-2xl font-bold mb-2">Change Your Avatar</h1>
+      <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900/80 w-full z-50 backdrop-blur-md">
+        <div className="bg-gray-800 rounded-2xl shadow-2xl p-8 text-white w-[90%] max-w-md text-center flex flex-col gap-6 animate-fadeIn">
+          <h1 className="text-2xl font-bold mb-2 text-indigo-400">Change Your Avatar</h1>
 
           <form
             onSubmit={(e) => {
@@ -232,8 +271,9 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                 setConfirmation2(false);
               }
             }}
-            className="flex flex-col gap-8 justify-center items-center my-4"
+            className="flex flex-col gap-6 justify-center items-center my-4 w-full"
           >
+            
             <input
               type="file"
               className="w-full cursor-pointer px-4 py-2 border-2 border-white bg-indigo-500 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -245,13 +285,13 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
               <button
                 type="button"
                 onClick={() => setConfirmation2(false)}
-                className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition"
+                className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition-all shadow-md hover:scale-105 w-full"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition"
+                className="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition-all shadow-md hover:scale-105 w-full"
               >
                 Confirm
               </button>
@@ -261,23 +301,55 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
       </div>
     );
   }
+  if (deleteConfirmation) {
+    return (
+      <div className="flex absolute top-0 justify-center items-center h-screen w-full z-50 bg-gray-900/80 backdrop-blur-md">
+        <div className="bg-gray-800 rounded-2xl shadow-2xl p-8 text-white w-[90%] max-w-md text-center flex flex-col gap-6 animate-fadeIn">
+          <h1 className="text-2xl font-bold mb-2 text-red-400">Delete Account</h1>
+          <p className="mb-4 text-gray-300 leading-relaxed">
+            Are you sure you want to{" "}
+            <span className="text-red-400 font-semibold">delete your account</span>?<br />
+            This action is <span className="font-bold text-white">irreversible</span> and will remove all your data.
+          </p>
+          <div className="flex justify-center gap-6">
+            <button
+              onClick={() => setDeleteConfirmation(false)}
+              className="bg-gray-600 hover:bg-gray-700 px-6 py-2 rounded-lg cursor-pointer font-medium transition-all hover:scale-105 shadow-md w-full"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleDeleteAccount}
+              className="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg cursor-pointer font-medium transition-all hover:scale-105 shadow-md w-full"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
-    <div className="min-h-screen bg-gray-900 text-white w-full">
+    <div className={`min-h-screen w-full transition-colors duration-300 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-800 rounded-lg p-6 shadow-lg mb-8 flex flex-col md:flex-row items-center gap-6">
-            <Avatar className="h-32 w-32 border-2 border-indigo-500">
+          {/* Theme Toggle Button */}
+          <div className="flex justify-end mb-4">
+            <ThemeToggle />
+          </div>
+          <div className={`rounded-lg p-6 shadow-lg mb-8 flex flex-col md:flex-row items-center gap-6 transition-colors duration-300 ${darkMode ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}> 
+            <Avatar className="h-32 w-32 border-2 border-indigo-500 relative group">
               <AvatarImage src={profilePic || ""} alt={user || "User"} />
               <AvatarFallback className="bg-indigo-600 text-xl">
                 {user ? user.charAt(0).toUpperCase() : "U"}
               </AvatarFallback>
               <div
-                className="absolute bg-black w-full h-full opacity-0 cursor-pointer transition duration-200 hover:opacity-50 flex justify-center items-center"
+                className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 flex justify-center items-center rounded-full transition-opacity duration-300 cursor-pointer"
                 onClick={() => {
                   setConfirmation2(true);
                 }}
               >
-                <FaRegEdit className="text-2xl" />
+                <FaRegEdit className="text-3xl text-white" />
               </div>
             </Avatar>
 
@@ -290,35 +362,35 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
               ) : (
                 <>
                   <span className="flex items-center gap-2 justify-center md:justify-start">
-                    <h2 className="text-2xl font-bold">{user || "User"}</h2>{" "}
+                    <h2 className="text-2xl font-bold text-indigo-400">{user || "User"}</h2>{" "}
                     <FaRegEdit
-                      className="text-xl opacity-25 cursor-pointer hover:opacity-100 transition duration-300"
+                      className="text-xl opacity-30 cursor-pointer hover:opacity-100 hover:text-indigo-400 transition duration-300"
                       title="Change display name"
                       onClick={() => {
                         setConfirmation(true);
                       }}
                     />
                   </span>
-                  <p className="text-gray-400">{email}</p>
+                  <p className="text-gray-400 mt-1">{email}</p>
                 </>
               )}
 
               <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-4">
-                <div className="bg-gray-700 px-4 py-2 rounded-lg flex flex-col items-center">
+                <div className={`px-6 py-3 rounded-xl flex flex-col items-center ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}> 
                   <span className="text-xl font-bold">
                     {userProfileData.testsAttended}
                   </span>
                   <span className="text-sm text-gray-300">Tests Attended</span>
                 </div>
 
-                <div className="bg-gray-700 px-4 py-2 rounded-lg flex flex-col items-center">
-                  <span className="text-xl font-bold">
+                <div className={`px-4 py-2 rounded-lg flex flex-col items-center shadow transition duration-300 ${darkMode ? 'bg-gray-700 hover:shadow-indigo-500/30' : 'bg-gray-200 hover:shadow-indigo-200'}`}> 
+                  <span className="text-2xl font-bold text-indigo-400">
                     {userProfileData.totalPoints}
                   </span>
                   <span className="text-sm text-gray-300">Total Points</span>
                 </div>
-                <div className="bg-gray-700 px-4 py-2 rounded-lg flex flex-col items-center">
-                  <span className="text-xl font-bold">
+                <div className={`px-4 py-2 rounded-lg flex flex-col items-center shadow transition duration-300 ${darkMode ? 'bg-gray-700 hover:shadow-indigo-500/30' : 'bg-gray-200 hover:shadow-indigo-200'}`}> 
+                  <span className="text-2xl font-bold text-indigo-400">
                     #{userProfileData.rank}
                   </span>
                   <span className="text-sm text-gray-300">
@@ -329,11 +401,21 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
             </div>
           </div>
 
+          {/* Progress Dashboard Section */}
+          <div className="mb-8">
+            <ProgressDashboard userID={userID} />
+          </div>
+
+          {/* Streak Badges Section */}
+          <div className="mb-8">
+            <StreakBadges userID={userID} currentStreak={currentStreak} />
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
-              <Card className="bg-gray-800 border-gray-700">
+            <div className="lg:col-span-2 flex flex-col gap-8">
+              <Card className={`${darkMode ? 'bg-gray-800 border border-gray-700 shadow-lg hover:shadow-indigo-500/20' : 'bg-white border border-gray-200 shadow-lg hover:shadow-indigo-200/20'} transition`}>
                 <CardHeader>
-                  <CardTitle>Recent Tests</CardTitle>
+                  <CardTitle className="text-indigo-400 text-xl">Recent Tests</CardTitle>
                   <CardDescription className="text-gray-400">
                     Your latest test performances
                   </CardDescription>
@@ -341,13 +423,13 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                 {userProfileData.recentTests.length > 0 ? (
                   <CardContent>
                     <div className="space-y-4">
-                      {userProfileData.recentTests.map((test) => (
+                      {userProfileData.recentTests.map((test, index) => (
                         <div
-                          key={test.id}
-                          className="bg-gray-700 rounded-lg p-4 flex justify-between items-center"
+                          key={index}
+                          className={`rounded-lg p-4 flex justify-between items-center transition ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'}`}
                         >
                           <div>
-                            <h4 className="font-medium">{test.name}</h4>
+                            <h4 className="font-medium text-white">{test.name}</h4>
                             <p className="text-sm text-gray-400">{test.date}</p>
                           </div>
                           <div className="flex items-center gap-2">
@@ -369,7 +451,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                   </CardContent>
                 ) : (
                   <>
-                    <div className="text-center p-6 bg-gray-800 rounded-lg shadow-md">
+                    <div className={`text-center p-6 rounded-lg shadow-inner ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
                       <h3 className="text-xl font-semibold text-white mb-2">
                         No Tests to Display
                       </h3>
@@ -378,7 +460,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                       </p>
                       <Link
                         to="/homepage"
-                        className="inline-block bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-500 transition"
+                        className={`inline-block px-4 py-2 rounded-md transition ${darkMode ? 'bg-indigo-600 hover:bg-indigo-700 text-white' : 'bg-indigo-500 hover:bg-indigo-600 text-white'}`}
                       >
                         Take Your First Test
                       </Link>
@@ -386,7 +468,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                   </>
                 )}
 
-                <CardFooter className="border-t border-gray-700 pt-4">
+                <CardFooter className={`pt-4 ${darkMode ? 'border-t border-gray-700' : 'border-t border-gray-200'}`}>
                   <Link
                     to="/previous-tests"
                     className="text-indigo-400 hover:text-indigo-300 transition text-sm"
@@ -395,51 +477,76 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                   </Link>
                 </CardFooter>
               </Card>
+
+              {/* --- Delete Account Card --- */}
+              <Card className={`${darkMode ? 'bg-gray-800 border border-gray-700 shadow-lg hover:shadow-red-500/20' : 'bg-white border border-gray-200 shadow-lg hover:shadow-red-200/20'} transition`}>
+                <CardHeader>
+                  <CardTitle className="text-red-400 text-xl">Delete Account</CardTitle>
+                  <CardDescription className="text-gray-400">
+                    Permanently remove your account and all data.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-col items-center gap-6">
+                    <p className="text-center text-gray-300">
+                      This action is{" "}
+                      <span className="font-bold text-red-400">irreversible</span>. All your data will be deleted.
+                    </p>
+                    <button
+                      onClick={() => setDeleteConfirmation(true)}
+                      className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg font-medium transition shadow-md hover:scale-105 cursor-pointer"
+                    >
+                      Delete Account
+                    </button>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
             <div>
-              <Card className="bg-gray-800 border-gray-700">
+              <Card className={`${darkMode ? 'bg-gray-800 border border-gray-700 shadow-lg hover:shadow-indigo-500/20' : 'bg-white border border-gray-200 shadow-lg hover:shadow-indigo-200/20'} transition`}>
                 <CardHeader>
-                  <CardTitle>Badges</CardTitle>
+                  <CardTitle  className="text-indigo-400 text-xl">Badges</CardTitle>
                   <CardDescription className="text-gray-400">
                     Achievements you've earned
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     {userProfileData.badges.map((badge) => (
-                      <>
-                        <p className="text-xs text-center text-gray-400">
+                      <React.Fragment key={badge.id}>
+                        <p className="text-xs text-center text-gray-400 italic">
                           {badge.description}
                         </p>
                         <div
-                          key={badge.id}
-                          className="bg-gray-700 rounded-lg p-3 flex items-center gap-3 relative overflow-hidden"
+                          className={`rounded-lg p-3 flex items-center gap-4 relative overflow-hidden transition transform hover:scale-[1.02] ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}
                         >
-                          <div className="h-12 w-12 rounded-full flex items-center justify-center ">
+                          <div className={`h-14 w-14 rounded-full flex items-center justify-center border-2 border-indigo-500 overflow-hidden ${darkMode ? 'bg-gray-600' : 'bg-gray-200'}`}>
                             <img
                               src={`${badge.img}`}
                               alt={badge.name}
-                              className="h-full w-full"
+                              className="h-full w-full object-cover"
                             />
                           </div>
                           <div>
-                            <h4 className="font-medium">{badge.name}</h4>
+                            <h4 className="font-semibold">{badge.name}</h4>
                           </div>
                           {!badge.achieved && (
                             <div
-                              className="absolute inset-0 bg-black opacity-80 flex justify-center items-center"
+                              className="absolute inset-0 bg-black opacity-80 flex justify-center items-center backdrop-blur-sm"
                               title={`${badge.description}`}
                             >
-                              <FaLock className="text-indigo-500 text-3xl" />
+                              <FaLock className="text-indigo-500 text-3xl animate-pulse" />
                             </div>
                           )}
                         </div>
-                      </>
+                      </React.Fragment>
                     ))}
                   </div>
                 </CardContent>
               </Card>
+              
+              <QODStatsCard />
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import BackgroundBeamsWithCollision from "../ui/background-beams-with-collision";
 import React, { useEffect } from "react";
+import { useThemeSelector } from "../../store/hooks";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import TextGenerateEffect from "../ui/text-generate-effect";
@@ -24,7 +25,7 @@ const LandingPage: React.FC = () => {
     return () => unsubscribe();
   }, [auth, navigate]);
 
-  const handleLogin = async () => {};
+  const handleLogin = async () => { };
   const provider = new GoogleAuthProvider();
 
   useGSAP(() => {
@@ -45,18 +46,17 @@ const LandingPage: React.FC = () => {
       const profilepic = result.user.photoURL;
       try {
         await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/register`,
+          `${import.meta.env.VITE_API_BASE_URL}/auth/google`,
           { name, email, profilepic },
           { withCredentials: true }
         );
+        navigate("/homepage");
       } catch (error) {
         console.error("Error sending data:", error);
       }
     } catch (error) {
       console.error("Login failed:", error);
-    } finally {
-      navigate("/homepage");
-    }
+    } 
   };
 
   const GoogleLoginButton = ({ className = "", variant = "default" }) => (
@@ -66,10 +66,9 @@ const LandingPage: React.FC = () => {
         relative inline-flex items-center justify-center transition-colors 
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 
         focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none 
-        ${
-          variant === "default"
-            ? "bg-indigo-600 text-white hover:bg-indigo-700"
-            : "border border-gray-300 bg-white hover:bg-gray-50 text-gray-700"
+        ${variant === "default"
+          ? "bg-indigo-600 text-white hover:bg-indigo-700"
+          : "border border-gray-300 bg-white hover:bg-gray-50 text-gray-700"
         }
         ${className}
       `}
@@ -180,15 +179,17 @@ const LandingPage: React.FC = () => {
   //   );
   // }
 
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
+
   return (
-    <div className="min-h-screen flex flex-col w-full">
-      <BackgroundBeamsWithCollision className="relative flex-grow flex items-center bg-zinc-900 min-h-[90vh] h-auto">
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-100 to-white -z-10"></div>
-        <div className="container mx-auto px-4 py-20 md:py-32">
+  <div className="min-h-screen flex flex-col w-full" style={{ background: darkMode ? '#0e0430' : '#fff', color: darkMode ? '#e5e7eb' : '#1a202c' }}>
+  <BackgroundBeamsWithCollision className={`relative flex-grow flex items-center min-h-[90vh] h-auto ${darkMode ? 'bg-zinc-900' : 'bg-white'}` }>
+  <div className={`absolute inset-0 -z-10 ${darkMode ? 'bg-gradient-to-r from-zinc-900 to-zinc-800' : 'bg-gradient-to-r from-gray-100 to-white'}`}></div>
+  <div className="container mx-auto px-4 py-20 md:py-32">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <TypewriterEffect
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-indigo-500 leading-tight"
+                className={`text-4xl md:text-5xl lg:text-6xl font-bold leading-tight ${darkMode ? 'text-indigo-300' : 'text-indigo-700'}`}
                 words={[
                   { text: "Ace" },
                   { text: "Your" },
@@ -202,7 +203,7 @@ const LandingPage: React.FC = () => {
               />
 
               <TextGenerateEffect
-                className="text-xl font-thin text-gray-500"
+                className={`text-xl font-thin ${darkMode ? 'text-gray-400' : 'text-gray-800'}`}
                 words="Master technical and aptitude questions while practicing real-time interviews with our AI assistant."
               />
               <div
@@ -216,18 +217,18 @@ const LandingPage: React.FC = () => {
             </div>
 
             <div className="relative" id="box">
-              <div className="bg-black p-6 rounded-xl shadow-xl border border-indigo-600">
+              <div className={`p-6 rounded-xl shadow-xl border border-indigo-600 ${darkMode ? 'bg-zinc-800' : 'bg-white'}`}>
                 <div className="mb-4 rounded-lg bg-indigo-600 p-4">
                   <p className="font-medium text-white">
                     Aptitude Test Session
                   </p>
                 </div>
                 <div className="space-y-4 mb-4">
-                  <div className="bg-gray-900 p-4 rounded-lg">
-                    <p className="font-medium text-indigo-300 mb-2">
+                  <div className={`p-4 rounded-lg ${darkMode ? 'bg-zinc-700' : 'bg-gray-100'}`}>
+                    <p className={`font-medium ${darkMode ? 'text-indigo-300' : 'text-indigo-600'} mb-2`}>
                       Question 3 of 10:
                     </p>
-                    <p className="text-gray-300">
+                    <p className={`${darkMode ? 'text-gray-300' : 'text-zinc-700'}`}>
                       If a train travels at a speed of 60 km/hr and crosses a
                       platform in 30 seconds, what is the length of the
                       platform?
@@ -236,30 +237,30 @@ const LandingPage: React.FC = () => {
                   <div className="space-y-2">
                     <div className="flex items-center">
                       <div className="w-5 h-5 rounded-full border-2 border-gray-500 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-300">300 meters</p>
+                      <p className={`${darkMode ? 'text-gray-300' : 'text-zinc-700'}`}>300 meters</p>
                     </div>
                     <div className="flex items-center">
                       <div className="w-5 h-5 rounded-full border-2 border-gray-500 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-300">400 meters</p>
+                      <p className={`${darkMode ? 'text-gray-300' : 'text-zinc-700'}`}>400 meters</p>
                     </div>
                     <div className="flex items-center">
                       <div className="w-5 h-5 rounded-full border-2 border-indigo-500 bg-indigo-600 mr-3 flex-shrink-0"></div>
-                      <p className="font-medium text-white">500 meters</p>
+                      <p className={`font-medium ${darkMode ? 'text-gray-300' : 'text-zinc-700'}`}>500 meters</p>
                     </div>
                     <div className="flex items-center">
                       <div className="w-5 h-5 rounded-full border-2 border-gray-500 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-300">600 meters</p>
+                      <p className={`${darkMode ? 'text-gray-300' : 'text-zinc-700'}`}>600 meters</p>
                     </div>
                   </div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <button className="text-indigo-400 hover:text-indigo-300 cursor-pointer">
+                  <button className={`cursor-pointer font-medium ${darkMode ? 'text-indigo-400 hover:text-indigo-300' : 'text-indigo-600 hover:text-indigo-500'}`}>
                     Previous
                   </button>
-                  <div className="text-xs text-gray-400">
+                  <div className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600' }`}>
                     Time remaining: 1:45
                   </div>
-                  <button className="text-indigo-400 font-medium hover:text-indigo-300 cursor-pointer">
+                  <button className={`cursor-pointer font-medium ${darkMode ? 'text-indigo-400 hover:text-indigo-300' : 'text-indigo-600 hover:text-indigo-500' }`}>
                     Next
                   </button>
                 </div>
@@ -269,13 +270,13 @@ const LandingPage: React.FC = () => {
         </div>
       </BackgroundBeamsWithCollision>
 
-      <section id="features" className="py-20 bg-white invert">
-        <div className="container mx-auto px-4">
+  <section id="features" className={`py-20 ${darkMode ? 'bg-zinc-900' : 'bg-white'}` }>
+  <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>
               Why Choose PrepBuddy?
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className={`text-lg max-w-2xl mx-auto ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               Our platform combines cutting-edge AI with proven interview
               techniques to help you land your dream job.
             </p>
@@ -283,30 +284,43 @@ const LandingPage: React.FC = () => {
 
           <div className="grid md:grid-cols-3 gap-10">
             {features.map((feature, index) => (
-              <div
-                key={index}
-                className="bg-white p-6 rounded-xl shadow-sm border border-black hover:shadow-md transition "
-              >
-                <div className="mb-4 p-3 rounded-full bg-indigo-100 inline-block">
-                  {feature.icon}
-                </div>
-                <h3 className="text-xl font-semibold mb-3 text-gray-800">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-600">{feature.description}</p>
-              </div>
+              //  <div
+              //    key={index}
+              //    className="bg-white p-6 rounded-xl shadow-sm border border-black hover:shadow-md transition "
+              //  >
+              //    <div className="mb-4 p-3 rounded-full bg-indigo-100 inline-block">
+              //     {feature.icon}
+              //    </div>
+              //    <h3 className="text-xl font-semibold mb-3 text-gray-800">
+              //      {feature.title}
+              //    </h3>
+              //    <p className="text-gray-600">{feature.description}</p>
+              //  </div>
+               <div
+                 key={index}
+                 className={`p-6 rounded-xl border border-white/20 shadow-lg hover:shadow-xl hover:scale-[1.03] transition-all duration-300 ease-in-out transform group ${darkMode ? 'bg-zinc-800' : 'bg-white'}`}
+               >
+                 <div className="mb-4 p-3 rounded-full bg-indigo-100 inline-block">
+                   {feature.icon}
+                 </div>
+                 <h3 className={`text-xl font-semibold mb-3 group-hover:text-indigo-600 transition-colors duration-300 ${darkMode ? 'text-gray-200' : 'text-gray-900'}`}>
+                   {feature.title}
+                 </h3>
+                 <p className={`${darkMode ? 'text-gray-400' : 'text-gray-700'}`}>{feature.description}</p>
+               </div>
+
             ))}
           </div>
         </div>
       </section>
 
-      <section id="how-it-works" className="py-20  bg-zinc-900  ">
+      <section id="how-it-works" className={`py-20 ${darkMode ? 'bg-zinc-900' : 'bg-white'} `}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-200 mb-4">
+            <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${darkMode ? 'text-gray-200' : 'text-gray-900'} `}>
               How It Works
             </h2>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            <p className={`text-lg max-w-2xl mx-auto ${darkMode ? 'text-gray-400' : 'text-gray-600' }`}>
               Get started in minutes and improve your interview skills today.
             </p>
           </div>
@@ -338,10 +352,10 @@ const LandingPage: React.FC = () => {
                     {item.step}
                   </div>
                   <div className="ml-4">
-                    <h3 className="text-xl font-semibold text-gray-200">
+                    <h3 className={`text-xl font-semibold ${darkMode ? 'text-gray-200' : 'text-gray-900'}`}>
                       {item.title}
                     </h3>
-                    <p className="text-gray-400 mt-1">{item.description}</p>
+                    <p className={`mt-1 ${darkMode ? 'text-gray-400' : 'text-gray-600' }`}>{item.description}</p>
                   </div>
                 </div>
               ))}

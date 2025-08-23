@@ -1,4 +1,5 @@
 import React from "react";
+import { useThemeSelector } from "../../store/hooks";
 import { Award, Medal } from "lucide-react";
 import {
   Table,
@@ -158,27 +159,28 @@ const ScoreBoard: React.FC = () => {
     fetchLeaderboardData();
   }, [navigate]);
 
+  const darkMode = useThemeSelector((state) => state.theme.darkMode);
   if (loading) {
     return (
       <>
-        <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-99">
+        <div className={`flex absolute top-0 justify-center items-center h-screen w-full z-99 ${darkMode ? "bg-gray-900" : "bg-gray-100"}`}>
           <div className="flex flex-col items-center">
-            <div className="w-16 h-16 border-4 border-transparent border-t-blue-500 border-b-blue-500 rounded-full animate-spin"></div>
-            <p className="text-white mt-4 text-lg font-semibold">Loading Leaderboard...</p>
+            <div className={`w-16 h-16 border-4 border-transparent rounded-full animate-spin ${darkMode ? "border-t-blue-500 border-b-blue-500" : "border-t-indigo-500 border-b-indigo-500"}`}></div>
+            <p className={`mt-4 text-lg font-semibold ${darkMode ? "text-white" : "text-gray-800"}`}>Loading Leaderboard...</p>
           </div>
         </div>
       </>
     );
   }
   return (
-    <Card className="w-full ">
-      <CardHeader className="bg-black text-white rounded-lg">
+    <Card className={`w-full ${darkMode ? "bg-gray-900 border-gray-800" : "bg-white border-gray-200"}`}>
+      <CardHeader className={`${darkMode ? "bg-gray-900 text-white" : "bg-indigo-50 text-gray-900"} rounded-lg`}>
         <CardTitle className="text-center text-2xl">Leaderboard</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <Table>
           <TableHeader>
-            <TableRow className="hover:bg-muted/5">
+            <TableRow className={darkMode ? "hover:bg-gray-800" : "hover:bg-indigo-100"}>
               <TableHead className="w-[100px]">Rank</TableHead>
               <TableHead>User</TableHead>
               <TableHead className="text-right">Points</TableHead>
@@ -186,51 +188,63 @@ const ScoreBoard: React.FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {leaderboardData.map((user, index) => (
-              <TableRow
-                key={user.id}
-                className={`transition-all duration-300 rounded-xl p-4 ${
-                  index === 0
-                    ? "bg-amber-300 text-amber-900 hover:bg-amber-200"
-                    : index === 1
-                    ? "bg-gray-300 text-gray-800 hover:bg-gray-200"
-                    : index === 2
-                    ? "bg-yellow-800 text-yellow-100 hover:bg-yellow-700"
-                    : "bg-black hover:bg-zinc-800"
-                }`}
-              >
-                <TableCell>
-                  <RankBadge rank={index + 1} />
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-3 max-[353px]:flex-col">
-                    <Avatar
-                      className={`h-10 w-10 border-2 ${
-                        index === 0
-                          ? "border-yellow-800"
-                          : index === 1
-                          ? "border-gray-700"
-                          : index === 2
-                          ? "border-amber-500"
-                          : "border-white"
-                      }`}
-                    >
-                      <AvatarImage src={user.avatar} alt={user.name} />
-                      <AvatarFallback>{user.name.slice(0, 2)}</AvatarFallback>
-                    </Avatar>
-                    <div className="font-medium max-[353px]:text-center">
-                      {user.name}
+            {leaderboardData.map((user, index) => {
+              let rowClass = "";
+              if (index === 0) {
+                rowClass = darkMode
+                  ? "bg-yellow-900 text-yellow-200 hover:bg-yellow-800"
+                  : "bg-amber-300 text-amber-900 hover:bg-amber-200";
+              } else if (index === 1) {
+                rowClass = darkMode
+                  ? "bg-gray-700 text-gray-200 hover:bg-gray-600"
+                  : "bg-gray-300 text-gray-800 hover:bg-gray-200";
+              } else if (index === 2) {
+                rowClass = darkMode
+                  ? "bg-yellow-800 text-yellow-100 hover:bg-yellow-700"
+                  : "bg-yellow-800 text-yellow-100 hover:bg-yellow-700";
+              } else {
+                rowClass = darkMode
+                  ? "bg-gray-900 hover:bg-gray-800 text-white"
+                  : "bg-white hover:bg-indigo-50 text-gray-900";
+              }
+              return (
+                <TableRow
+                  key={user.id}
+                  className={`transition-all duration-300 rounded-xl p-4 ${rowClass}`}
+                >
+                  <TableCell>
+                    <RankBadge rank={index + 1} />
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-3 max-[353px]:flex-col">
+                      <Avatar
+                        className={`h-10 w-10 border-2 ${
+                          index === 0
+                            ? darkMode ? "border-yellow-400" : "border-yellow-800"
+                            : index === 1
+                            ? darkMode ? "border-gray-400" : "border-gray-700"
+                            : index === 2
+                            ? "border-amber-500"
+                            : darkMode ? "border-gray-300" : "border-white"
+                        }`}
+                      >
+                        <AvatarImage src={user.avatar} alt={user.name} />
+                        <AvatarFallback>{user.name.slice(0, 2)}</AvatarFallback>
+                      </Avatar>
+                      <div className="font-medium max-[353px]:text-center">
+                        {user.name}
+                      </div>
                     </div>
-                  </div>
-                </TableCell>
-                <TableCell className="text-right font-semibold">
-                  {user.totalPoints.toLocaleString()}
-                </TableCell>
-                <TableCell className="text-right">
-                  {user.testsAttended}
-                </TableCell>
-              </TableRow>
-            ))}
+                  </TableCell>
+                  <TableCell className="text-right font-semibold">
+                    {user.totalPoints.toLocaleString()}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {user.testsAttended}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </CardContent>
