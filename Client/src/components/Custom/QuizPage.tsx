@@ -28,15 +28,10 @@ const QuizPage = () => {
   // Timer hook for aptitude quizzes
   const {
     remainingTime,
-    isExpired,
     formatTime,
-    syncWithServer,
-    saveProgress,
     saveCurrentProgress,
     startTimer,
-    stopTimer,
     startAutoSave,
-    stopAutoSave
   } = useQuizTimer({
     sessionId,
     onTimeUp: () => {

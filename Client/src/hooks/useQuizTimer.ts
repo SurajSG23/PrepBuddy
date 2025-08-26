@@ -1,15 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 
-interface QuizSession {
-  _id: string;
-  startTime: string;
-  duration: number;
-  userAnswers: (string | null)[];
-  currentQuestion: number;
-  isCompleted: boolean;
-}
-
 interface TimerSyncResponse {
   serverTime: string;
   remainingSeconds: number;
@@ -31,7 +22,6 @@ export const useQuizTimer = ({ sessionId, onTimeUp, onSyncError }: UseQuizTimerP
   const [remainingTime, setRemainingTime] = useState<number>(600); // 10 minutes default
   const [isExpired, setIsExpired] = useState<boolean>(false);
   const [lastSyncTime, setLastSyncTime] = useState<Date | null>(null);
-  const [serverTimeOffset, setServerTimeOffset] = useState<number>(0);
   
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const syncIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -45,16 +35,11 @@ export const useQuizTimer = ({ sessionId, onTimeUp, onSyncError }: UseQuizTimerP
         { withCredentials: true }
       );
 
-      const { remainingSeconds, isExpired: serverExpired, serverTime } = response.data;
+      const { remainingSeconds, isExpired: serverExpired } = response.data;
       
       setRemainingTime(remainingSeconds);
       setIsExpired(serverExpired);
       setLastSyncTime(new Date());
-      
-      // Calculate time offset between client and server
-      const clientTime = new Date();
-      const serverTimeDate = new Date(serverTime);
-      setServerTimeOffset(clientTime.getTime() - serverTimeDate.getTime());
       
       if (serverExpired) {
         onTimeUp();

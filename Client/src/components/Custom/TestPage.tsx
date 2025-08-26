@@ -20,6 +20,44 @@ interface HeaderProps {
   userID: string;
 }
 
+interface LocalProgress {
+  sessionId: string;
+  userAnswers: (string | null)[];
+  currentQuestion: number;
+  lastSaved: number;
+  topic: string;
+  title: string;
+}
+
+interface LocalSession {
+  sessionId: string;
+  questions: string[];
+  options: string[][];
+  correctAnswers: string[];
+  explanations: string[];
+  topic: string;
+  title: string;
+}
+
+interface ServerSession {
+  _id: string;
+  userAnswers: (string | null)[];
+  currentQuestion: number;
+  questions: string[];
+  options: string[][];
+  correctAnswers: string[];
+  explanations: string[];
+  title: string;
+  difficulty: string;
+  startTime: string;
+}
+
+interface ResumeSessionData {
+  localProgress?: LocalProgress;
+  localSession?: LocalSession;
+  serverSession?: ServerSession;
+}
+
 const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   useDetectTabSwitch();
   const [sessionId, setSessionId] = useState<string>("");
@@ -43,17 +81,13 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   const [submitConfirmation, setSubmitConfirmation] = useState(false);
   const [scoreBoard, setScoreBoard] = useState(false);
   const [score, setScore] = useState<number>(0);
-  const [startTime, setStartTime] = useState<Date | null>(null);
   const [timeTaken, setTimeTaken] = useState<string>("");
-  const [resumeSession, setResumeSession] = useState<any>(null);
+  const [resumeSession, setResumeSession] = useState<ResumeSessionData | null>(null);
 
   // Timer hook
   const {
     remainingTime,
-    isExpired,
     formatTime,
-    syncWithServer,
-    saveProgress,
     saveCurrentProgress,
     startTimer,
     stopTimer,
@@ -178,10 +212,15 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
           console.error("Error updating badge:", error);
         }
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error submitting test:", error);
-      if (error.response?.data?.message) {
-        toast.error(error.response.data.message);
+      if (error && typeof error === 'object' && 'response' in error) {
+        const axiosError = error as { response?: { data?: { message?: string } } };
+        if (axiosError.response?.data?.message) {
+          toast.error(axiosError.response.data.message);
+        } else {
+          toast.error("Failed to submit test. Please try again.");
+        }
       } else {
         toast.error("Failed to submit test. Please try again.");
       }
@@ -243,7 +282,6 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   //Calling Gemini
   const GenerateQuestions = async () => {
     setLoading(true);
-    setStartTime(new Date());
     try {
       const result = await AIchatSession.sendMessage(newPrompt);
       const geminiQues =
@@ -327,7 +365,6 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
   useEffect(() => {
     const preventRefresh = (event: BeforeUnloadEvent) => {
       event.preventDefault();
-      event.returnValue = "";
     };
 
     window.addEventListener("beforeunload", preventRefresh);
@@ -350,7 +387,7 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
     };
   }, []);
   // Resume session function
-  const resumeExistingSession = async (sessionData: any) => {
+  const resumeExistingSession = async (sessionData: ResumeSessionData) => {
     try {
       setLoading(true);
       
@@ -377,7 +414,6 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
         startAutoSave();
         
         setConfirmation(false);
-        setStartTime(new Date());
         
       } else if (sessionData.serverSession) {
         // Resume from server
@@ -398,7 +434,6 @@ const TestPage: React.FC<HeaderProps> = ({ userID }) => {
         startAutoSave();
         
         setConfirmation(false);
-        setStartTime(new Date(serverSession.startTime));
       }
     } catch (error) {
       console.error('Error resuming session:', error);
