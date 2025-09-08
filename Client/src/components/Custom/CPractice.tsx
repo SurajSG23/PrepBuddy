@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useMemo, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { cpp } from "@codemirror/lang-cpp";
-import { FiPlay, FiRotateCw, FiBookmark, FiSearch } from "react-icons/fi";
+import { FiPlay, FiRotateCw, FiBookmark, FiSearch, FiClock, FiPause } from "react-icons/fi";
+import { usePracticeTimer } from "../../hooks/usePracticeTimer";
 
 type Level = "Beginner" | "Intermediate" | "Advanced";
 type CppQ = {
@@ -406,6 +407,22 @@ export default function CPractice(): React.ReactElement {
   );
   const [outputs, setOutputs] = useState<Record<number, string>>({});
 
+  // Timer hook - 30 minutes for code practice
+  const {
+    remainingTime,
+    isRunning,
+    isExpired,
+    formatTime,
+    startTimer,
+    pauseTimer
+  } = usePracticeTimer({
+    duration: 1800, // 30 minutes
+    autoStart: true, // Start automatically
+    onTimeUp: () => {
+      alert("Practice time is up! You can continue practicing or take a break.");
+    }
+  });
+
   const levels: ("All" | Level)[] = ["All", "Beginner", "Intermediate", "Advanced"];
 
   const filtered = useMemo(() => {
@@ -454,8 +471,45 @@ export default function CPractice(): React.ReactElement {
       { className: "max-w-5xl mx-auto" },
       React.createElement(
         "h1",
-        { className: "text-4xl font-extrabold text-indigo-300 mb-6 text-center" },
+        { className: "text-4xl font-extrabold text-indigo-300 mb-4 text-center" },
         "C Practice Hub"
+      ),
+
+      // Timer Display
+      React.createElement(
+        "div",
+        { className: "flex items-center justify-center gap-4 mb-6" },
+        React.createElement(
+          "div",
+          {
+            className: `flex items-center gap-2 px-4 py-2 rounded-lg ${
+              remainingTime <= 600 ? 'bg-red-900/30 text-red-400' : 
+              remainingTime <= 1200 ? 'bg-yellow-900/30 text-yellow-400' : 
+              'bg-green-900/30 text-green-400'
+            }`
+          },
+          React.createElement(FiClock, { size: 18 }),
+          React.createElement(
+            "span",
+            { className: "font-mono text-lg" },
+            formatTime()
+          )
+        ),
+        React.createElement(
+          "button",
+          {
+            onClick: isRunning ? pauseTimer : startTimer,
+            className: "flex items-center gap-2 px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-colors",
+            disabled: isExpired
+          },
+          React.createElement(isRunning ? FiPause : FiPlay, { size: 16 }),
+          React.createElement("span", {}, isRunning ? 'Pause' : 'Resume')
+        ),
+        isExpired && React.createElement(
+          "div",
+          { className: "text-red-400 font-semibold" },
+          "⏰ Practice time is up!"
+        )
       ),
 
       // Controls container
