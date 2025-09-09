@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FiRefreshCw, FiBookmark } from "react-icons/fi";
+import { useDarkMode } from "../Custom/DarkModeContext";
 const cssQuestions = [
   {
     id: 1,
@@ -248,6 +249,7 @@ button:hover {
 ];
 
 const CssPractice: React.FC = () => {
+  const { darkMode } = useDarkMode();
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
   const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
@@ -264,9 +266,16 @@ const CssPractice: React.FC = () => {
     return matchesFilter && matchesSearch;
   });
 
-  return (
-    <div className="max-w-4xl mx-auto p-6 text-white">
-      <h1 className="text-center text-3xl font-bold mb-6 text-purple-300">
+  const bgPage = darkMode ? "bg-gradient-to-b from-gray-900 to-black text-white" : "bg-white text-gray-900";
+  const inputBg = darkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-900";
+  const btnBg = darkMode ? "bg-gray-700 hover:bg-gray-600 text-gray-200" : "bg-gray-200 hover:bg-gray-300 text-gray-900";
+  const codeBg = darkMode ? "bg-gray-900 text-green-400" : "bg-gray-100 text-green-700";
+  const cardBg = darkMode ? "bg-gray-800" : "bg-gray-100";
+  const borderGray = darkMode ? "border-gray-600" : "border-gray-300";
+
+   return (
+    <div className={`max-w-4xl mx-auto p-6 transition-colors duration-500 ${bgPage}`}>
+      <h1 className={`text-center text-3xl font-bold mb-6 transition-colors duration-500 ${darkMode ? "text-purple-300" : "text-purple-600"}`}>
         CSS Practice Hub
       </h1>
 
@@ -275,7 +284,7 @@ const CssPractice: React.FC = () => {
         <input
           type="text"
           placeholder="Search by keyword, topic..."
-          className="px-4 py-2 rounded-lg bg-gray-800 text-white focus:outline-none"
+          className={`px-4 py-2 rounded-lg focus:outline-none transition-colors duration-500 ${inputBg}`}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -283,10 +292,8 @@ const CssPractice: React.FC = () => {
           <button
             key={level}
             onClick={() => setFilter(level)}
-            className={`px-4 py-2 rounded-lg ${
-              filter === level
-                ? "bg-purple-600"
-                : "bg-gray-700 hover:bg-gray-600"
+            className={`px-4 py-2 rounded-lg transition-colors duration-500 ${
+              filter === level ? "bg-purple-600 text-white" : btnBg
             }`}
           >
             {level}
@@ -299,31 +306,34 @@ const CssPractice: React.FC = () => {
         {filteredQuestions.map((q) => (
           <div
             key={q.id}
-            className="bg-gray-800 p-4 rounded-xl shadow-lg transition-all"
+            className={`p-4 rounded-xl shadow-lg transition-colors duration-500 ${cardBg}`}
           >
             {/* Title Row */}
             <div className="flex justify-between items-start">
               <div>
-                <h2 className="font-semibold text-lg">{q.title}</h2>
+                <h2 className={`font-semibold text-lg transition-colors duration-500 ${darkMode ? "text-white" : "text-gray-900"}`}>
+                  {q.title}
+                </h2>
                 <span
-                  className={`${
+                  className={`px-2 py-1 rounded-full text-xs ${
                     q.difficulty === "Beginner"
                       ? "bg-green-600"
                       : q.difficulty === "Intermediate"
                       ? "bg-yellow-500"
                       : "bg-red-500"
-                  } text-xs px-2 py-1 rounded-full`}
+                  }`}
                 >
                   {q.difficulty}
                 </span>
-                <div className="text-gray-400 text-sm mt-1">
+                <div className={`text-sm mt-1 transition-colors duration-500 ${darkMode ? "text-gray-400" : "text-gray-700"}`}>
                   {q.tags.join(", ")}
                 </div>
               </div>
+
               <div className="flex gap-3 text-gray-400">
-                <FiBookmark className="cursor-pointer hover:text-white" />
+                <FiBookmark className="cursor-pointer hover:text-white transition-colors duration-300" />
                 <FiRefreshCw
-                  className="cursor-pointer hover:text-white"
+                  className="cursor-pointer hover:text-white transition-colors duration-300"
                   onClick={() =>
                     setExpanded((prev) => ({
                       ...prev,
@@ -339,7 +349,7 @@ const CssPractice: React.FC = () => {
               <div className="mt-4">
                 {/* Show Output */}
                 {showOutput[q.id] && (
-                  <div className="mb-4 border border-gray-600 rounded-lg overflow-hidden bg-white">
+                  <div className={`mb-4 border rounded-lg overflow-hidden transition-colors duration-500 ${borderGray} ${darkMode ? "bg-black" : "bg-white"}`}>
                     <iframe
                       title={`output-${q.id}`}
                       srcDoc={`<html>
@@ -363,7 +373,7 @@ ${codeState[q.id]}
 
                 {/* Code Editor */}
                 <textarea
-                  className="w-full h-40 p-3 rounded-lg bg-gray-900 text-green-400 font-mono text-sm"
+                  className={`w-full h-40 p-3 rounded-lg font-mono text-sm transition-colors duration-500 ${codeBg}`}
                   value={codeState[q.id]}
                   onChange={(e) =>
                     setCodeState((prev) => ({ ...prev, [q.id]: e.target.value }))
@@ -373,7 +383,7 @@ ${codeState[q.id]}
                 {/* Buttons */}
                 <div className="flex gap-3 mt-3">
                   <button
-                    className="bg-purple-600 px-4 py-2 rounded-lg hover:bg-purple-700"
+                    className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-700 text-white transition-colors duration-300"
                     onClick={() =>
                       setShowOutput((prev) => ({ ...prev, [q.id]: true }))
                     }
@@ -381,12 +391,11 @@ ${codeState[q.id]}
                     ▶ Run Code
                   </button>
                   <button
-                    className="bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600"
+                    className={`px-4 py-2 rounded-lg transition-colors duration-300 ${darkMode ? "bg-gray-700 hover:bg-gray-600 text-gray-200" : "bg-gray-200 hover:bg-gray-300 text-gray-900"}`}
                     onClick={() => {
                       setCodeState((prev) => ({
                         ...prev,
-                        [q.id]: cssQuestions.find((item) => item.id === q.id)
-                          ?.css || ""
+                        [q.id]: cssQuestions.find((item) => item.id === q.id)?.css || ""
                       }));
                       setShowOutput((prev) => ({ ...prev, [q.id]: false }));
                     }}
@@ -401,6 +410,6 @@ ${codeState[q.id]}
       </div>
     </div>
   );
-};
+}
 
 export default CssPractice;

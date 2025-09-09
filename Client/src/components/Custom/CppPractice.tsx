@@ -2,7 +2,7 @@ import React, { ChangeEvent, useMemo, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { cpp } from "@codemirror/lang-cpp";
 import { FiPlay, FiRotateCw, FiBookmark, FiSearch } from "react-icons/fi";
-
+import { useDarkMode } from "../Custom/DarkModeContext"; 
 type Level = "Beginner" | "Intermediate" | "Advanced";
 
 type CppQ = {
@@ -334,6 +334,7 @@ int main(){ int x=1; auto f=[x](){ cout<<x<<endl; }; x=2; f(); }`,
 ];
 
 export default function CppPractice(): React.ReactElement {
+   const { darkMode } = useDarkMode();
   const [query, setQuery] = useState<string>("");
   const [filter, setFilter] = useState<"All" | Level>("All");
   const [expandedId, setExpandedId] = useState<number | null>(null);
@@ -386,15 +387,22 @@ export default function CppPractice(): React.ReactElement {
     setBookmarks((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
+    const bgPage = darkMode ? "bg-gradient-to-b from-gray-900 to-black text-white" : "bg-white text-gray-900";
+  const inputBg = darkMode ? "bg-gray-800 text-gray-100" : "bg-gray-100 text-gray-900";
+  const btnBg = darkMode ? "bg-gray-800 text-gray-200" : "bg-gray-200 text-gray-900";
+  const borderGray = darkMode ? "border-gray-700" : "border-gray-300";
+  const outputBg = darkMode ? "bg-black bg-opacity-50 border-gray-800 text-gray-100" : "bg-gray-100 border-gray-300 text-gray-900";
+  const explanationText = darkMode ? "text-gray-300" : "text-gray-700";
+
   return React.createElement(
     "div",
-    { className: "min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-6" },
+    { className: `min-h-screen p-6 transition-colors duration-500 ${bgPage}` },
     React.createElement(
       "div",
       { className: "max-w-5xl mx-auto" },
       React.createElement(
         "h1",
-        { className: "text-4xl font-extrabold text-indigo-300 mb-6 text-center" },
+        { className: `text-4xl font-extrabold mb-6 text-center ${darkMode ? "text-indigo-300" : "text-indigo-600"}` },
         "C++ Practice Hub"
       ),
 
@@ -410,14 +418,14 @@ export default function CppPractice(): React.ReactElement {
           "div",
           {
             className:
-              "flex items-center gap-2 bg-gray-800 px-3 py-2 rounded-lg border border-gray-700 w-full sm:w-auto"
+              `flex items-center gap-2 px-3 py-2 rounded-lg border ${borderGray} w-full sm:w-auto transition-colors duration-500 ${inputBg}`
           },
-          React.createElement(FiSearch, { className: "text-gray-400" }),
+          React.createElement(FiSearch, { className: darkMode ? "text-gray-400" : "text-gray-500" }),
           React.createElement("input", {
             value: query,
             onChange: (e: ChangeEvent<HTMLInputElement>) => setQuery(e.target.value),
             placeholder: "Search by keyword, topic, or tag...",
-            className: "bg-transparent outline-none text-sm text-gray-100 w-64"
+            className: "bg-transparent outline-none text-sm w-64 transition-colors duration-500"
           })
         ),
 
@@ -431,10 +439,10 @@ export default function CppPractice(): React.ReactElement {
               {
                 key: lv,
                 onClick: () => setFilter(lv),
-                className: `px-3 py-2 rounded-md text-sm font-medium ${
+                className: `px-3 py-2 rounded-md text-sm font-medium transition-colors duration-500 ${
                   filter === lv
                     ? "bg-indigo-600 text-white shadow-md"
-                    : "bg-gray-800 text-gray-200"
+                    : btnBg
                 }`
               },
               lv
@@ -450,7 +458,7 @@ export default function CppPractice(): React.ReactElement {
         filtered.length === 0 &&
           React.createElement(
             "div",
-            { className: "text-center text-gray-400 py-8" },
+            { className: `text-center py-8 ${darkMode ? "text-gray-400" : "text-gray-600"}` },
             "No questions found."
           ),
 
@@ -459,8 +467,11 @@ export default function CppPractice(): React.ReactElement {
             "div",
             {
               key: q.id,
-              className:
-                "bg-gradient-to-br from-gray-800/80 to-gray-700/80 p-4 rounded-2xl border border-gray-600 shadow-sm"
+              className: `p-4 rounded-2xl border shadow-sm transition-colors duration-500 ${
+                darkMode
+                  ? "bg-gradient-to-br from-gray-800/80 to-gray-700/80 border-gray-600"
+                  : "bg-gray-100 border-gray-300"
+              }`
             },
             React.createElement(
               "div",
@@ -473,7 +484,7 @@ export default function CppPractice(): React.ReactElement {
                   { className: "flex items-center gap-3 flex-wrap" },
                   React.createElement(
                     "span",
-                    { className: "text-lg font-semibold text-indigo-200" },
+                    { className: `text-lg font-semibold ${darkMode ? "text-indigo-200" : "text-indigo-600"}` },
                     q.title
                   ),
                   React.createElement(
@@ -493,8 +504,7 @@ export default function CppPractice(): React.ReactElement {
                     React.createElement(
                       "span",
                       {
-                        className:
-                          "text-xs text-gray-300 bg-gray-800/50 px-2 py-0.5 rounded"
+                        className: `text-xs px-2 py-0.5 rounded transition-colors duration-500 ${darkMode ? "text-gray-300 bg-gray-800/50" : "text-gray-700 bg-gray-200"}`
                       },
                       q.topic
                     ),
@@ -507,8 +517,7 @@ export default function CppPractice(): React.ReactElement {
                           "span",
                           {
                             key: t,
-                            className:
-                              "text-xs text-gray-300 bg-gray-800/50 px-2 py-0.5 rounded"
+                            className: `text-xs px-2 py-0.5 rounded transition-colors duration-500 ${darkMode ? "text-gray-300 bg-gray-800/50" : "text-gray-700 bg-gray-200"}`
                           },
                           t
                         )
@@ -517,7 +526,7 @@ export default function CppPractice(): React.ReactElement {
                 ),
                 React.createElement(
                   "p",
-                  { className: "text-sm text-gray-300 mt-2 line-clamp-2" },
+                  { className: `text-sm mt-2 line-clamp-2 transition-colors duration-500 ${explanationText}` },
                   q.explanation
                 )
               ),
@@ -533,21 +542,23 @@ export default function CppPractice(): React.ReactElement {
                     {
                       onClick: () => toggleBookmark(q.id),
                       title: bookmarks.includes(q.id) ? "Remove Bookmark" : "Bookmark",
-                      className: "p-2 rounded-md bg-gray-800 hover:bg-gray-700"
+                      className: `p-2 rounded-md transition-colors duration-500 ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"}`
                     },
                     React.createElement(FiBookmark, {
                       className: bookmarks.includes(q.id)
                         ? "text-yellow-400"
-                        : "text-gray-300"
+                        : darkMode
+                        ? "text-gray-300"
+                        : "text-gray-700"
                     })
                   ),
                   React.createElement(
                     "button",
                     {
                       onClick: () => setExpandedId((id) => (id === q.id ? null : q.id)),
-                      className: "p-2 rounded-md bg-gray-800 hover:bg-gray-700"
+                      className: `p-2 rounded-md transition-colors duration-500 ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"}`
                     },
-                    React.createElement(FiRotateCw, { className: "text-gray-200" })
+                    React.createElement(FiRotateCw, { className: darkMode ? "text-gray-200" : "text-gray-700" })
                   )
                 )
               )
@@ -560,12 +571,12 @@ export default function CppPractice(): React.ReactElement {
                 { className: "mt-4" },
                 React.createElement(
                   "div",
-                  { className: "border border-gray-700 rounded-lg overflow-hidden" },
+                  { className: `border rounded-lg overflow-hidden transition-colors duration-500 ${borderGray}` },
                   React.createElement(CodeMirror, {
                     value: codeMap[q.id],
                     height: "200px",
                     extensions: [cpp()],
-                    theme: "dark",
+                    theme: darkMode ? "dark" : "light",
                     onChange: (v) => setCodeMap((prev) => ({ ...prev, [q.id]: v || "" }))
                   })
                 ),
@@ -578,7 +589,7 @@ export default function CppPractice(): React.ReactElement {
                     {
                       onClick: () => runCode(q.id),
                       className:
-                        "inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 px-3 py-2 rounded-md text-white font-semibold"
+                        "inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 px-3 py-2 rounded-md text-white font-semibold transition-colors duration-500"
                     },
                     React.createElement(FiPlay, null),
                     " Run Code"
@@ -587,15 +598,16 @@ export default function CppPractice(): React.ReactElement {
                     "button",
                     {
                       onClick: () => resetCode(q.id),
-                      className:
-                        "inline-flex items-center gap-2 bg-gray-800 border border-gray-600 px-3 py-2 rounded-md text-gray-200"
+                      className: `inline-flex items-center gap-2 px-3 py-2 rounded-md border transition-colors duration-500 ${
+                        darkMode ? "bg-gray-800 border-gray-600 text-gray-200" : "bg-gray-200 border-gray-300 text-gray-900"
+                      }`
                     },
                     React.createElement(FiRotateCw, null),
                     " Reset"
                   ),
                   React.createElement(
                     "div",
-                    { className: "ml-auto text-sm text-gray-400" },
+                    { className: `ml-auto text-sm transition-colors duration-500 ${darkMode ? "text-gray-400" : "text-gray-600"}` },
                     "Question ID: ",
                     q.id
                   )
@@ -603,13 +615,10 @@ export default function CppPractice(): React.ReactElement {
 
                 React.createElement(
                   "div",
-                  {
-                    className:
-                      "mt-3 bg-black bg-opacity-50 border border-gray-800 rounded-md p-3 text-sm text-gray-100"
-                  },
+                  { className: `mt-3 rounded-md p-3 text-sm transition-colors duration-500 ${outputBg}` },
                   React.createElement(
                     "div",
-                    { className: "font-medium text-gray-300 mb-2" },
+                    { className: `font-medium mb-2 ${darkMode ? "text-gray-300" : "text-gray-700"}` },
                     "Output"
                   ),
                   React.createElement(
@@ -621,10 +630,10 @@ export default function CppPractice(): React.ReactElement {
 
                 React.createElement(
                   "div",
-                  { className: "mt-3 text-sm text-gray-300" },
+                  { className: `mt-3 text-sm transition-colors duration-500 ${explanationText}` },
                   React.createElement(
                     "strong",
-                    { className: "text-indigo-200" },
+                    { className: darkMode ? "text-indigo-200" : "text-indigo-600" },
                     "Explanation:"
                   ),
                   React.createElement("p", { className: "mt-1" }, q.explanation)
