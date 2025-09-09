@@ -134,7 +134,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
   }
 
   return (
-    <div className={darkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-900"}>
+    <div className="">
       <main className="container mx-auto px-4 py-6">
         <h1 className={`text-4xl font-extrabold mb-10 text-center ${darkMode ? "text-gray-100" : "text-gray-900"}`}>
           Welcome to <span className="text-indigo-500">PrepBuddy!</span> Get ready to test your skills!
