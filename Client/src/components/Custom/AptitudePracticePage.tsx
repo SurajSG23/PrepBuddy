@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { useDarkMode } from "../Custom/DarkModeContext";
 import { 
   ArrowLeft, 
   CheckCircle, 
@@ -44,6 +45,15 @@ const AptitudePracticePage: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const { darkMode } = useDarkMode();
+
+const bgPage = darkMode ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white" : "bg-gray-100 text-gray-900";
+const cardBg = darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-300";
+const textGray = darkMode ? "text-gray-300" : "text-gray-700";
+const hoverCardBg = darkMode ? "hover:bg-gray-700 hover:border-gray-600" : "hover:bg-gray-200 hover:border-gray-400";
+const correctAnswerBg = darkMode ? "bg-green-600/20 border-green-500 text-green-100" : "bg-green-200/50 border-green-400 text-green-900";
+const wrongAnswerBg = darkMode ? "bg-red-600/20 border-red-500 text-red-100" : "bg-red-200/50 border-red-400 text-red-900";
+const selectedOptionBg = darkMode ? "bg-indigo-600/20 border-indigo-500 text-indigo-100" : "bg-indigo-200/50 border-indigo-400 text-indigo-900";
 
   // Initialize session
   useEffect(() => {
@@ -350,176 +360,183 @@ const AptitudePracticePage: React.FC = () => {
   const progressPercentage = getProgressPercentage();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-      <div className="container mx-auto px-4 py-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <button
-            onClick={() => navigate("/aptitude-training")}
-            className="flex items-center text-indigo-400 hover:text-indigo-300 transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            Back to Training
-          </button>
-
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center bg-gray-800 rounded-lg px-4 py-2">
-              <Brain className="w-5 h-5 mr-2 text-indigo-400" />
-              <span className="text-sm font-medium">
-                {session.currentQuestionIndex + 1} / {session.questions.length}
-              </span>
-            </div>
-
-            <div className="flex items-center bg-gray-800 rounded-lg px-4 py-2">
-              <Timer className="w-5 h-5 mr-2 text-red-400" />
-              <span className={`text-sm font-medium ${timeRemaining <= 5 ? 'text-red-400' : 'text-gray-300'}`}>
-                {formatTime(timeRemaining)}
-              </span>
-            </div>
-
-            <button
-              onClick={() => setIsPaused(!isPaused)}
-              className="bg-gray-800 hover:bg-gray-700 rounded-lg p-2 transition-colors"
-            >
-              {isPaused ? <Play className="w-5 h-5" /> : <Pause className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex justify-between text-sm text-gray-400 mb-2">
-            <span>Progress</span>
-            <span>{Math.round(progressPercentage)}%</span>
-          </div>
-          <div className="w-full bg-gray-700 rounded-full h-2">
-            <motion.div
-              className="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${progressPercentage}%` }}
-              transition={{ duration: 0.5 }}
-            />
-          </div>
-        </div>
-
-        {/* Question Card */}
-        <motion.div
-          key={session.currentQuestionIndex}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          className="bg-gray-800 rounded-xl p-8 border border-gray-700 mb-8"
+  <div className={`min-h-screen transition-colors duration-500 ${bgPage}`}>
+    <div className="container mx-auto px-4 py-6">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-8">
+        <button
+          onClick={() => navigate("/aptitude-training")}
+          className={`flex items-center transition-colors ${
+            darkMode ? "text-indigo-400 hover:text-indigo-300" : "text-indigo-600 hover:text-indigo-500"
+          }`}
         >
-          <div className="mb-6">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-sm text-gray-400 uppercase tracking-wide">
-                {currentQuestion.category} • {difficulty}
+          <ArrowLeft className="w-5 h-5 mr-2" />
+          Back to Training
+        </button>
+
+        <div className="flex items-center space-x-4">
+          <div className={`flex items-center rounded-lg px-4 py-2 ${cardBg}`}>
+            <Brain className={`w-5 h-5 mr-2 ${darkMode ? "text-indigo-400" : "text-indigo-600"}`} />
+            <span className="text-sm font-medium">
+              {session.currentQuestionIndex + 1} / {session.questions.length}
+            </span>
+          </div>
+
+          <div className={`flex items-center rounded-lg px-4 py-2 ${cardBg}`}>
+            <Timer className={`w-5 h-5 mr-2 ${darkMode ? "text-red-400" : "text-red-600"}`} />
+            <span className={`text-sm font-medium ${timeRemaining <= 5 ? (darkMode ? 'text-red-400' : 'text-red-600') : textGray}`}>
+              {formatTime(timeRemaining)}
+            </span>
+          </div>
+
+          <button
+            onClick={() => setIsPaused(!isPaused)}
+            className={`rounded-lg p-2 transition-colors ${cardBg} ${hoverCardBg}`}
+          >
+            {isPaused ? <Play className="w-5 h-5" /> : <Pause className="w-5 h-5" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Progress Bar */}
+      <div className="mb-8">
+        <div className={`flex justify-between text-sm mb-2 ${textGray}`}>
+          <span>Progress</span>
+          <span>{Math.round(progressPercentage)}%</span>
+        </div>
+        <div className={`w-full rounded-full h-2 ${darkMode ? "bg-gray-700" : "bg-gray-300"}`}>
+          <motion.div
+            className="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full"
+            initial={{ width: 0 }}
+            animate={{ width: `${progressPercentage}%` }}
+            transition={{ duration: 0.5 }}
+          />
+        </div>
+      </div>
+
+      {/* Question Card */}
+      <motion.div
+        key={session.currentQuestionIndex}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        className={`rounded-xl p-8 border mb-8 transition-colors duration-500 ${cardBg}`}
+      >
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <span className={`text-sm uppercase tracking-wide ${textGray}`}>
+              {currentQuestion.category} • {difficulty}
+            </span>
+            <div className="flex items-center space-x-2">
+              <Clock className={`w-4 h-4 ${textGray}`} />
+              <span className={`text-sm ${textGray}`}>
+                {formatTime(session.timeSpent[session.currentQuestionIndex] || currentTime)}
               </span>
-              <div className="flex items-center space-x-2">
-                <Clock className="w-4 h-4 text-gray-400" />
-                <span className="text-sm text-gray-400">
-                  {formatTime(session.timeSpent[session.currentQuestionIndex] || currentTime)}
-                </span>
-              </div>
             </div>
-            
-            <h2 className="text-2xl font-semibold leading-relaxed">
-              {currentQuestion.question}
-            </h2>
           </div>
+          
+          <h2 className={`text-2xl font-semibold leading-relaxed ${textGray}`}>
+            {currentQuestion.question}
+          </h2>
+        </div>
 
-          {/* Options */}
-          <div className="space-y-4 mb-8">
-            {currentQuestion.options.map((option, index) => (
-              <motion.button
-                key={index}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                onClick={() => handleOptionSelect(option)}
-                disabled={isAnswerSubmitted}
-                className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-300 ${
-                  isAnswerSubmitted
-                    ? isCorrect(option)
-                      ? 'bg-green-600/20 border-green-500 text-green-100'
-                      : isWrong(option)
-                      ? 'bg-red-600/20 border-red-500 text-red-100'
-                      : 'bg-gray-700/50 border-gray-600 text-gray-300'
-                    : isSelected(option)
-                    ? 'bg-indigo-600/20 border-indigo-500 text-indigo-100'
-                    : 'bg-gray-700/50 border-gray-600 text-gray-300 hover:bg-gray-700 hover:border-gray-500'
-                } ${!isAnswerSubmitted ? 'cursor-pointer' : 'cursor-not-allowed'}`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-lg">{option}</span>
-                  {isAnswerSubmitted && (
-                    <div className="flex items-center">
-                      {isCorrect(option) && <CheckCircle className="w-5 h-5 text-green-400" />}
-                      {isWrong(option) && <XCircle className="w-5 h-5 text-red-400" />}
-                    </div>
-                  )}
-                </div>
-              </motion.button>
-            ))}
-          </div>
-
-          {/* Submit Button */}
-          {!isAnswerSubmitted && selectedOption && (
+        {/* Options */}
+        <div className="space-y-4 mb-8">
+          {currentQuestion.options.map((option, index) => (
             <motion.button
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              onClick={() => handleSubmitAnswer(selectedOption)}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+              key={index}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              onClick={() => handleOptionSelect(option)}
+              disabled={isAnswerSubmitted}
+              className={`w-full text-left p-4 rounded-lg border-2 transition-all duration-300 ${
+                isAnswerSubmitted
+                  ? isCorrect(option)
+                    ? correctAnswerBg
+                    : isWrong(option)
+                    ? wrongAnswerBg
+                    : cardBg
+                  : isSelected(option)
+                  ? selectedOptionBg
+                  : `${cardBg} ${hoverCardBg}`
+              } ${!isAnswerSubmitted ? 'cursor-pointer' : 'cursor-not-allowed'}`}
             >
-              Submit Answer
+              <div className="flex items-center justify-between">
+                <span className="text-lg">{option}</span>
+                {isAnswerSubmitted && (
+                  <div className="flex items-center">
+                    {isCorrect(option) && <CheckCircle className="w-5 h-5 text-green-400" />}
+                    {isWrong(option) && <XCircle className="w-5 h-5 text-red-400" />}
+                  </div>
+                )}
+              </div>
+            </motion.button>
+          ))}
+        </div>
+
+        {/* Submit Button */}
+        {!isAnswerSubmitted && selectedOption && (
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            onClick={() => handleSubmitAnswer(selectedOption)}
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+          >
+            Submit Answer
+          </motion.button>
+        )}
+
+        {/* Explanation */}
+        <AnimatePresence>
+          {showExplanation && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className={`mt-6 p-4 rounded-lg border transition-colors duration-500 ${cardBg}`}
+            >
+              <h4 className="font-semibold text-indigo-400 mb-2">Explanation:</h4>
+              <p className={textGray}>{currentQuestion.explanation}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Next Button */}
+        <AnimatePresence>
+          {isAnswerSubmitted && (
+            <motion.button
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              onClick={handleNextQuestion}
+              className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+            >
+              {session.currentQuestionIndex < session.questions.length - 1
+                ? 'Next Question'
+                : 'Finish Practice'}
             </motion.button>
           )}
+        </AnimatePresence>
+      </motion.div>
 
-          {/* Explanation */}
-          <AnimatePresence>
-            {showExplanation && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="mt-6 p-4 bg-gray-700/50 rounded-lg border border-gray-600"
-              >
-                <h4 className="font-semibold text-indigo-400 mb-2">Explanation:</h4>
-                <p className="text-gray-300">{currentQuestion.explanation}</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Next Button */}
-          <AnimatePresence>
-            {isAnswerSubmitted && (
-              <motion.button
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                onClick={handleNextQuestion}
-                className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
-              >
-                {session.currentQuestionIndex < session.questions.length - 1 ? 'Next Question' : 'Finish Practice'}
-              </motion.button>
-            )}
-          </AnimatePresence>
+      {/* Timer Warning */}
+      {timeRemaining <= 5 && timeRemaining > 0 && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className={`fixed top-4 right-4 px-4 py-2 rounded-lg shadow-lg transition-colors duration-500 ${
+            darkMode ? "bg-red-600 text-white" : "bg-red-200 text-red-900"
+          }`}
+        >
+          <div className="flex items-center">
+            <Clock className="w-4 h-4 mr-2" />
+            <span className="font-semibold">{timeRemaining}s remaining!</span>
+          </div>
         </motion.div>
-
-        {/* Timer Warning */}
-        {timeRemaining <= 5 && timeRemaining > 0 && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="fixed top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-lg shadow-lg"
-          >
-            <div className="flex items-center">
-              <Clock className="w-4 h-4 mr-2" />
-              <span className="font-semibold">{timeRemaining}s remaining!</span>
-            </div>
-          </motion.div>
-        )}
-      </div>
+      )}
     </div>
-  );
-};
+  </div>
+);
+
+}
 export default AptitudePracticePage; 
