@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -7,9 +7,13 @@ import {
   XCircle,
   RotateCcw,
   BrainCircuit,
+  Clock,
+  Play,
+  Pause,
 } from "lucide-react";
 import { AIchatSession } from "../../gemini/AiModel";
 import osPrompt from "../../gemini/osPrompt";
+import { usePracticeTimer } from "../../hooks/usePracticeTimer";
 
 interface Question {
   question: string;
@@ -33,7 +37,27 @@ const OperatingSystemsPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [score, setScore] = useState(0);
 
-  const generateQuestions = async () => {
+  // Timer hook - 12 minutes for OS practice
+  const {
+    remainingTime,
+    isRunning,
+    isExpired,
+    formatTime,
+    startTimer,
+    pauseTimer,
+    getElapsedTimeFormatted
+  } = usePracticeTimer({
+    duration: 720, // 12 minutes
+    autoStart: false, // Start manually after questions are loaded
+    onTimeUp: () => {
+      // Auto-complete quiz when time expires
+      if (session && !session.isCompleted) {
+        setSession({ ...session, isCompleted: true });
+      }
+    }
+  });
+
+  const generateQuestions = useCallback(async () => {
     setIsLoading(true);
     try {
       const result = await AIchatSession.sendMessage(osPrompt);
@@ -84,6 +108,8 @@ const OperatingSystemsPage: React.FC = () => {
             startTime: Date.now(),
             isCompleted: false,
           });
+          // Start timer after questions are loaded
+          startTimer();
         } else {
           throw new Error("Failed to generate questions");
         }
@@ -95,11 +121,11 @@ const OperatingSystemsPage: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [startTimer]);
 
   useEffect(() => {
     generateQuestions();
-  }, []);
+  }, [generateQuestions]);
 
   const handleOptionSelect = (option: string) => {
     if (!showExplanation) {
@@ -192,8 +218,11 @@ const OperatingSystemsPage: React.FC = () => {
           >
             <CheckCircle size={48} className="text-green-400 mx-auto mb-4" />
             <h1 className="text-3xl font-bold mb-4">Operating Systems Quiz Completed!</h1>
-            <p className="text-xl text-gray-300 mb-6">
+            <p className="text-xl text-gray-300 mb-4">
               You scored {score} out of {session.questions.length} ({percentage}%)
+            </p>
+            <p className="text-lg text-gray-400 mb-6">
+              Time taken: {getElapsedTimeFormatted()}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -236,9 +265,36 @@ const OperatingSystemsPage: React.FC = () => {
             <BrainCircuit className="text-indigo-400" size={32} />
             <h1 className="text-3xl md:text-4xl font-bold">Operating Systems</h1>
           </div>
-          <p className="text-lg text-gray-400">
+          <p className="text-lg text-gray-400 mb-4">
             Question {session.currentQuestionIndex + 1} of {session.questions.length}
           </p>
+          
+          {/* Timer Display */}
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
+              remainingTime <= 300 ? 'bg-red-900/30 text-red-400' : 
+              remainingTime <= 600 ? 'bg-yellow-900/30 text-yellow-400' : 
+              'bg-green-900/30 text-green-400'
+            }`}>
+              <Clock size={18} />
+              <span className="font-mono text-lg">{formatTime()}</span>
+            </div>
+            
+            <button
+              onClick={isRunning ? pauseTimer : startTimer}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-colors"
+              disabled={isExpired}
+            >
+              {isRunning ? <Pause size={16} /> : <Play size={16} />}
+              <span>{isRunning ? 'Pause' : 'Resume'}</span>
+            </button>
+          </div>
+          
+          {isExpired && (
+            <div className="text-red-400 font-semibold mb-4">
+              ⏰ Time's up! Quiz will be completed automatically.
+            </div>
+          )}
         </header>
 
         <motion.div

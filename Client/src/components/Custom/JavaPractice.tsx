@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useMemo, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { java } from "@codemirror/lang-java";
-import { FiPlay, FiRotateCw, FiBookmark, FiSearch } from "react-icons/fi";
+import { FiPlay, FiRotateCw, FiBookmark, FiSearch, FiClock, FiPause } from "react-icons/fi";
+import { usePracticeTimer } from "../../hooks/usePracticeTimer";
 
 type Level = "Beginner" | "Intermediate" | "Advanced";
 
@@ -445,6 +446,22 @@ export default function JavaPractice(): React.ReactElement {
   );
   const [outputs, setOutputs] = useState<Record<number, string>>({});
 
+  // Timer hook - 30 minutes for code practice
+  const {
+    remainingTime,
+    isRunning,
+    isExpired,
+    formatTime,
+    startTimer,
+    pauseTimer
+  } = usePracticeTimer({
+    duration: 1800, // 30 minutes
+    autoStart: true, // Start automatically
+    onTimeUp: () => {
+      alert("Practice time is up! You can continue practicing or take a break.");
+    }
+  });
+
   const levels: ("All" | Level)[] = ["All", "Beginner", "Intermediate", "Advanced"];
 
   const filtered = useMemo(() => {
@@ -487,7 +504,34 @@ export default function JavaPractice(): React.ReactElement {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-6">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl font-extrabold text-indigo-300 mb-6 text-center">Java Practice Hub</h1>
+        <h1 className="text-4xl font-extrabold text-indigo-300 mb-4 text-center">Java Practice Hub</h1>
+
+        {/* Timer Display */}
+        <div className="flex items-center justify-center gap-4 mb-6">
+          <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
+            remainingTime <= 600 ? 'bg-red-900/30 text-red-400' : 
+            remainingTime <= 1200 ? 'bg-yellow-900/30 text-yellow-400' : 
+            'bg-green-900/30 text-green-400'
+          }`}>
+            <FiClock size={18} />
+            <span className="font-mono text-lg">{formatTime()}</span>
+          </div>
+          
+          <button
+            onClick={isRunning ? pauseTimer : startTimer}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-colors"
+            disabled={isExpired}
+          >
+            {isRunning ? <FiPause size={16} /> : <FiPlay size={16} />}
+            <span>{isRunning ? 'Pause' : 'Resume'}</span>
+          </button>
+          
+          {isExpired && (
+            <div className="text-red-400 font-semibold">
+              ⏰ Practice time is up!
+            </div>
+          )}
+        </div>
 
         {/* Controls */}
         <div className="flex flex-col sm:flex-row gap-3 items-center justify-between mb-6">
