@@ -170,53 +170,125 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
               <QuestionOfTheDay />
 
               {/* Profile Dropdown */}
-              <button onClick={toggleDropdown} className="flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded-full transition cursor-pointer text-white">
+              <div className="relative">
+              <button onClick={toggleDropdown} className={`flex items-center space-x-2 px-3 py-2 rounded-full transition cursor-pointer
+      ${darkMode ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-900"}
+    `}
+  >
                 {!profilePic ? (
                   <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 bg-gray-500 rounded-full animate-pulse"></div>
-                    <span className="w-20 h-4 bg-gray-500 rounded-md animate-pulse hidden sm:inline-block"></span>
-                  </div>
+                    <div
+          className={`w-8 h-8 rounded-full animate-pulse 
+            ${darkMode ? "bg-gray-500" : "bg-gray-400"}
+          `}
+        ></div>
+                    <span
+          className={`w-20 h-4 rounded-md animate-pulse hidden sm:inline-block 
+            ${darkMode ? "bg-gray-500" : "bg-gray-300"}
+          `}
+        ></span>
+      </div>
                 ) : (
                   <div className="flex items-center space-x-2">
                     <img src={profilePic} alt="Profile Picture" className="w-8 h-8 bg-indigo-500 rounded-full object-cover" />
-                    <span className="max-[430px]:hidden sm:inline-block text-white">{user}</span>
+                    <span
+          className={`max-[430px]:hidden sm:inline-block
+            ${darkMode ? "text-white" : "text-gray-900"}
+          `}
+        >
+          {user}
+        </span>
                   </div>
                 )}
-                <svg className={`h-4 w-4 transition-transform text-white ${isDropdownOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+                <svg
+      className={`h-4 w-4 transition-transform 
+        ${isDropdownOpen ? "rotate-180" : ""} 
+        ${darkMode ? "text-white" : "text-gray-700"}
+      `}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
               </button>
+              
 
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg z-10 text-white">
+                <div
+                  className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg z-10 transition-colors duration-500 ${
+                    darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+                  }`}
+                >
                   <div className="py-1">
-                    <Link to="/profile" className="flex px-4 py-2 text-sm hover:bg-gray-700 gap-1 items-center" onClick={() => setIsDropdownOpen(false)}>
+                    <Link to="/profile"  className={`flex px-4 py-2 text-sm gap-1 items-center transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
                       <CgProfile className="text-xl" /> My Profile
                     </Link>
-                    <Link to="/homepage" className="flex px-4 py-2 text-sm hover:bg-gray-700 gap-1 items-center" onClick={() => setIsDropdownOpen(false)}>
+                    <Link to="/homepage"  className={`flex px-4 py-2 text-sm gap-1 items-center transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
                       <TiHomeOutline className="text-xl" /> Homepage
                     </Link>
-                    <Link to="/notes" className="flex px-4 py-2 text-sm hover:bg-gray-700 gap-1 items-center" onClick={() => setIsDropdownOpen(false)}>
+                    <Link to="/notes"  className={`flex px-4 py-2 text-sm gap-1 items-center transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
                       <FaRegStickyNote className="text-xl" /> Notes
                     </Link>
-                    <Link to="/previous-tests" className="flex px-4 py-2 text-sm hover:bg-gray-700 gap-1 items-center" onClick={() => setIsDropdownOpen(false)}>
+                    <Link to="/previous-tests"  className={`flex px-4 py-2 text-sm gap-1 items-center transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
                       <MdHistoryEdu className="text-xl" /> Previous Tests
                     </Link>
-                    <Link to="/score-board" className="flex px-4 py-2 text-sm hover:bg-gray-700 gap-1 items-center" onClick={() => setIsDropdownOpen(false)}>
+                    <Link to="/score-board"  className={`flex px-4 py-2 text-sm gap-1 items-center transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
                       <IoTrophyOutline className="text-xl" /> Leader Board
                     </Link>
-                    <Link to="/favorites" className="flex px-4 py-2 text-sm hover:bg-gray-700 gap-1 items-center" onClick={() => setIsDropdownOpen(false)}>
+                    <Link to="/favorites"  className={`flex px-4 py-2 text-sm gap-1 items-center transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
                       <IoTrophyOutline className="text-xl" /> Favorites
                     </Link>
-                    <div className="flex gap-1 w-full text-left px-4 py-2 text-sm hover:bg-gray-700 cursor-pointer" onClick={() => { setIsChatOpen(true); setIsDropdownOpen(false); }}>
+                    <div
+                      className={`flex gap-1 px-4 py-2 text-sm cursor-pointer transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
+                      onClick={() => {
+                        setIsChatOpen(true);
+                        setIsDropdownOpen(false);
+                      }}
+                    >
                       <IoChatbubblesOutline className="text-xl" /> Chat
                     </div>
-                    <div className="flex gap-1 w-full text-left px-4 py-2 text-sm hover:bg-gray-700 text-red-400 cursor-pointer" onClick={() => { setIsDropdownOpen(false); handleLogout(); }}>
+                      <div
+                      className={`flex gap-1 px-4 py-2 text-sm cursor-pointer text-red-500 transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
+                      onClick={() => {
+                        setIsDropdownOpen(false);
+                        handleLogout();
+                      }}
+                    >
                       <MdLogout className="text-xl" /> Logout
                     </div>
                   </div>
                 </div>
               )}
+              </div>
             </div>
           </div>
         </header>
