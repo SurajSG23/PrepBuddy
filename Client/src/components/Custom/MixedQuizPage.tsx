@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  ArrowLeft,
-  CheckCircle,
-  XCircle,
-  RotateCcw,
-} from "lucide-react";
+import { ArrowLeft, CheckCircle, XCircle, RotateCcw } from "lucide-react";
 import { AIchatSession } from "../../gemini/AiModel";
 import technicalPrompt from "../../gemini/technicalPrompt";
+import { useDarkMode } from "../Custom/DarkModeContext";
 
 interface Question {
   question: string;
@@ -26,6 +22,7 @@ interface QuizSession {
 }
 
 const MixedQuizPage: React.FC = () => {
+  const { darkMode } = useDarkMode();
   const [session, setSession] = useState<QuizSession | null>(null);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
@@ -39,35 +36,30 @@ const MixedQuizPage: React.FC = () => {
       const responseText = result.response?.candidates?.[0]?.content?.parts?.[0]?.text;
 
       if (responseText) {
-        // Parse questions
         const questionsMatch = responseText.match(/<questions>(.*?)<\/questions>/s);
         const questions = questionsMatch?.[1]
           ?.split("***")
           .map((q) => q.trim())
           .filter((q) => q.length > 0) || [];
 
-        // Parse options
         const optionsMatch = responseText.match(/<options>(.*?)<\/options>/s);
         const options = optionsMatch?.[1]
           ?.split("***")
           .map((opt) => opt.trim().split("@*@"))
           .filter((opt) => opt.length === 4) || [];
 
-        // Parse answers
         const answersMatch = responseText.match(/<answers>(.*?)<\/answers>/s);
         const answers = answersMatch?.[1]
           ?.split("***")
           .map((ans) => ans.trim())
           .filter((ans) => ans.length > 0) || [];
 
-        // Parse explanations
         const explanationsMatch = responseText.match(/<explanations>(.*?)<\/explanations>/s);
         const explanations = explanationsMatch?.[1]
           ?.split("***")
           .map((exp) => exp.trim())
           .filter((exp) => exp.length > 0) || [];
 
-        // Create question objects
         const generatedQuestions: Question[] = questions.map((question, index) => ({
           question: question,
           options: options[index] || [],
@@ -83,15 +75,10 @@ const MixedQuizPage: React.FC = () => {
             startTime: Date.now(),
             isCompleted: false,
           });
-        } else {
-          throw new Error("Failed to generate questions");
-        }
-      } else {
-        throw new Error("No response from AI");
-      }
+        } else throw new Error("Failed to generate questions");
+      } else throw new Error("No response from AI");
     } catch (error) {
       console.error("Error generating questions:", error);
-      // You could add a fallback or error handling here
     } finally {
       setIsLoading(false);
     }
@@ -102,9 +89,7 @@ const MixedQuizPage: React.FC = () => {
   }, []);
 
   const handleOptionSelect = (option: string) => {
-    if (!showExplanation) {
-      setSelectedOption(option);
-    }
+    if (!showExplanation) setSelectedOption(option);
   };
 
   const handleSubmitAnswer = () => {
@@ -112,11 +97,10 @@ const MixedQuizPage: React.FC = () => {
 
     const updatedAnswers = [...session.selectedAnswers];
     updatedAnswers[session.currentQuestionIndex] = selectedOption;
-    
+
     setSession({ ...session, selectedAnswers: updatedAnswers });
     setShowExplanation(true);
 
-    // Update score if correct
     if (selectedOption === session.questions[session.currentQuestionIndex].answer) {
       setScore(score + 1);
     }
@@ -124,9 +108,7 @@ const MixedQuizPage: React.FC = () => {
 
   const handleNextQuestion = () => {
     if (!session) return;
-
     const nextIndex = session.currentQuestionIndex + 1;
-    
     if (nextIndex >= session.questions.length) {
       setSession({ ...session, isCompleted: true });
     } else {
@@ -143,12 +125,17 @@ const MixedQuizPage: React.FC = () => {
     generateQuestions();
   };
 
+  const bgClass = darkMode ? "bg-gray-900" : "bg-gray-100";
+  const cardClass = darkMode ? "bg-gray-800 text-gray-200" : "bg-white text-gray-900";
+  const textClass = darkMode ? "text-gray-200" : "text-gray-900";
+  const subTextClass = darkMode ? "text-gray-400" : "text-gray-600";
+
   if (isLoading) {
     return (
-      <div className="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4 sm:p-8">
+      <div className={`${bgClass} min-h-screen flex items-center justify-center p-4 sm:p-8 transition-colors duration-500`}>
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-indigo-400 mx-auto mb-4"></div>
-          <p className="text-lg text-gray-300">Generating your mixed quiz...</p>
+          <p className={`${subTextClass} text-lg`}>Generating your mixed quiz...</p>
         </div>
       </div>
     );
@@ -156,10 +143,10 @@ const MixedQuizPage: React.FC = () => {
 
   if (!session) {
     return (
-      <div className="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4 sm:p-8">
+      <div className={`${bgClass} min-h-screen flex items-center justify-center p-4 sm:p-8 transition-colors duration-500`}>
         <div className="text-center">
           <XCircle size={48} className="text-red-400 mx-auto mb-4" />
-          <p className="text-lg text-gray-300 mb-4">Failed to generate questions</p>
+          <p className={`${subTextClass} text-lg mb-4`}>Failed to generate questions</p>
           <button
             onClick={generateQuestions}
             className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg transition-colors"
@@ -173,13 +160,13 @@ const MixedQuizPage: React.FC = () => {
 
   if (session.isCompleted) {
     const percentage = Math.round((score / session.questions.length) * 100);
-    
+
     return (
-      <div className="bg-gray-900 text-white min-h-screen p-4 sm:p-8 w-full">
+      <div className={`${bgClass} min-h-screen p-4 sm:p-8 transition-colors duration-500`}>
         <div className="container mx-auto max-w-3xl">
           <Link
             to="/technical-questions"
-            className="flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors mb-8"
+            className={`flex items-center gap-2 ${darkMode ? "text-indigo-400 hover:text-indigo-300" : "text-indigo-600 hover:text-indigo-500"} transition-colors mb-8`}
           >
             <ArrowLeft size={20} />
             Back to Technical Questions
@@ -188,14 +175,14 @@ const MixedQuizPage: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gray-800 p-8 rounded-lg shadow-xl text-center"
+            className={`${cardClass} p-8 rounded-lg shadow-xl text-center`}
           >
             <CheckCircle size={48} className="text-green-400 mx-auto mb-4" />
             <h1 className="text-3xl font-bold mb-4">Quiz Completed!</h1>
-            <p className="text-xl text-gray-300 mb-6">
+            <p className={`${subTextClass} text-xl mb-6`}>
               You scored {score} out of {session.questions.length} ({percentage}%)
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={handleRestartQuiz}
@@ -206,7 +193,7 @@ const MixedQuizPage: React.FC = () => {
               </button>
               <Link
                 to="/technical-questions"
-                className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition-colors text-center"
+                className={`${darkMode ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-900"} px-6 py-3 rounded-lg transition-colors text-center`}
               >
                 Back to Topics
               </Link>
@@ -221,19 +208,19 @@ const MixedQuizPage: React.FC = () => {
   const isCorrect = selectedOption === currentQuestion.answer;
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen p-4 sm:p-8 w-full">
+    <div className={`${bgClass} min-h-screen p-4 sm:p-8 transition-colors duration-500`}>
       <div className="container mx-auto max-w-3xl">
         <Link
           to="/technical-questions"
-          className="flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors mb-8"
+          className={`flex items-center gap-2 ${darkMode ? "text-indigo-400 hover:text-indigo-300" : "text-indigo-600 hover:text-indigo-500"} transition-colors mb-8`}
         >
           <ArrowLeft size={20} />
           Back to Technical Questions
         </Link>
 
         <header className="text-center mb-10">
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">Mixed Technical Quiz</h1>
-          <p className="text-lg text-gray-400">
+          <h1 className={`text-3xl md:text-4xl font-bold mb-2 ${textClass}`}>Mixed Technical Quiz</h1>
+          <p className={subTextClass}>
             Question {session.currentQuestionIndex + 1} of {session.questions.length}
           </p>
         </header>
@@ -244,25 +231,22 @@ const MixedQuizPage: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
-          className="bg-gray-800 p-8 rounded-lg shadow-xl"
+          className={`${cardClass} p-8 rounded-lg shadow-xl transition-colors duration-500`}
         >
-          <h2 className="text-2xl font-semibold text-white mb-6">
+          <h2 className={`text-2xl font-semibold mb-6 ${textClass}`}>
             {currentQuestion.question}
           </h2>
 
           <div className="space-y-4">
             {currentQuestion.options.map((option, index) => {
               const isSelected = selectedOption === option;
-              let buttonClass = "bg-gray-700 hover:bg-gray-600";
-              
+              let buttonClass = darkMode ? "bg-gray-700 hover:bg-gray-600" : "bg-gray-200 hover:bg-gray-300";
+
               if (showExplanation) {
-                if (option === currentQuestion.answer) {
-                  buttonClass = "bg-green-600";
-                } else if (isSelected && !isCorrect) {
-                  buttonClass = "bg-red-600";
-                }
+                if (option === currentQuestion.answer) buttonClass = "bg-green-600 text-white";
+                else if (isSelected && !isCorrect) buttonClass = "bg-red-600 text-white";
               } else if (isSelected) {
-                buttonClass = "bg-indigo-600";
+                buttonClass = "bg-indigo-600 text-white";
               }
 
               return (
@@ -295,9 +279,9 @@ const MixedQuizPage: React.FC = () => {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="mt-6 p-4 bg-gray-700 rounded-lg"
+                className={`${darkMode ? "bg-gray-700" : "bg-gray-200"} mt-6 p-4 rounded-lg transition-colors duration-500`}
               >
-                <p className="text-gray-300">
+                <p className={darkMode ? "text-gray-300" : "text-gray-800"}>
                   <strong>Explanation:</strong> {currentQuestion.explanation}
                 </p>
               </motion.div>
@@ -305,15 +289,15 @@ const MixedQuizPage: React.FC = () => {
           </AnimatePresence>
 
           <div className="mt-8 flex justify-between items-center">
-            <div className="text-sm text-gray-400">
+            <div className={subTextClass}>
               Score: {score}/{session.currentQuestionIndex + (showExplanation ? 1 : 0)}
             </div>
-            
+
             {!showExplanation ? (
               <button
                 onClick={handleSubmitAnswer}
                 disabled={!selectedOption}
-                className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg transition-colors"
+                className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg transition-colors"
               >
                 Submit Answer
               </button>
