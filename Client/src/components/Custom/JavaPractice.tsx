@@ -1,8 +1,10 @@
 import React, { ChangeEvent, useMemo, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { java } from "@codemirror/lang-java";
-import { FiPlay, FiRotateCw, FiBookmark, FiSearch } from "react-icons/fi";
-import { useDarkMode } from "../Custom/DarkModeContext"; 
+import { FiPlay, FiRotateCw, FiBookmark, FiSearch, FiClock, FiPause } from "react-icons/fi";
+import { usePracticeTimer } from "../../hooks/usePracticeTimer";
+import { useDarkMode } from "../Custom/DarkModeContext";
+
 type Level = "Beginner" | "Intermediate" | "Advanced";
 
 interface Question {
@@ -446,6 +448,22 @@ export default function JavaPractice(): React.ReactElement {
   );
   const [outputs, setOutputs] = useState<Record<number, string>>({});
 
+  // Timer hook - 30 minutes for code practice
+  const {
+    remainingTime,
+    isRunning,
+    isExpired,
+    formatTime,
+    startTimer,
+    pauseTimer
+  } = usePracticeTimer({
+    duration: 1800, // 30 minutes
+    autoStart: true, // Start automatically
+    onTimeUp: () => {
+      alert("Practice time is up! You can continue practicing or take a break.");
+    }
+  });
+
   const levels: ("All" | Level)[] = ["All", "Beginner", "Intermediate", "Advanced"];
 
   const filtered = useMemo(() => {
@@ -485,227 +503,205 @@ export default function JavaPractice(): React.ReactElement {
     setBookmarks((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
-    const bgPage = darkMode
-    ? "bg-gradient-to-b from-gray-900 to-black text-white"
-    : "bg-white text-gray-900";
-  const inputBg = darkMode
-    ? "bg-gray-800 text-gray-100"
-    : "bg-gray-100 text-gray-900";
-  const btnBg = darkMode
-    ? "bg-gray-800 text-gray-200"
-    : "bg-gray-200 text-gray-900";
-  const borderGray = darkMode ? "border-gray-700" : "border-gray-300";
-  const outputBg = darkMode
-    ? "bg-black bg-opacity-50 border-gray-800 text-gray-100"
-    : "bg-gray-100 border-gray-300 text-gray-900";
-  const explanationText = darkMode ? "text-gray-300" : "text-gray-700";
-  
-  return (
-    <div className={`min-h-screen p-6 transition-colors duration-500 ${bgPage}`}>
-      <div className="max-w-5xl mx-auto">
-        <h1
-          className={`text-4xl font-extrabold mb-6 text-center ${
-            darkMode ? "text-indigo-300" : "text-indigo-600"
-          }`}
-        >
-          Java Practice Hub
-        </h1>
-        {/* Controls */}
-         <div className="flex flex-col sm:flex-row gap-3 items-center justify-between mb-6">
-          <div
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg border ${borderGray} w-full sm:w-auto transition-colors duration-500 ${inputBg}`}
-          >
-            <FiSearch className={darkMode ? "text-gray-400" : "text-gray-500"} />
-            <input
-              value={query}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setQuery(e.target.value)
-              }
-              placeholder="Search by keyword, topic, or tag..."
-              className="bg-transparent outline-none text-sm w-64 transition-colors duration-500"
-            />
-          </div>
+  // Dark/light mode classes
+const bgPage = darkMode
+  ? "bg-gradient-to-b from-gray-900 to-black text-white"
+  : "bg-gray-50 text-gray-900"; // subtle off-white background
 
-          <div className="flex gap-2">
-            {levels.map((lv) => (
-              <button
-                key={lv}
-                onClick={() => setFilter(lv)}
-                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-500 ${
-                  filter === lv
-                    ? "bg-indigo-600 text-white shadow-md"
-                    : btnBg
-                }`}
-              >
-                {lv}
-              </button>
-            ))}
-          </div>
+const inputBg = darkMode
+  ? "bg-gray-800 text-gray-100 placeholder-gray-400"
+  : "bg-gray-100 text-gray-900 placeholder-gray-600"; // darker placeholder for readability
+
+const btnBg = darkMode
+  ? " text-gray-200  hover:bg-gray-700 shadow-sm hover:shadow-md"
+  : " text-gray-900 hover:bg-gray-300 shadow-sm hover:shadow-md"; // subtle shadow for depth
+
+const borderGray = darkMode ? "border-gray-700" : "border-gray-300";
+
+const outputBg = darkMode
+  ? "bg-black bg-opacity-50 border-gray-800 text-gray-100"
+  : "bg-gray-100 border-gray-300 text-gray-900 shadow-sm"; // slight shadow to separate from background
+
+// Card background inside questions list
+const cardBg = darkMode ? "bg-gray-800/70" : "bg-white shadow-sm hover:shadow-md"; // added hover shadow for light mode
+
+// Tag styles
+const tagBg = darkMode ? "bg-gray-600/50 text-gray-200" : "bg-gray-300 text-gray-900";
+const levelColors = {
+  Beginner: darkMode ? "bg-green-600" : "bg-green-500 text-white",
+  Intermediate: darkMode ? "bg-yellow-600" : "bg-yellow-400 text-gray-900",
+  Advanced: darkMode ? "bg-red-600" : "bg-red-500 text-white",
+};
+
+  return (
+  <div className={`min-h-screen p-6`}>
+    <div className="max-w-5xl mx-auto">
+      <h1 className="text-4xl font-extrabold text-indigo-400 dark:text-indigo-400 mb-4 text-center">
+        Java Practice Hub
+      </h1>
+
+      {/* Timer */}
+      <div className="flex items-center justify-center gap-4 mb-6">
+        <div
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
+            remainingTime <= 600
+              ? "bg-red-100/50 text-red-600 dark:bg-red-900/30 dark:text-red-400"
+              : remainingTime <= 1200
+              ? "bg-yellow-100/50 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400"
+              : "bg-green-100/50 text-green-600 dark:bg-green-900/30 dark:text-green-600"
+          } font-mono text-lg`}
+        >
+          <FiClock size={18} />
+          <span>{formatTime()}</span>
         </div>
 
-        {/* Questions list */}
-        <div className="space-y-4">
-         {filtered.length === 0 && (
-            <div
-              className={`text-center py-8 ${
-                darkMode ? "text-gray-400" : "text-gray-600"
+        <button
+          onClick={isRunning ? pauseTimer : startTimer}
+          disabled={isExpired}
+          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-colors shadow-sm"
+        >
+          {isRunning ? <FiPause size={16} /> : <FiPlay size={16} />}
+          <span>{isRunning ? "Pause" : "Resume"}</span>
+        </button>
+
+        {isExpired && <div className="text-red-500 font-semibold">⏰ Practice time is up!</div>}
+      </div>
+
+      {/* Controls */}
+      <div className="flex flex-col sm:flex-row gap-3 items-center justify-between mb-6">
+        <div className={`flex items-center gap-2 px-3 py-2 rounded-lg border ${borderGray} w-full sm:w-auto ${inputBg}`}>
+          <FiSearch className="text-gray-500" />
+          <input
+            value={query}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
+            placeholder="Search by keyword, topic, or tag..."
+            className="bg-transparent outline-none text-sm w-64 placeholder-gray-600 dark:placeholder-gray-400"
+          />
+        </div>
+
+        <div className="flex gap-2">
+          {levels.map((lv) => (
+            <button
+              key={lv}
+              onClick={() => setFilter(lv)}
+              className={`px-3 py-2 rounded-md text-sm font-medium ${
+                filter === lv
+                  ? "bg-indigo-600 text-white shadow-md"
+                  : btnBg
               }`}
             >
-              No questions found.
-            </div>
-          )}
-          {filtered.map((q) => (
-            <div
-              key={q.id}
-              className={`p-4 rounded-2xl border shadow-sm transition-colors duration-500 ${
-                darkMode
-                  ? "bg-gradient-to-br from-gray-800/80 to-gray-700/80 border-gray-600"
-                  : "bg-gray-100 border-gray-300"
-              }`}
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <span
-                      className={`text-lg font-semibold ${
-                        darkMode ? "text-indigo-200" : "text-indigo-600"
-                      }`}
-                    >
-                      {q.title}
-                    </span>
-                    <span
-                      className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                        q.level === "Beginner"
-                          ? "bg-green-600"
-                          : q.level === "Intermediate"
-                          ? "bg-yellow-600"
-                          : "bg-red-600"
-                      }`}
-                    >
-                      {q.level}
-                    </span>
-                    {q.topic && (
-                      <span
-                        className={`text-xs px-2 py-0.5 rounded transition-colors duration-500 ${
-                          darkMode
-                            ? "text-gray-300 bg-gray-800/50"
-                            : "text-gray-700 bg-gray-200"
-                        }`}
-                      >
-                        {q.topic}
-                      </span>
-                    )}
-                    {q.tags && q.tags.length > 0 && (
-                      <div className="ml-2 flex flex-wrap gap-2">
-                        {q.tags.slice(0, 3).map((t) => (
-                          <span
-                            key={t}
-                            className={`text-xs px-2 py-0.5 rounded transition-colors duration-500 ${
-                              darkMode
-                                ? "text-gray-300 bg-gray-800/50"
-                                : "text-gray-700 bg-gray-200"
-                            }`}
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <p
-                    className={`text-sm mt-2 line-clamp-2 transition-colors duration-500 ${explanationText}`}
-                  >
-                    {q.explanation}
-                  </p>
-                </div>
-
-               <div className="flex flex-col items-end gap-2">
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => toggleBookmark(q.id)}
-                      title={bookmarks.includes(q.id) ? "Remove Bookmark" : "Bookmark"}
-                      className={`p-2 rounded-md transition-colors duration-500 ${
-                        darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"
-                      }`}
-                    >
-                      <FiBookmark
-                        className={
-                          bookmarks.includes(q.id)
-                            ? "text-yellow-400"
-                            : darkMode
-                            ? "text-gray-300"
-                            : "text-gray-700"
-                        }
-                      />
-                    </button>
-
-                    <button
-                      onClick={() =>
-                        setExpandedId((id) => (id === q.id ? null : q.id))
-                      }
-                      className={`p-2 rounded-md transition-colors duration-500 ${
-                        darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"
-                      }`}
-                    >
-                      <FiRotateCw className={darkMode ? "text-gray-200" : "text-gray-700"} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Expand area */}
-              {expandedId === q.id && (
-                <div className="mt-4">
-                  <div className={`border rounded-lg overflow-hidden transition-colors duration-500 ${borderGray}`}>
-                    <CodeMirror
-                      value={codeMap[q.id]}
-                      height="200px"
-                      extensions={[java()]}
-                      theme={darkMode ? "dark" : "light"}
-                      onChange={(v) => setCodeMap((prev) => ({ ...prev, [q.id]: v || "" }))}
-                    />
-                  </div>
-
-                  {/* Run / Reset */}
-                  <div className="flex flex-wrap gap-3 items-center mt-3">
-                    <button
-                      onClick={() => runCode(q.id)}
-                      className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 px-3 py-2 rounded-md text-white font-semibold transition-colors duration-500"
-                    >
-                      <FiPlay /> Run Code
-                    </button>
-
-                    <button
-                      onClick={() => resetCode(q.id)}
-                      className={`inline-flex items-center gap-2 px-3 py-2 rounded-md border transition-colors duration-500 ${
-                        darkMode ? "bg-gray-800 border-gray-600 text-gray-200" : "bg-gray-200 border-gray-300 text-gray-900"
-                      }`}
-                    >
-                      <FiRotateCw /> Reset
-                    </button>
-
-                    <div className={`ml-auto text-sm transition-colors duration-500 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-                      Question ID: {q.id}
-                    </div>
-                  </div>
-
-                  {/* Output / Console */}
-                  <div className={`mt-3 rounded-md p-3 text-sm transition-colors duration-500 ${outputBg}`}>
-                    <div className={`font-medium mb-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>Output</div>
-                    <pre className="whitespace-pre-wrap text-xs leading-5">{outputs[q.id] || "— No output yet —"}</pre>
-                  </div>
-
-                  {/* Explanation */}
-                  <div className={`mt-3 text-sm transition-colors duration-500 ${explanationText}`}>
-                    <strong className={darkMode ? "text-indigo-200" : "text-indigo-600"}>Explanation:</strong>
-                    <p className="mt-1">{q.explanation}</p>
-                  </div>
-                </div>
-              )}
-            </div>
+              {lv}
+            </button>
           ))}
         </div>
       </div>
+
+      {/* Questions list */}
+      <div className="space-y-4">
+        {filtered.length === 0 && (
+          <div className="text-center text-gray-500 dark:text-gray-400 py-8">No questions found.</div>
+        )}
+
+        {filtered.map((q) => (
+          <div
+            key={q.id}
+            className={`p-4 rounded-2xl border ${borderGray} ${darkMode ? "bg-gray-800/70" : "bg-white shadow-sm hover:shadow-md"}`}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <span className="text-lg font-semibold text-indigo-600 dark:text-indigo-400">{q.title}</span>
+                  <span
+                    className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                      levelColors[q.level]
+                    }`}
+                  >
+                    {q.level}
+                  </span>
+                  {q.topic && (
+                    <span className={`${tagBg} text-xs px-2 py-0.5 rounded`}>{q.topic}</span>
+                  )}
+                  {q.tags && q.tags.length > 0 && (
+                    <div className="ml-2 flex flex-wrap gap-2">
+                      {q.tags.slice(0, 3).map((t) => (
+                        <span key={t} className={`${tagBg} text-xs px-2 py-0.5 rounded`}>{t}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <p className="text-sm mt-2  line-clamp-2">{q.explanation}</p>
+              </div>
+
+              <div className="flex flex-col items-end gap-2">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => toggleBookmark(q.id)}
+                    title={bookmarks.includes(q.id) ? "Remove Bookmark" : "Bookmark"}
+                    className={`p-2 rounded-md ${btnBg}`}
+                  >
+                    <FiBookmark className={bookmarks.includes(q.id) ? "text-yellow-500" : "text-gray-400"} />
+                  </button>
+
+                  <button
+                    onClick={() => setExpandedId((id) => (id === q.id ? null : q.id))}
+                    className={`p-2 rounded-md ${btnBg}`}
+                  >
+                    <FiRotateCw className="" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Expand area */}
+            {expandedId === q.id && (
+              <div className="mt-4">
+                <div className={`border ${borderGray} rounded-lg overflow-hidden`}>
+                  <CodeMirror
+                    value={codeMap[q.id]}
+                    height="200px"
+                    extensions={[java()]}
+                    theme={darkMode ? "dark" : "light"}
+                    onChange={(v) => setCodeMap((prev) => ({ ...prev, [q.id]: v || "" }))}
+                  />
+                </div>
+
+                {/* Run / Reset */}
+                <div className="flex flex-wrap gap-3 items-center mt-3">
+                  <button
+                    onClick={() => runCode(q.id)}
+                    className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 px-3 py-2 rounded-md text-white font-semibold"
+                  >
+                    <FiPlay /> Run Code
+                  </button>
+
+                  <button
+                    onClick={() => resetCode(q.id)}
+                    className={`inline-flex items-center gap-2 px-3 py-2 rounded-md border ${borderGray} ${btnBg}`}
+                  >
+                    <FiRotateCw /> Reset
+                  </button>
+
+                  <div className="ml-auto text-sm text-gray-500 dark:text-gray-400">Question ID: {q.id}</div>
+                </div>
+
+                {/* Output / Console */}
+                <div className={`mt-3 p-3 rounded-md border ${borderGray} ${outputBg} text-sm`}>
+                  <div className="font-medium mb-2">Output</div>
+                  <pre className="whitespace-pre-wrap text-xs leading-5">{outputs[q.id] || "— No output yet —"}</pre>
+                </div>
+
+                {/* Explanation */}
+                <div className="mt-3 text-sm text-gray-700 dark:text-gray-300">
+                  <strong className="text-indigo-600 dark:text-indigo-200">Explanation:</strong>
+                  <p className="mt-1">{q.explanation}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
-  );
+  </div>
+);
+
 }

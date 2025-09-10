@@ -1,9 +1,16 @@
 import React, { ChangeEvent, useMemo, useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { cpp } from "@codemirror/lang-cpp";
-import { FiPlay, FiRotateCw, FiBookmark, FiSearch } from "react-icons/fi";
+import {
+  FiPlay,
+  FiRotateCw,
+  FiBookmark,
+  FiSearch,
+  FiClock,
+  FiPause,
+} from "react-icons/fi";
+import { usePracticeTimer } from "../../hooks/usePracticeTimer";
 import { useDarkMode } from "../Custom/DarkModeContext";
-
 type Level = "Beginner" | "Intermediate" | "Advanced";
 type CppQ = {
   id: number;
@@ -391,7 +398,7 @@ int main() {
 }`,
     expectedOutput: "If input is 5 → 1 2 3 4 5",
     topic: "Pointers",
-  }
+  },
 ];
 
 export default function CPractice(): React.ReactElement {
@@ -408,7 +415,30 @@ export default function CPractice(): React.ReactElement {
   );
   const [outputs, setOutputs] = useState<Record<number, string>>({});
 
-  const levels: ("All" | Level)[] = ["All", "Beginner", "Intermediate", "Advanced"];
+  // Timer hook - 30 minutes for code practice
+  const {
+    remainingTime,
+    isRunning,
+    isExpired,
+    formatTime,
+    startTimer,
+    pauseTimer,
+  } = usePracticeTimer({
+    duration: 1800, // 30 minutes
+    autoStart: true, // Start automatically
+    onTimeUp: () => {
+      alert(
+        "Practice time is up! You can continue practicing or take a break."
+      );
+    },
+  });
+
+  const levels: ("All" | Level)[] = [
+    "All",
+    "Beginner",
+    "Intermediate",
+    "Advanced",
+  ];
 
   const filtered = useMemo(() => {
     const low = query.trim().toLowerCase();
@@ -433,7 +463,7 @@ export default function CPractice(): React.ReactElement {
     // Simulate running code and show expectedOutput (you can replace this with real runner if you want)
     setOutputs((prev) => ({
       ...prev,
-      [id]: `> Running (simulated)\n${q.expectedOutput || "No output"}`
+      [id]: `> Running (simulated)\n${q.expectedOutput || "No output"}`,
     }));
   };
 
@@ -445,9 +475,10 @@ export default function CPractice(): React.ReactElement {
   };
 
   const toggleBookmark = (id: number) => {
-    setBookmarks((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+    setBookmarks((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
   };
-
   const bgPage = darkMode
     ? "bg-gradient-to-b from-gray-900 to-black text-white"
     : "bg-white text-gray-900";
@@ -461,216 +492,376 @@ export default function CPractice(): React.ReactElement {
   const outputBg = darkMode
     ? "bg-black bg-opacity-50 border-gray-800 text-gray-100"
     : "bg-gray-100 border-gray-300 text-gray-900";
+
   const explanationText = darkMode ? "text-gray-300" : "text-gray-700";
-
-  return (
-    <div className={`min-h-screen p-6 transition-colors duration-500 ${bgPage}`}>
-      <div className="max-w-5xl mx-auto">
-        <h1
-          className={`text-4xl font-extrabold mb-6 text-center ${
+  return React.createElement(
+    "div",
+    { className: `min-h-screen p-6 ` }, // ✅ dynamic page bg
+    React.createElement(
+      "div",
+      { className: "max-w-5xl mx-auto" },
+      React.createElement(
+        "h1",
+        {
+          className: `text-4xl font-extrabold mb-4 text-center ${
             darkMode ? "text-indigo-300" : "text-indigo-600"
-          }`}
-        >
-          C Practice Hub
-        </h1>
+          }`,
+        },
+        "C Practice Hub"
+      ),
 
-        {/* Controls */}
-        <div className="flex flex-col sm:flex-row gap-3 items-center justify-between mb-6">
-          <div
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg border ${borderGray} w-full sm:w-auto transition-colors duration-500 ${inputBg}`}
-          >
-            <FiSearch className={darkMode ? "text-gray-400" : "text-gray-500"} />
-            <input
-              value={query}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setQuery(e.target.value)
-              }
-              placeholder="Search by keyword, topic, or tag..."
-              className="bg-transparent outline-none text-sm w-64 transition-colors duration-500"
-            />
-          </div>
+      // Timer Display
+      React.createElement(
+        "div",
+        { className: "flex items-center justify-center gap-4 mb-6" },
 
-          <div className="flex gap-2">
-            {levels.map((lv) => (
-              <button
-                key={lv}
-                onClick={() => setFilter(lv)}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-500 ${
+        // Timer Display
+        React.createElement(
+          "div",
+          {
+            className: `flex items-center gap-2 px-4 py-2 rounded-lg ${
+              remainingTime <= 600
+                ? darkMode
+                  ? "bg-red-900/30 text-red-400"
+                  : "bg-red-100 text-red-600"
+                : remainingTime <= 1200
+                ? darkMode
+                  ? "bg-yellow-900/30 text-yellow-500"
+                  : "bg-yellow-100 text-yellow-600"
+                : darkMode
+                ? "bg-green-900/30 text-green-400"
+                : "bg-green-100 text-green-600"
+            }`,
+          },
+          React.createElement(FiClock, { size: 18 }),
+          React.createElement(
+            "span",
+            { className: "font-mono text-lg" },
+            formatTime()
+          )
+        ),
+
+        // Start/Pause Button
+        React.createElement(
+          "button",
+          {
+            onClick: isRunning ? pauseTimer : startTimer,
+            className: `flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+              darkMode
+                ? "bg-indigo-600 hover:bg-indigo-700 text-white"
+                : "bg-indigo-500 hover:bg-indigo-600 text-white"
+            }`,
+            disabled: isExpired,
+          },
+          React.createElement(isRunning ? FiPause : FiPlay, { size: 16 }),
+          React.createElement("span", {}, isRunning ? "Pause" : "Resume")
+        ),
+
+        // Expired Notice
+        isExpired &&
+          React.createElement(
+            "div",
+            {
+              className: darkMode
+                ? "text-red-400 font-semibold"
+                : "text-red-600 font-semibold",
+            },
+            "⏰ Practice time is up!"
+          )
+      ),
+      // Controls container
+
+      React.createElement(
+        "div",
+        {
+          className:
+            "flex flex-col sm:flex-row gap-3 items-center justify-between mb-6",
+        },
+        // Search input with icon
+        React.createElement(
+          "div",
+          {
+            className: `flex items-center gap-2 px-3 py-2 rounded-lg border w-full sm:w-auto transition-colors duration-500 ${
+              darkMode
+                ? "bg-gray-800 border-gray-700"
+                : "bg-white border-gray-300 shadow-sm"
+            }`,
+          },
+          React.createElement(FiSearch, {
+            className: darkMode ? "text-gray-400" : "text-gray-500",
+          }),
+          React.createElement("input", {
+            value: query,
+            onChange: (e: ChangeEvent<HTMLInputElement>) =>
+              setQuery(e.target.value),
+            placeholder: "Search by keyword, topic, or tag...",
+            className: `bg-transparent outline-none text-sm w-64 transition-colors duration-500 ${
+              darkMode
+                ? "text-gray-100 placeholder-gray-400"
+                : "text-gray-800 placeholder-gray-500"
+            }`,
+          })
+        ),
+
+        // Filter buttons
+        React.createElement(
+          "div",
+          { className: "flex gap-2" },
+          levels.map((lv) =>
+            React.createElement(
+              "button",
+              {
+                key: lv,
+                onClick: () => setFilter(lv),
+                className: `px-3 py-2 rounded-md text-sm font-medium transition-colors duration-500 ${
                   filter === lv
-                    ? "bg-indigo-600 text-white shadow-md"
-                    : btnBg
-                }`}
-              >
-                {lv}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Questions list */}
-        <div className="space-y-4">
-          {filtered.length === 0 && (
-            <div
-              className={`text-center py-8 ${
-                darkMode ? "text-gray-400" : "text-gray-600"
-              }`}
-            >
-              No questions found.
-            </div>
-          )}
-
-          {filtered.map((q) => (
-            <div
-              key={q.id}
-              className={`p-4 rounded-2xl border shadow-sm transition-colors duration-500 ${
-                darkMode
-                  ? "bg-gradient-to-br from-gray-800/80 to-gray-700/80 border-gray-600"
-                  : "bg-gray-100 border-gray-300"
-              }`}
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <span
-                      className={`text-lg font-semibold transition-colors duration-500 ${
-                        darkMode ? "text-indigo-200" : "text-indigo-600"
-                      }`}
-                    >
-                      {q.title}
-                    </span>
-                    <span
-                      className={`text-xs font-semibold px-2 py-1 rounded-full ${
+                    ? darkMode
+                      ? "bg-indigo-600 text-white shadow-md"
+                      : "bg-indigo-500 text-white shadow-md"
+                    : darkMode
+                    ? "bg-gray-800 text-gray-200"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`,
+              },
+              lv
+            )
+          )
+        )
+      ),
+      // Questions list container
+      React.createElement(
+        "div",
+        { className: "space-y-4" },
+        filtered.length === 0 &&
+          React.createElement(
+            "div",
+            {
+              className: `text-center py-8 ${
+                darkMode ? "text-gray-400" : "text-gray-500"
+              }`,
+            },
+            "No questions found."
+          ),
+        filtered.map((q) =>
+          React.createElement(
+            "div",
+            {
+              key: q.id,
+              className:
+                "bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800/80 dark:to-gray-700/80 p-4 rounded-2xl border border-gray-300 dark:border-gray-600 shadow-sm",
+            },
+            React.createElement(
+              "div",
+              { className: "flex items-start justify-between gap-3" },
+              React.createElement(
+                "div",
+                { className: "flex-1" },
+                React.createElement(
+                  "div",
+                  { className: "flex items-center gap-3 flex-wrap" },
+                  // Title
+                  React.createElement(
+                    "span",
+                    {
+                      className:
+                        "text-lg font-semibold text-indigo-700 dark:text-indigo-200",
+                    },
+                    q.title
+                  ),
+                  // Level badge
+                  React.createElement(
+                    "span",
+                    {
+                      className: `text-xs font-semibold px-2 py-1 rounded-full ${
                         q.level === "Beginner"
-                          ? "bg-green-600"
+                          ? "bg-green-500 text-white dark:bg-green-600"
                           : q.level === "Intermediate"
-                          ? "bg-yellow-600"
-                          : "bg-red-600"
-                      }`}
-                    >
-                      {q.level}
-                    </span>
-                    {q.topic && (
-                      <span
-                        className={`text-xs px-2 py-0.5 rounded transition-colors duration-500 ${
-                          darkMode
-                            ? "text-gray-300 bg-gray-800/50"
-                            : "text-gray-700 bg-gray-200"
-                        }`}
-                      >
-                        {q.topic}
-                      </span>
-                    )}
-                    {q.tags && q.tags.length > 0 && (
-                      <div className="ml-2 flex flex-wrap gap-2">
-                        {q.tags.slice(0, 3).map((t) => (
-                          <span
-                            key={t}
-                            className={`text-xs px-2 py-0.5 rounded transition-colors duration-500 ${
-                              darkMode
-                                ? "text-gray-300 bg-gray-800/50"
-                                : "text-gray-700 bg-gray-200"
-                            }`}
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <p
-                    className={`text-sm mt-2 line-clamp-2 transition-colors duration-500 ${explanationText}`}
-                  >
-                    {q.explanation}
-                  </p>
-                </div>
+                          ? "bg-yellow-500 text-white dark:bg-yellow-600"
+                          : "bg-red-500 text-white dark:bg-red-600"
+                      }`,
+                    },
+                    q.level
+                  ),
+                  // Topic
+                  q.topic &&
+                    React.createElement(
+                      "span",
+                      {
+                        className:
+                          "text-xs text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-800/50 px-2 py-0.5 rounded",
+                      },
+                      q.topic
+                    ),
+                  // Tags
+                  q.tags &&
+                    q.tags.length > 0 &&
+                    React.createElement(
+                      "div",
+                      { className: "ml-2 flex flex-wrap gap-2" },
+                      q.tags.slice(0, 3).map((t) =>
+                        React.createElement(
+                          "span",
+                          {
+                            key: t,
+                            className:
+                              "text-xs text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-800/50 px-2 py-0.5 rounded",
+                          },
+                          t
+                        )
+                      )
+                    )
+                ),
+                // Explanation
+                React.createElement(
+                  "p",
+                  {
+                    className:
+                      "text-sm text-gray-700 dark:text-gray-300 mt-2 line-clamp-2",
+                  },
+                  q.explanation
+                )
+              ),
 
-                <div className="flex flex-col items-end gap-2">
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => toggleBookmark(q.id)}
-                      title={bookmarks.includes(q.id) ? "Remove Bookmark" : "Bookmark"}
-                      className={`p-2 rounded-md transition-colors duration-500 ${
-                        darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"
-                      }`}
-                    >
-                      <FiBookmark
-                        className={
-                          bookmarks.includes(q.id)
-                            ? "text-yellow-400"
-                            : darkMode
-                            ? "text-gray-300"
-                            : "text-gray-700"
-                        }
-                      />
-                    </button>
+              React.createElement(
+                "div",
+                { className: "flex flex-col items-end gap-2" },
+                React.createElement(
+                  "div",
+                  { className: "flex items-center gap-2" },
+                  React.createElement(
+                    "button",
+                    {
+                      onClick: () => toggleBookmark(q.id),
+                      title: bookmarks.includes(q.id)
+                        ? "Remove Bookmark"
+                        : "Bookmark",
+                      className: `p-2 rounded-md ${btnBg} hover:opacity-80 transition-colors`,
+                    },
+                    React.createElement(FiBookmark, {
+                      className: bookmarks.includes(q.id)
+                        ? "text-yellow-500"
+                        : darkMode
+                        ? "text-gray-300"
+                        : "text-gray-600",
+                    })
+                  ),
+                  React.createElement(
+                    "button",
+                    {
+                      onClick: () =>
+                        setExpandedId((id) => (id === q.id ? null : q.id)),
+                      className: `p-2 rounded-md ${btnBg} hover:opacity-80 transition-colors`,
+                    },
+                    React.createElement(FiRotateCw, {
+                      className: darkMode ? "text-gray-200" : "text-gray-700",
+                    })
+                  )
+                )
+              )
+            ),
 
-                    <button
-                      onClick={() =>
-                        setExpandedId((id) => (id === q.id ? null : q.id))
-                      }
-                      className={`p-2 rounded-md transition-colors duration-500 ${
-                        darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"
-                      }`}
-                    >
-                      <FiRotateCw className={darkMode ? "text-gray-200" : "text-gray-700"} />
-                    </button>
-                  </div>
-                </div>
-              </div>
+            // Expanded area with editor and buttons
+            expandedId === q.id &&
+              React.createElement(
+                "div",
+                { className: "mt-4" },
+                React.createElement(
+                  "div",
+                  {
+                    className: `border ${borderGray} rounded-lg overflow-hidden`,
+                  },
+                  React.createElement(CodeMirror, {
+                    value: codeMap[q.id],
+                    height: "200px",
+                    extensions: [cpp()],
+                    theme: darkMode ? "dark" : "light",
+                    onChange: (v) =>
+                      setCodeMap((prev) => ({ ...prev, [q.id]: v || "" })),
+                  })
+                ),
 
-              {/* Expand area */}
-              {expandedId === q.id && (
-                <div className="mt-4">
-                  <div className={`border rounded-lg overflow-hidden transition-colors duration-500 ${borderGray}`}>
-                    <CodeMirror
-                      value={codeMap[q.id]}
-                      height="200px"
-                      extensions={[cpp()]}
-                      theme={darkMode ? "dark" : "light"}
-                      onChange={(v) => setCodeMap((prev) => ({ ...prev, [q.id]: v || "" }))}
-                    />
-                  </div>
+                React.createElement(
+                  "div",
+                  { className: "flex flex-wrap gap-3 items-center mt-3" },
+                  // Run Code Button
+                  React.createElement(
+                    "button",
+                    {
+                      onClick: () => runCode(q.id),
+                      className:
+                        "inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 px-3 py-2 rounded-md text-white font-semibold hover:opacity-90 transition",
+                    },
+                    React.createElement(FiPlay, null),
+                    " Run Code"
+                  ),
 
-                  {/* Run / Reset */}
-                  <div className="flex flex-wrap gap-3 items-center mt-3">
-                    <button
-                      onClick={() => runCode(q.id)}
-                      className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 px-3 py-2 rounded-md text-white font-semibold transition-colors duration-500"
-                    >
-                      <FiPlay /> Run Code
-                    </button>
+                  // Reset Button
+                  React.createElement(
+                    "button",
+                    {
+                      onClick: () => resetCode(q.id),
+                      className: `inline-flex items-center gap-2 ${btnBg} border ${borderGray} px-3 py-2 rounded-md font-medium hover:opacity-80 transition`,
+                    },
+                    React.createElement(FiRotateCw, null),
+                    " Reset"
+                  ),
 
-                    <button
-                      onClick={() => resetCode(q.id)}
-                      className={`inline-flex items-center gap-2 px-3 py-2 rounded-md border transition-colors duration-500 ${
-                        darkMode ? "bg-gray-800 border-gray-600 text-gray-200" : "bg-gray-200 border-gray-300 text-gray-900"
-                      }`}
-                    >
-                      <FiRotateCw /> Reset
-                    </button>
+                  // Question ID
+                  React.createElement(
+                    "div",
+                    {
+                      className: `ml-auto text-sm ${
+                        darkMode ? "text-gray-400" : "text-gray-600"
+                      }`,
+                    },
+                    "Question ID: ",
+                    q.id
+                  )
+                ),
 
-                    <div className={`ml-auto text-sm transition-colors duration-500 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-                      Question ID: {q.id}
-                    </div>
-                  </div>
+                // Output section
+                React.createElement(
+                  "div",
+                  { className: `mt-3 rounded-md p-3 text-sm ${outputBg}` },
+                  React.createElement(
+                    "div",
+                    {
+                      className: `font-medium mb-2 ${
+                        darkMode ? "text-gray-300" : "text-gray-700"
+                      }`,
+                    },
+                    "Output"
+                  ),
+                  React.createElement(
+                    "pre",
+                    { className: "whitespace-pre-wrap text-xs leading-5" },
+                    outputs[q.id] || "— No output yet —"
+                  )
+                ),
 
-                  {/* Output / Console */}
-                  <div className={`mt-3 rounded-md p-3 text-sm transition-colors duration-500 ${outputBg}`}>
-                    <div className={`font-medium mb-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>Output</div>
-                    <pre className="whitespace-pre-wrap text-xs leading-5">{outputs[q.id] || "— No output yet —"}</pre>
-                  </div>
-
-                  {/* Explanation */}
-                  <div className={`mt-3 text-sm transition-colors duration-500 ${explanationText}`}>
-                    <strong className={darkMode ? "text-indigo-200" : "text-indigo-600"}>Explanation:</strong>
-                    <p className="mt-1">{q.explanation}</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+                // Explanation
+                React.createElement(
+                  "div",
+                  {
+                    className: `mt-3 text-sm ${
+                      darkMode ? "text-gray-300" : "text-gray-700"
+                    }`,
+                  },
+                  React.createElement(
+                    "strong",
+                    {
+                      className: darkMode
+                        ? "text-indigo-200"
+                        : "text-indigo-600",
+                    },
+                    "Explanation:"
+                  ),
+                  React.createElement("p", { className: "mt-1" }, q.explanation)
+                )
+              )
+          )
+        )
+      )
+    )
   );
 }
