@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { auth } from "../../firebase/firebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { Moon, Sun } from "lucide-react";
 
 import { CgProfile } from "react-icons/cg";
 import { TiHomeOutline } from "react-icons/ti";
@@ -15,7 +16,7 @@ import { MdHistoryEdu } from "react-icons/md";
 import ThemeToggle from "./ThemeToggle";
 import QuestionOfTheDay from "./QuestionOfTheDay";
 import { useThemeSelector } from "../../store/hooks";
-
+import { useDarkMode } from "../Custom/DarkModeContext";
 // Update props to accept the chat state setter
 interface HeaderProps {
   setUserID: React.Dispatch<React.SetStateAction<string>>;
@@ -23,7 +24,8 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
-  const darkMode = useThemeSelector((state) => state.theme.darkMode);
+  // const darkMode = useThemeSelector((state) => state.theme.darkMode);
+  const { darkMode, toggleDarkMode } = useDarkMode();
   const location = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -110,9 +112,7 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
   return (
     <>
       {location.pathname === "/" ? (
-        <div
-          className={`sticky top-0 z-50 w-full backdrop-blur-xl bg-white/10 dark:bg-black/10 border-b border-white/10 dark:border-black/20 shadow-md transition-all duration-200`}
-        >
+        <div className={`sticky top-0 z-50 w-full backdrop-blur-xl bg-white/10 dark:bg-black/10 border-b border-white/10 dark:border-black/20 shadow-md transition-all duration-200`}>
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
             <Link to="/homepage" className="flex items-center">
               <h1 className="boxy text-2xl font-bold flex items-center justify-center gap-1">
@@ -132,29 +132,19 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
               </button>
             </div>
             <nav className="boxy hidden md:flex space-x-8 items-center font-bold">
-              <ThemeToggle />
-              {/* <a href="#features" className="text-white hover:text-indigo-600 transition duration-300">Features</a>
-              <a href="#how-it-works" className="text-white hover:text-indigo-600 transition duration-300">How It Works</a> */}
-              <a
-                href="#features"
-                className={`transition duration-300 ${darkMode ? "text-white hover:text-indigo-600" : "hover:text-[#0e0430] text-indigo-600"
-                  }`}
-              >
-                Features
-              </a>
-              <a
-                href="#how-it-works"
-                className={`transition duration-300 ${darkMode ? "text-white hover:text-indigo-600" : "hover:text-[#0e0430] text-indigo-600"
-                  }`}
-              >
-                How It Works
-              </a>
+              <div onClick={toggleDarkMode} className="cursor-pointer">
+                {darkMode ? <Moon className="h-6 w-6 text-blue-400" /> : <Sun className="h-6 w-6 text-yellow-300" />}
+              </div>
+              <a href="#features" className={`transition duration-300 ${darkMode ? "text-white hover:text-indigo-600" : "hover:text-[#0e0430] text-indigo-600"}`}>Features</a>
+              <a href="#how-it-works" className={`transition duration-300 ${darkMode ? "text-white hover:text-indigo-600" : "hover:text-[#0e0430] text-indigo-600"}`}>How It Works</a>
             </nav>
           </div>
           {isMobileMenuOpen && (
             <div className="md:hidden bg-white/5 dark:bg-black/5 backdrop-blur-md pb-4">
               <nav className="flex flex-col items-center space-y-4 font-bold">
-                <ThemeToggle />
+                <div onClick={toggleDarkMode} className="cursor-pointer">
+                  {darkMode ? <Moon className="h-6 w-6 text-blue-400" /> : <Sun className="h-6 w-6 text-yellow-300" />}
+                </div>
                 <a href="#features" className="text-white hover:text-indigo-600 transition duration-300 w-full text-center py-2" onClick={toggleMobileMenu}>Features</a>
                 <a href="#how-it-works" className="text-white hover:text-indigo-600 transition duration-300 w-full text-center py-2" onClick={toggleMobileMenu}>How It Works</a>
               </nav>
@@ -170,62 +160,113 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
                 <img src="/logo.png" alt="logo" width={150} />
               </h1>
             </Link>
-
-            
-            <div className="relative" ref={dropdownRef}>
-              <div className="flex items-center gap-2">
-                 <ThemeToggle />
-                <QuestionOfTheDay />
-               
-                <button
-                  onClick={toggleDropdown}
-                  className="flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded-full transition cursor-pointer text-white"
-                >
-                  {!profilePic ? (
-                    <div className="flex items-center space-x-2">
-                      <div className="w-8 h-8 bg-gray-500 rounded-full animate-pulse"></div>
-                      <span className="w-20 h-4 bg-gray-500 rounded-md animate-pulse hidden sm:inline-block"></span>
-                    </div>
-                  ) : (
-                    <div className="flex items-center space-x-2">
-                      <img
-                        src={profilePic}
-                        alt="Profile Picture"
-                        className="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center overflow-hidden object-cover"
-                      />
-                      <span className="max-[430px]:hidden sm:inline-block text-white">{user}</span>
-                    </div>
-                  )}
-                  <svg className={`h-4 w-4 transition-transform text-white ${isDropdownOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
+            <div className="flex items-center gap-3" ref={dropdownRef}>
+              {/* Dark Mode Toggle */}
+              <div onClick={toggleDarkMode} className="cursor-pointer">
+                {darkMode ? <Moon className="h-6 w-6 text-blue-400" /> : <Sun className="h-6 w-6 text-yellow-300" />}
               </div>
+
+              {/* Question of the Day */}
+              <QuestionOfTheDay />
+
+              {/* Profile Dropdown */}
+              <div className="relative">
+              <button onClick={toggleDropdown} className={`flex items-center space-x-2 px-3 py-2 rounded-full transition cursor-pointer
+      ${darkMode ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-900"}
+    `}
+  >
+                {!profilePic ? (
+                  <div className="flex items-center space-x-2">
+                    <div
+          className={`w-8 h-8 rounded-full animate-pulse 
+            ${darkMode ? "bg-gray-500" : "bg-gray-400"}
+          `}
+        ></div>
+                    <span
+          className={`w-20 h-4 rounded-md animate-pulse hidden sm:inline-block 
+            ${darkMode ? "bg-gray-500" : "bg-gray-300"}
+          `}
+        ></span>
+      </div>
+                ) : (
+                  <div className="flex items-center space-x-2">
+                    <img src={profilePic} alt="Profile Picture" className="w-8 h-8 bg-indigo-500 rounded-full object-cover" />
+                    <span
+          className={`max-[430px]:hidden sm:inline-block
+            ${darkMode ? "text-white" : "text-gray-900"}
+          `}
+        >
+          {user}
+        </span>
+                  </div>
+                )}
+                <svg
+      className={`h-4 w-4 transition-transform 
+        ${isDropdownOpen ? "rotate-180" : ""} 
+        ${darkMode ? "text-white" : "text-gray-700"}
+      `}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+    </svg>
+              </button>
+              
+
               {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg z-10 text-white">
+                <div
+                  className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg z-10 transition-colors duration-500 ${
+                    darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+                  }`}
+                >
                   <div className="py-1">
-                    <Link to="/profile" className={`flex px-4 py-2 text-sm hover:bg-gray-700 gap-1 items-center ${location.pathname === "/profile" ? "bg-gray-700" : ""}`} onClick={() => setIsDropdownOpen(false)}>
+                    <Link to="/profile"  className={`flex px-4 py-2 text-sm gap-1 items-center transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
                       <CgProfile className="text-xl" /> My Profile
                     </Link>
-                    <Link to="/homepage" className={`flex px-4 py-2 text-sm hover:bg-gray-700 gap-1 items-center ${location.pathname === "/homepage" ? "bg-gray-700" : ""}`} onClick={() => setIsDropdownOpen(false)}>
+                    <Link to="/homepage"  className={`flex px-4 py-2 text-sm gap-1 items-center transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
                       <TiHomeOutline className="text-xl" /> Homepage
                     </Link>
-                    <Link to="/notes" className={`flex px-4 py-2 text-sm hover:bg-gray-700 gap-1 items-center ${location.pathname === "/notes" ? "bg-gray-700" : ""}`} onClick={() => setIsDropdownOpen(false)}>
+                    <Link to="/notes"  className={`flex px-4 py-2 text-sm gap-1 items-center transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
                       <FaRegStickyNote className="text-xl" /> Notes
                     </Link>
-                    <Link to="/previous-tests" className={`flex px-4 py-2 text-sm hover:bg-gray-700 gap-1 items-center ${location.pathname === "/previous-tests" ? "bg-gray-700" : ""}`} onClick={() => setIsDropdownOpen(false)}>
+                    <Link to="/previous-tests"  className={`flex px-4 py-2 text-sm gap-1 items-center transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
                       <MdHistoryEdu className="text-xl" /> Previous Tests
                     </Link>
-                    <Link to="/score-board" className={`flex px-4 py-2 text-sm hover:bg-gray-700 gap-1 items-center ${location.pathname === "/score-board" ? "bg-gray-700" : ""}`} onClick={() => setIsDropdownOpen(false)}>
+                    <Link to="/score-board"  className={`flex px-4 py-2 text-sm gap-1 items-center transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
                       <IoTrophyOutline className="text-xl" /> Leader Board
                     </Link>
-                    <Link to="/favorites" className={`flex px-4 py-2 text-sm hover:bg-gray-700 gap-1 items-center ${location.pathname === "/favorites" ? "bg-gray-700" : ""}`} onClick={() => setIsDropdownOpen(false)}>
+                    <Link to="/favorites"  className={`flex px-4 py-2 text-sm gap-1 items-center transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
                       <IoTrophyOutline className="text-xl" /> Favorites
                     </Link>
-
-                    {/* New Chat Option */}
                     <div
-                      className="flex gap-1 w-full text-left px-4 py-2 text-sm hover:bg-gray-700 cursor-pointer"
+                      className={`flex gap-1 px-4 py-2 text-sm cursor-pointer transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
                       onClick={() => {
                         setIsChatOpen(true);
                         setIsDropdownOpen(false);
@@ -233,9 +274,10 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
                     >
                       <IoChatbubblesOutline className="text-xl" /> Chat
                     </div>
-
-                    <div
-                      className="flex gap-1 w-full text-left px-4 py-2 text-sm hover:bg-gray-700 text-red-400 cursor-pointer"
+                      <div
+                      className={`flex gap-1 px-4 py-2 text-sm cursor-pointer text-red-500 transition-colors duration-500 ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
                       onClick={() => {
                         setIsDropdownOpen(false);
                         handleLogout();
@@ -246,6 +288,7 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
                   </div>
                 </div>
               )}
+              </div>
             </div>
           </div>
         </header>

@@ -3,7 +3,7 @@ import  { useState, useMemo } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { FiPlay, FiRotateCw, FiBookmark, FiSearch } from "react-icons/fi";
-
+import { useDarkMode } from "../Custom/DarkModeContext"; 
 /**
  * JavaScriptPractice.tsx
  * Self-contained page component with 24 JS questions, CodeMirror editor per question,
@@ -364,6 +364,7 @@ console.log('Example conceptual only');`,
 ];
 
 export default function JavaScriptPractice() {
+  const { darkMode } = useDarkMode();
   const [query, setQuery] = useState<string>("");
   const [filter, setFilter] = useState<"All" | Level | "All">("All");
   const [expandedId, setExpandedId] = useState<number | null>(null);
@@ -446,20 +447,31 @@ export default function JavaScriptPractice() {
     setBookmarks((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-6">
+  const bgClass = darkMode ? "from-gray-900 to-black text-white" : "from-gray-100 to-white text-gray-900";
+  const cardClass = darkMode
+    ? "bg-gradient-to-br from-gray-800/80 to-gray-700/80 border border-gray-600 text-white"
+    : "bg-white border border-gray-300 text-gray-900";
+  const inputClass = darkMode ? "bg-gray-800 text-gray-100 border-gray-700" : "bg-white text-gray-900 border-gray-300";
+  const btnActive = darkMode ? "bg-indigo-600 text-white shadow-md" : "bg-indigo-500 text-white shadow-md";
+  const btnInactive = darkMode ? "bg-gray-800 text-gray-200" : "bg-gray-200 text-gray-900";
+
+
+   return (
+    <div className={`min-h-screen bg-gradient-to-b ${bgClass} p-6 transition-colors duration-500`}>
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl font-extrabold text-indigo-300 mb-6 text-center">JavaScript Practice Hub</h1>
+        <h1 className={`text-4xl font-extrabold mb-6 text-center ${darkMode ? "text-indigo-300" : "text-indigo-600"}`}>
+          JavaScript Practice Hub
+        </h1>
 
         {/* Controls */}
         <div className="flex flex-col sm:flex-row gap-3 items-center justify-between mb-6">
-          <div className="flex items-center gap-2 bg-gray-800 px-3 py-2 rounded-lg border border-gray-700 w-full sm:w-auto">
-            <FiSearch className="text-gray-400" />
+          <div className={`flex items-center gap-2 px-3 py-2 rounded-lg border w-full sm:w-auto ${inputClass}`}>
+            <FiSearch className={darkMode ? "text-gray-400" : "text-gray-500"} />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by keyword, tag, or explanation..."
-              className="bg-transparent outline-none text-sm text-gray-100 w-64"
+              className="bg-transparent outline-none text-sm w-64"
             />
           </div>
 
@@ -469,7 +481,7 @@ export default function JavaScriptPractice() {
                 key={lv}
                 onClick={() => setFilter(lv)}
                 className={`px-3 py-2 rounded-md text-sm font-medium ${
-                  filter === lv ? "bg-indigo-600 text-white shadow-md" : "bg-gray-800 text-gray-200"
+                  filter === lv ? btnActive : btnInactive
                 }`}
               >
                 {lv}
@@ -481,17 +493,20 @@ export default function JavaScriptPractice() {
         {/* Questions list */}
         <div className="space-y-4">
           {filtered.map((q) => (
-            <div
-              key={q.id}
-              className="bg-gradient-to-br from-gray-800/80 to-gray-700/80 p-4 rounded-2xl border border-gray-600 shadow-sm"
-            >
+            <div key={q.id} className={`p-4 rounded-2xl shadow-sm ${cardClass}`}>
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
-                    <span className="text-lg font-semibold text-indigo-200">{q.title}</span>
+                    <span className={`text-lg font-semibold ${darkMode ? "text-indigo-200" : "text-indigo-700"}`}>
+                      {q.title}
+                    </span>
                     <span
                       className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                        q.level === "Beginner" ? "bg-green-600" : q.level === "Intermediate" ? "bg-yellow-600" : "bg-red-600"
+                        q.level === "Beginner"
+                          ? "bg-green-600"
+                          : q.level === "Intermediate"
+                          ? "bg-yellow-600"
+                          : "bg-red-600"
                       }`}
                     >
                       {q.level}
@@ -499,39 +514,43 @@ export default function JavaScriptPractice() {
                     {q.tags && q.tags.length > 0 && (
                       <div className="ml-2 flex flex-wrap gap-2">
                         {q.tags!.slice(0, 3).map((t) => (
-                          <span key={t} className="text-xs text-gray-300 bg-gray-800/50 px-2 py-0.5 rounded">
+                          <span
+                            key={t}
+                            className={`text-xs px-2 py-0.5 rounded ${
+                              darkMode ? "text-gray-300 bg-gray-800/50" : "text-gray-700 bg-gray-200"
+                            }`}
+                          >
                             {t}
                           </span>
                         ))}
                       </div>
                     )}
                   </div>
-                  <p className="text-sm text-gray-300 mt-2 line-clamp-2">{q.explanation}</p>
+                  <p className={`mt-2 line-clamp-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>{q.explanation}</p>
                 </div>
 
                 <div className="flex flex-col items-end gap-2">
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => {
-                        toggleBookmark(q.id);
-                      }}
+                      onClick={() => toggleBookmark(q.id)}
                       title={bookmarks.includes(q.id) ? "Remove Bookmark" : "Bookmark"}
-                      className="p-2 rounded-md bg-gray-800 hover:bg-gray-700"
+                      className={`p-2 rounded-md ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"}`}
                     >
-                      <FiBookmark className={bookmarks.includes(q.id) ? "text-yellow-400" : "text-gray-300"} />
+                      <FiBookmark
+                        className={bookmarks.includes(q.id) ? "text-yellow-400" : darkMode ? "text-gray-300" : "text-gray-600"}
+                      />
                     </button>
 
                     <button
                       onClick={() => setExpandedId((id) => (id === q.id ? null : q.id))}
-                      className="p-2 rounded-md bg-gray-800 hover:bg-gray-700"
+                      className={`p-2 rounded-md ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"}`}
                     >
-                      {expandedId === q.id ? <FiRotateCw className="text-gray-200" /> : <FiRotateCw className="text-gray-200" />}
+                      <FiRotateCw className={darkMode ? "text-gray-200" : "text-gray-600"} />
                     </button>
                   </div>
                 </div>
               </div>
 
-              {/* Expand area */}
               {expandedId === q.id && (
                 <div className="mt-4">
                   <div className="border border-gray-700 rounded-lg overflow-hidden">
@@ -539,7 +558,7 @@ export default function JavaScriptPractice() {
                       value={codeMap[q.id]}
                       height="200px"
                       extensions={[javascript({ jsx: true })]}
-                      theme="dark"
+                      theme={darkMode ? "dark" : "light"}
                       onChange={(v) => setCodeMap((prev) => ({ ...prev, [q.id]: v || "" }))}
                     />
                   </div>
@@ -548,14 +567,14 @@ export default function JavaScriptPractice() {
                   <div className="flex flex-wrap gap-3 items-center mt-3">
                     <button
                       onClick={() => runCode(q.id)}
-                      className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 px-3 py-2 rounded-md text-white font-semibold"
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold"
                     >
                       <FiPlay /> Run Code
                     </button>
 
                     <button
                       onClick={() => resetCode(q.id)}
-                      className="inline-flex items-center gap-2 bg-gray-800 border border-gray-600 px-3 py-2 rounded-md text-gray-200"
+                      className="inline-flex items-center gap-2 px-3 py-2 rounded-md border text-sm font-medium"
                     >
                       <FiRotateCw /> Reset
                     </button>
@@ -563,15 +582,19 @@ export default function JavaScriptPractice() {
                     <div className="ml-auto text-sm text-gray-400">Example ID: {q.id}</div>
                   </div>
 
-                  {/* Output / Console */}
-                  <div className="mt-3 bg-black bg-opacity-50 border border-gray-800 rounded-md p-3 text-sm text-gray-100">
-                    <div className="font-medium text-gray-300 mb-2">Output</div>
-                    <pre className="whitespace-pre-wrap text-xs leading-5">{outputs[q.id] || "— No output yet —"}</pre>
+                  {/* Output */}
+                  <div
+                    className={`mt-3 border rounded-md p-3 text-sm whitespace-pre-wrap ${
+                      darkMode ? "bg-black bg-opacity-50 border-gray-800 text-gray-100" : "bg-gray-100 border-gray-300 text-gray-900"
+                    }`}
+                  >
+                    <div className={`font-medium mb-2 ${darkMode ? "text-gray-300" : "text-gray-700"}`}>Output</div>
+                    <pre className="text-xs leading-5">{outputs[q.id] || "— No output yet —"}</pre>
                   </div>
 
                   {/* Explanation */}
-                  <div className="mt-3 text-sm text-gray-300">
-                    <strong className="text-indigo-200">Explanation:</strong>
+                  <div className={`mt-3 text-sm ${darkMode ? "text-gray-300" : "text-gray-800"}`}>
+                    <strong className={darkMode ? "text-indigo-200" : "text-indigo-600"}>Explanation:</strong>
                     <p className="mt-1">{q.explanation}</p>
                   </div>
                 </div>
@@ -579,7 +602,7 @@ export default function JavaScriptPractice() {
             </div>
           ))}
 
-          {filtered.length === 0 && <div className="text-center text-gray-400 py-8">No questions found.</div>}
+          {filtered.length === 0 && <div className="text-center py-8 text-gray-400">No questions found.</div>}
         </div>
       </div>
     </div>
