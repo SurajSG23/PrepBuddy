@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { cn } from "../../../lib/utils";
 import { useDarkMode } from "../Custom/DarkModeContext";
 
 interface HeaderProps {
