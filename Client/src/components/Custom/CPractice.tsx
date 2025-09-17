@@ -479,12 +479,6 @@ export default function CPractice(): React.ReactElement {
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
   };
-  const bgPage = darkMode
-    ? "bg-gradient-to-b from-gray-900 to-black text-white"
-    : "bg-white text-gray-900";
-  const inputBg = darkMode
-    ? "bg-gray-800 text-gray-100"
-    : "bg-gray-100 text-gray-900";
   const btnBg = darkMode
     ? "bg-gray-800 text-gray-200"
     : "bg-gray-200 text-gray-900";
@@ -493,7 +487,6 @@ export default function CPractice(): React.ReactElement {
     ? "bg-black bg-opacity-50 border-gray-800 text-gray-100"
     : "bg-gray-100 border-gray-300 text-gray-900";
 
-  const explanationText = darkMode ? "text-gray-300" : "text-gray-700";
   return React.createElement(
     "div",
     { className: `min-h-screen p-6 ` }, // ✅ dynamic page bg
