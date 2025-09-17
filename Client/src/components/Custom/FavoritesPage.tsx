@@ -25,7 +25,6 @@ const FavoritesPage = () => {
   const cardBorder = darkMode ? "border-gray-700" : "border-gray-300";
   const buttonBg = "bg-indigo-600";
   const buttonHover = "hover:bg-indigo-700";
-  const shadowColor = darkMode ? "shadow-indigo-500/20" : "shadow-indigo-200/30";
 
   const renderCompanies = () => (
     <>
