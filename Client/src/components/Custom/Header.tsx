@@ -112,15 +112,15 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
   return (
     <>
       {location.pathname === "/" ? (
-        <div className={`sticky top-0 z-50 w-full backdrop-blur-xl bg-white/10 dark:bg-black/10 border-b border-white/10 dark:border-black/20 shadow-md transition-all duration-200`}>
-          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div className={`sticky top-0 z-50 w-full backdrop-blur-xl bg-white/10 dark:bg-black/10 border-b border-white/10 dark:border-black/20 shadow-md transition-all duration-200  `}>
+          <div className="container mx-auto px-4 py-4 flex justify-between items-center   ">
             <Link to="/homepage" className="flex items-center">
               <h1 className="boxy text-2xl font-bold flex items-center justify-center gap-1">
                 <img src="/icon.png" alt="icon" width={35} />
                 <img src="/logo.png" alt="logo" width={150} />
               </h1>
             </Link>
-            <div className="md:hidden">
+            <div className="md:hidden ">
               <button onClick={toggleMobileMenu} className="text-white focus:outline-none">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   {isMobileMenuOpen ? (
@@ -131,7 +131,7 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
                 </svg>
               </button>
             </div>
-            <nav className="boxy hidden md:flex space-x-8 items-center font-bold">
+            <nav className="boxy  hidden md:flex space-x-8 items-center font-bold">
               <div onClick={toggleDarkMode} className="cursor-pointer">
                 {darkMode ? <Moon className="h-6 w-6 text-blue-400" /> : <Sun className="h-6 w-6 text-yellow-300" />}
               </div>
@@ -140,7 +140,7 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
             </nav>
           </div>
           {isMobileMenuOpen && (
-            <div className="md:hidden bg-white/5 dark:bg-black/5 backdrop-blur-md pb-4">
+            <div className="absolute top-full w-full md:hidden bg-white/5  dark:bg-black/30 backdrop-blur-xl pb-4 z-50">
               <nav className="flex flex-col items-center space-y-4 font-bold">
                 <div onClick={toggleDarkMode} className="cursor-pointer">
                   {darkMode ? <Moon className="h-6 w-6 text-blue-400" /> : <Sun className="h-6 w-6 text-yellow-300" />}
