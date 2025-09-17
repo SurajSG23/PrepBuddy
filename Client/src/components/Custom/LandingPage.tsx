@@ -109,7 +109,7 @@ const TextGenerateEffect: React.FC<Props> = ({ words, className }) => {
     } -z-10`}
   ></div>
 
-  <div className="container mx-auto px-4 py-20 md:py-32">
+  <div className="container mx-auto px-4 py-20 md:py-32 mt-15 ">
     <div className="grid md:grid-cols-2 gap-12 items-center">
       {/* Left Content */}
       <div className="space-y-8">
