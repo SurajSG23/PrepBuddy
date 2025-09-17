@@ -3,7 +3,6 @@ import { useDarkMode } from "../Custom/DarkModeContext";
 import React, { useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import TextGenerateEffect from "../ui/text-generate-effect";
 import TypewriterEffect from "../ui/typewriter-effect";
 import { auth } from "../../firebase/firebaseConfig";
 import { signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
