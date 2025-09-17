@@ -13,9 +13,7 @@ import { FaRegStickyNote } from "react-icons/fa";
 import { IoTrophyOutline, IoChatbubblesOutline } from "react-icons/io5"; // Import Chat icon
 import { MdLogout } from "react-icons/md";
 import { MdHistoryEdu } from "react-icons/md";
-import ThemeToggle from "./ThemeToggle";
 import QuestionOfTheDay from "./QuestionOfTheDay";
-import { useThemeSelector } from "../../store/hooks";
 import { useDarkMode } from "../Custom/DarkModeContext";
 // Update props to accept the chat state setter
 interface HeaderProps {
