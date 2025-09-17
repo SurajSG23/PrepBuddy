@@ -503,10 +503,6 @@ export default function JavaPractice(): React.ReactElement {
     setBookmarks((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
-  // Dark/light mode classes
-const bgPage = darkMode
-  ? "bg-gradient-to-b from-gray-900 to-black text-white"
-  : "bg-gray-50 text-gray-900"; // subtle off-white background
 
 const inputBg = darkMode
   ? "bg-gray-800 text-gray-100 placeholder-gray-400"
@@ -521,9 +517,6 @@ const borderGray = darkMode ? "border-gray-700" : "border-gray-300";
 const outputBg = darkMode
   ? "bg-black bg-opacity-50 border-gray-800 text-gray-100"
   : "bg-gray-100 border-gray-300 text-gray-900 shadow-sm"; // slight shadow to separate from background
-
-// Card background inside questions list
-const cardBg = darkMode ? "bg-gray-800/70" : "bg-white shadow-sm hover:shadow-md"; // added hover shadow for light mode
 
 // Tag styles
 const tagBg = darkMode ? "bg-gray-600/50 text-gray-200" : "bg-gray-300 text-gray-900";
