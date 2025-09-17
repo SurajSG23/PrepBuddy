@@ -437,6 +437,7 @@ interface QuizSession {
   selectedAnswers: (string | null)[];
   startTime: number;
   isCompleted: boolean;
+  getElapsedTimeFormatted:any;           
 }
 
 const MixedQuizPage: React.FC = () => {
