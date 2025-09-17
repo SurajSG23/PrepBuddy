@@ -130,8 +130,6 @@ const AptitudeResultsPage: React.FC = () => {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const cardBg = darkMode ? "bg-gray-800 border-gray-700 text-white" : "bg-white border-gray-300 text-gray-900";
-  const hoverCardBg = darkMode ? "hover:bg-gray-700" : "hover:bg-gray-100";
 
   if (!results) {
     return (
