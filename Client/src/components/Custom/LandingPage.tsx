@@ -109,11 +109,11 @@ const TextGenerateEffect: React.FC<Props> = ({ words, className }) => {
   ></div>
 
   <div className="container mx-auto px-4 py-20 md:py-32 mt-15 ">
-    <div className="grid md:grid-cols-2 gap-12 items-center">
+    <div className="grid md:grid-cols-2 gap-14 items-center">
       {/* Left Content */}
       <div className="space-y-8">
         <TypewriterEffect
-          className="text-4xl md:text-5xl lg:text-6xl font-bold text-indigo-500 leading-tight"
+          className="text-3xl md:text-4xl lg:text-5xl font-bold text-indigo-500 leading-tight"
           words={[
             { text: "Ace" },
             { text: "Your" },
@@ -126,7 +126,7 @@ const TextGenerateEffect: React.FC<Props> = ({ words, className }) => {
           ]}
         />
         <TextGenerateEffect
-          className={`text-2xl font-thin transition-colors duration-500 ${
+          className={`text-lg sm:text-xl lg:text-2xl text-center font-thin transition-colors duration-500 ${
             darkMode ? "text-gray-100" : "text-gray-700"
           }`}
           words="Master technical and aptitude questions while practicing real-time interviews with our AI assistant."
