@@ -1,12 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Instagram, Linkedin, Github } from "lucide-react";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { useDarkMode } from "../Custom/DarkModeContext";
+import { toast } from "react-hot-toast";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
   const { darkMode } = useDarkMode();
+  const [email, setEmail] = useState("");
+
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email || !email.includes("@")) {
+      toast.error("❌ Please enter a valid email address", {
+        duration: 3000,
+        position: "top-right",
+      });
+      return;
+    }
+
+    console.log("Submitting email:", email);
+
+    toast.success("🎉 Successfully subscribed to our newsletter!", {
+      duration: 4000,
+      position: "top-right",
+    });
+
+    setEmail("");
+  };
 
   return (
     <footer
@@ -16,13 +39,13 @@ const Footer: React.FC = () => {
           : "bg-gray-100 text-gray-700 border-gray-300"
       }`}
     >
-      <div className="container mx-auto py-6 px-4">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-10">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-10">
           {/* Brand Section */}
           <div className="space-y-3">
             <h2
-              className={`text-2xl font-extrabold tracking-wider ${
+              className={`text-2xl font-extrabold tracking-wide ${
                 darkMode ? "text-white" : "text-gray-900"
               }`}
             >
@@ -55,7 +78,7 @@ const Footer: React.FC = () => {
                 <li key={idx}>
                   <a
                     href={link.href}
-                    className={`hover:text-indigo-500 hover:pl-2 transition-all duration-300 ease-in-out cursor-pointer inline-block ${
+                    className={`hover:text-indigo-500 transition-colors duration-300 cursor-pointer inline-block ${
                       darkMode ? "text-gray-400" : "text-gray-600"
                     }`}
                   >
@@ -69,27 +92,27 @@ const Footer: React.FC = () => {
           {/* Social Links */}
           <div className="space-y-3">
             <h3
-              className={`font-semibold ${
+              className={`font-semibold text-lg ${
                 darkMode ? "text-white" : "text-gray-900"
               }`}
             >
               Connect
             </h3>
-            <div className="flex space-x-3">
+            <div className="flex space-x-4">
               {[
                 {
                   href: "https://www.instagram.com/suraj_sg23/",
-                  icon: <Instagram size={18} />,
+                  icon: <Instagram size={20} />,
                   label: "Instagram",
                 },
                 {
                   href: "https://www.linkedin.com/in/suraj-s-g-dhanva-995a23298/",
-                  icon: <Linkedin size={18} />,
+                  icon: <Linkedin size={20} />,
                   label: "LinkedIn",
                 },
                 {
                   href: "https://github.com/SurajSG23",
-                  icon: <Github size={18} />,
+                  icon: <Github size={20} />,
                   label: "GitHub",
                 },
               ].map((social, idx) => (
@@ -116,17 +139,58 @@ const Footer: React.FC = () => {
               ))}
             </div>
           </div>
+
+          {/* Newsletter Section */}
+          <div className="space-y-3">
+            <h3
+              className={`font-semibold text-lg ${
+                darkMode ? "text-white" : "text-gray-900"
+              }`}
+            >
+              Newsletter
+            </h3>
+            <p
+              className={`text-sm ${
+                darkMode ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
+              Subscribe to get updates on new features and study tips.
+            </p>
+            <form
+              onSubmit={handleNewsletterSubmit}
+              className="flex flex-col sm:flex-row sm:items-center gap-3"
+            >
+              <input
+                type="email"
+                placeholder="Your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={`flex-1 px-3 py-2 rounded-md text-sm border focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+                  darkMode
+                    ? "bg-slate-800 border-slate-700 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                }`}
+                required
+              />
+              <Button
+                type="submit"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white px-5"
+              >
+                Subscribe
+              </Button>
+            </form>
+          </div>
         </div>
 
         {/* Bottom Section */}
         <div
-          className={`border-t pt-4 animate-fade-in transition-colors duration-500 ${
+          className={`border-t pt-5 transition-colors duration-500 ${
             darkMode ? "border-slate-800" : "border-gray-300"
           }`}
         >
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-3">
             <p
-              className={`text-sm opacity-80 ${
+              className={`text-sm ${
                 darkMode ? "text-gray-400" : "text-gray-600"
               }`}
             >
@@ -135,7 +199,7 @@ const Footer: React.FC = () => {
               All rights reserved.
             </p>
 
-            <div className="flex space-x-4 text-sm">
+            <div className="flex space-x-6 text-sm">
               {[
                 { to: "/contact", label: "Contact us", type: "link" },
                 { href: "#", label: "Privacy Policy", type: "a" },
@@ -145,8 +209,8 @@ const Footer: React.FC = () => {
                   <Link
                     key={idx}
                     to={item.to!}
-                    className={`transition-all duration-300 relative after:content-[''] after:block after:w-0 after:h-0.5 after:bg-indigo-500 after:transition-all after:duration-300 hover:after:w-full ${
-                      darkMode ? "text-gray-400 hover:text-indigo-500" : "text-gray-600 hover:text-indigo-500"
+                    className={`transition-all duration-300 hover:text-indigo-500 ${
+                      darkMode ? "text-gray-400" : "text-gray-600"
                     }`}
                   >
                     {item.label}
@@ -155,8 +219,8 @@ const Footer: React.FC = () => {
                   <a
                     key={idx}
                     href={item.href}
-                    className={`transition-all duration-300 relative after:content-[''] after:block after:w-0 after:h-0.5 after:bg-indigo-500 after:transition-all after:duration-300 hover:after:w-full ${
-                      darkMode ? "text-gray-400 hover:text-indigo-500" : "text-gray-600 hover:text-indigo-500"
+                    className={`transition-all duration-300 hover:text-indigo-500 ${
+                      darkMode ? "text-gray-400" : "text-gray-600"
                     }`}
                   >
                     {item.label}

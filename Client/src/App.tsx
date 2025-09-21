@@ -39,7 +39,13 @@ import CPractice from "./components/Custom/CPractice";
 import HtmlPractice from "./components/Custom/HtmlPractice";
 import CssPractice from "./components/Custom/CssPractice";
 
-import { DarkModeProvider, useDarkMode } from "./components/Custom/DarkModeContext";
+import {
+  DarkModeProvider,
+  useDarkMode,
+} from "./components/Custom/DarkModeContext";
+
+// ✅ Import Toaster
+import { Toaster } from "react-hot-toast";
 
 function AppContent() {
   const { darkMode } = useDarkMode();
@@ -47,11 +53,17 @@ function AppContent() {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   return (
-    <div className={`w-full min-h-[100vh] h-auto flex flex-col justify-between items-center transition-colors duration-500
-      ${darkMode 
-        ? "bg-gradient-to-br from-[#0f1419] via-[#1a1f2e] to-[#0f1419] text-white"
-        : "bg-white text-gray-900"}`}>
-      
+    <div
+      className={`w-full min-h-[100vh] h-auto flex flex-col justify-between items-center transition-colors duration-500
+      ${
+        darkMode
+          ? "bg-gradient-to-br from-[#0f1419] via-[#1a1f2e] to-[#0f1419] text-white"
+          : "bg-white text-gray-900"
+      }`}
+    >
+      {/* Toast Notifications */}
+      <Toaster position="top-right" reverseOrder={false} />
+
       <Header setUserID={setUserId} setIsChatOpen={setIsChatOpen} />
 
       <Routes>
@@ -64,7 +76,10 @@ function AppContent() {
         <Route path="/score-board" element={<ScoreBoard />} />
         <Route path="/aptitude" element={<AptitudePage />} />
         <Route path="/quiz/:topic" element={<QuizPage />} />
-        <Route path="/ai-interview-options" element={<AiInterviewOptionsPage />} />
+        <Route
+          path="/ai-interview-options"
+          element={<AiInterviewOptionsPage />}
+        />
         <Route path="/ai-interview/text" element={<TextInterviewPage />} />
         <Route path="/ai-interview/voice" element={<VoiceInterviewPage />} />
         <Route path="/ai-interview/video" element={<VideoInterviewPage />} />
@@ -72,7 +87,10 @@ function AppContent() {
         <Route path="/ai-interview" element={<AiInterviewPage />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/favorites" element={<FavoritesPage />} />
-        <Route path="/technical-questions" element={<TechnicalQuestionsPage />} />
+        <Route
+          path="/technical-questions"
+          element={<TechnicalQuestionsPage />}
+        />
         <Route path="/mixed-quiz" element={<MixedQuizPage />} />
         <Route path="/operating-systems" element={<OperatingSystemsPage />} />
         <Route path="/dbms" element={<DBMSPage />} />
@@ -86,12 +104,24 @@ function AppContent() {
         <Route path="/CssPractice" element={<CssPractice />} />
         <Route path="/practice/:topicName" element={<TopicPracticePage />} />
         <Route path="/aptitude-training" element={<AptitudeTrainingPage />} />
-        <Route path="/aptitude-practice/:difficulty" element={<AptitudePracticePage />} />
-        <Route path="/aptitude-results/:difficulty" element={<AptitudeResultsPage />} />
+        <Route
+          path="/aptitude-practice/:difficulty"
+          element={<AptitudePracticePage />}
+        />
+        <Route
+          path="/aptitude-results/:difficulty"
+          element={<AptitudeResultsPage />}
+        />
       </Routes>
 
       <OnTopBar />
-      {userID && <ChatAssistant userID={userID} isChatOpen={isChatOpen} setIsChatOpen={setIsChatOpen} />}
+      {userID && (
+        <ChatAssistant
+          userID={userID}
+          isChatOpen={isChatOpen}
+          setIsChatOpen={setIsChatOpen}
+        />
+      )}
       <Footer />
     </div>
   );
