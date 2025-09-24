@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   Card,
@@ -7,15 +8,15 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { FaLock } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import { FaRegEdit } from "react-icons/fa";
-import React from "react";
+import ProgressDashboard from "./ProgressDashboard";
+import StreakBadges from "./StreakBadges";
 import QODStatsCard from "./QODStatsCard";
+import axios from "axios";
+import { FaLock, FaRegEdit } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { useDarkMode } from "../Custom/DarkModeContext";
 
-interface HeaderProps {
+interface ProfileProps {
   userID: string;
 }
 
@@ -23,11 +24,7 @@ const userProfileData = {
   testsAttended: 12,
   totalPoints: 875,
   rank: 5,
-  recentTests: [
-    { id: 1, name: "JavaScript Fundamentals", score: 85, date: "2025-03-28" },
-    { id: 2, name: "React Concepts", score: 92, date: "2025-03-21" },
-    { id: 3, name: "Data Structures", score: 78, date: "2025-03-15" },
-  ],
+  recentTests: [] as { name: string; score: number; date: string }[],
   badges: [
     {
       id: 1,
@@ -53,23 +50,31 @@ const userProfileData = {
   ],
 };
 
-const Profile: React.FC<HeaderProps> = ({ userID }) => {
+const Profile: React.FC<ProfileProps> = ({ userID }) => {
+  const { darkMode } = useDarkMode();
+
   const [user, setUser] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [profilePic, setProfilePic] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const [confirmation, setConfirmation] = useState(false);
-  const [confirmation2, setConfirmation2] = useState(false);
+  const [profilePic, setProfilePic] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [confirmation, setConfirmation] = useState<boolean>(false); // change name modal
+  const [confirmation2, setConfirmation2] = useState<boolean>(false); // upload avatar modal
+  const [deleteConfirmation, setDeleteConfirmation] = useState<boolean>(false);
   const [newName, setNewName] = useState<string>("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
+  const [currentStreak, setCurrentStreak] = useState<number>(0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setLoading(true);
-    if (!userID) return;
-    const fetchData = async () => {
+    // fetch user data
+    async function fetchData() {
+      setLoading(true);
       try {
+        if (!userID) {
+          setLoading(false);
+          return;
+        }
         const response = await axios.get(
           `${import.meta.env.VITE_API_BASE_URL}/register/getuser2/${userID}`,
           { withCredentials: true }
@@ -84,13 +89,7 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
           `${import.meta.env.VITE_API_BASE_URL}/test/getTop3Tests/${userID}`,
           { withCredentials: true }
         );
-        interface Test {
-          title: string;
-          score: number;
-          createdAt: string;
-        }
-
-        userProfileData.recentTests = response2.data.map((test: Test) => ({
+        userProfileData.recentTests = response2.data.map((test: any) => ({
           name: test.title,
           score: test.score,
           date: new Date(test.createdAt).toLocaleDateString("en-GB", {
@@ -109,93 +108,107 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
         if (response.data.badges === 1) {
           userProfileData.badges[1].achieved = true;
         }
+
         const response3 = await axios.get(
           `${import.meta.env.VITE_API_BASE_URL}/register/getRank/${userID}`,
           { withCredentials: true }
         );
         userProfileData.rank = response3.data.rank || 0;
-      } catch (error) {
-        console.error("Error fetching data:", error);
+
+        const streakResponse = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/progress/streak/${userID}`,
+          { withCredentials: true }
+        );
+        setCurrentStreak(streakResponse.data.currentStreak || 0);
+      } catch (err) {
+        console.error("Error fetching profile data:", err);
       } finally {
         setLoading(false);
       }
-    };
+    }
 
     fetchData();
-  }, [userID, navigate]);
+  }, [userID]);
 
+  // change display name
   const changeName = async () => {
+    if (!newName.trim() || !userID) return;
     try {
+      setLoading(true);
       await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/register/changeName/${userID}`,
-        { name: newName },
+        `${import.meta.env.VITE_API_BASE_URL}/register/updateName`,
+        { id: userID, name: newName },
         { withCredentials: true }
       );
-    } catch (error) {
-      console.error("Error fetching data:", error);
+      setUser(newName);
+      setNewName("");
+    } catch (err) {
+      console.error("Error updating name:", err);
     } finally {
-      window.location.reload();
       setLoading(false);
     }
   };
 
+  // upload avatar
   const handleUpload = async () => {
-    setLoading(true);
-    if (!selectedFile) return;
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("upload_preset", import.meta.env.VITE_CLOUD_PRESET_NAME);
-    formData.append("cloud_name", import.meta.env.VITE_CLOUD_NAME);
+    if (!selectedFile || !userID) return;
     try {
-      const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/${
-          import.meta.env.VITE_CLOUD_NAME
-        }/image/upload`,
-        formData
-      );
-      await axios.post(
-        `${
-          import.meta.env.VITE_API_BASE_URL
-        }/register/changeProfilePic/${userID}`,
-        { profilepic: response.data.secure_url },
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+      formData.append("id", userID);
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/register/uploadProfilePic`,
+        formData,
         { withCredentials: true }
       );
+      setProfilePic(res.data.profilepic || "");
+      setSelectedFile(null);
     } catch (err) {
       console.error("Upload failed:", err);
     } finally {
       setLoading(false);
-      window.location.reload();
     }
   };
 
+  // delete account
   const handleDeleteAccount = async () => {
-    setLoading(true);
+    if (!userID) return;
     try {
-      console.log("Deleting account for userID:", userID);
-      await axios.delete(
-        `${import.meta.env.VITE_API_BASE_URL}/register/deleteAccount/${userID}`,
-        {
-          withCredentials: true,
-          timeout: 30000, // 30 seconds
-        }
+      setLoading(true);
+      await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/register/deleteAccount`,
+        { id: userID },
+        { withCredentials: true }
       );
-      navigate("/landing");
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Status:", error.response?.status);
-        console.error("Response:", error.response?.data);
-      }
+      // after delete redirect to landing or login
+      navigate("/");
+    } catch (err) {
+      console.error("Error deleting account:", err);
+    } finally {
       setLoading(false);
     }
   };
 
+  // ---------- UI RENDERING ----------
+  // Loading overlay
   if (loading) {
     return (
       <>
-        <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-99">
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 border-4 border-transparent border-t-blue-500 border-b-blue-500 rounded-full animate-spin"></div>
-            <p className="text-white mt-4 text-lg font-semibold">
+        <div
+          className={`flex absolute top-0 justify-center items-center h-screen w-full z-[99] backdrop-blur-md transition-colors duration-300 ${
+            darkMode ? "bg-gray-900/80" : "bg-white/70"
+          }`}
+        >
+          <div className="flex flex-col items-center animate-fadeIn">
+            <div
+              className={`w-16 h-16 border-4 border-transparent rounded-full animate-spin shadow-xl ${
+                darkMode
+                  ? "border-t-indigo-500 border-b-indigo-500"
+                  : "border-t-indigo-600 border-b-indigo-600"
+              }`}
+            ></div>
+            <p className={`${darkMode ? "text-white" : "text-gray-800"} mt-4 text-lg font-semibold animate-pulse`}>
               Loading Profile...
             </p>
           </div>
@@ -203,11 +216,24 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
       </>
     );
   }
+
+  // Change name modal
   if (confirmation) {
     return (
-      <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-50">
-        <div className="bg-gray-800 rounded-2xl shadow-lg p-8 text-white w-[90%] max-w-md text-center flex flex-col gap-6">
-          <h1 className="text-2xl font-bold mb-2">Change Your Dislplay Name</h1>
+      <div
+        className={`flex absolute top-0 justify-center items-center h-screen w-full z-50 backdrop-blur-md transition-colors duration-300 ${
+          darkMode ? "bg-black/60" : "bg-white/60"
+        }`}
+      >
+        <div
+          className={`rounded-2xl shadow-2xl p-8 w-[90%] max-w-md text-center flex flex-col gap-6 animate-fadeIn transition-colors duration-300 ${
+            darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+          }`}
+        >
+          <h1 className={`text-2xl font-bold mb-2 ${darkMode ? "text-indigo-300" : "text-indigo-600"}`}>
+            Change Your Display Name
+          </h1>
+
           <div className="flex justify-center items-center my-4">
             <input
               value={newName}
@@ -215,25 +241,37 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
               name="newName"
               id="newName"
               placeholder="Enter your new name"
-              className="w-1/2 px-4 py-2 border-2 border-white bg-transparent text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className={`w-2/3 px-4 py-2 rounded-md focus:outline-none focus:ring-2 transition-all duration-200 ${
+                darkMode
+                  ? "border border-gray-600 bg-gray-700 text-white placeholder-gray-400 focus:ring-indigo-400"
+                  : "border border-gray-300 bg-gray-50 text-gray-900 placeholder-gray-500 focus:ring-indigo-500"
+              }`}
               onChange={(e) => setNewName(e.target.value)}
             />
           </div>
+
           <div className="flex justify-center gap-8">
             <button
-              onClick={() => {
-                setConfirmation(false);
-              }}
-              className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition"
+              onClick={() => setConfirmation(false)}
+              className={`px-5 py-2 rounded-lg font-medium transition-transform duration-150 shadow-md w-36 ${
+                darkMode
+                  ? "bg-red-600 hover:bg-red-700 text-white"
+                  : "bg-red-500 hover:bg-red-600 text-white"
+              }`}
             >
               Cancel
             </button>
+
             <button
-              className="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition"
               onClick={() => {
                 changeName();
                 setConfirmation(false);
               }}
+              className={`px-5 py-2 rounded-lg font-medium transition-transform duration-150 shadow-md w-36 ${
+                darkMode
+                  ? "bg-indigo-600 hover:bg-indigo-700 text-white"
+                  : "bg-indigo-600 hover:bg-indigo-700 text-white"
+              }`}
             >
               Confirm
             </button>
@@ -242,11 +280,21 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
       </div>
     );
   }
+
+  // Upload avatar modal
   if (confirmation2) {
     return (
-      <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-50">
-        <div className="bg-gray-800 rounded-2xl shadow-lg p-8 text-white w-[90%] max-w-md text-center flex flex-col gap-6">
-          <h1 className="text-2xl font-bold mb-2">Change Your Avatar</h1>
+      <div
+        className={`flex absolute top-0 justify-center items-center h-screen w-full z-50 backdrop-blur-md transition-colors duration-300 ${
+          darkMode ? "bg-black/60" : "bg-white/60"
+        }`}
+      >
+        <div
+          className={`rounded-2xl shadow-2xl p-8 w-[90%] max-w-md text-center flex flex-col gap-6 animate-fadeIn transition-colors duration-300 ${
+            darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+          }`}
+        >
+          <h1 className={`text-2xl font-bold mb-2 ${darkMode ? "text-indigo-300" : "text-indigo-600"}`}>Change Your Avatar</h1>
 
           <form
             onSubmit={(e) => {
@@ -256,26 +304,35 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                 setConfirmation2(false);
               }
             }}
-            className="flex flex-col gap-8 justify-center items-center my-4"
+            className="flex flex-col gap-6 justify-center items-center my-4 w-full"
           >
             <input
               type="file"
-              className="w-full cursor-pointer px-4 py-2 border-2 border-white bg-indigo-500 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className={`w-full cursor-pointer px-4 py-2 rounded-md transition-colors duration-200 ${
+                darkMode
+                  ? "border border-gray-600 bg-gray-700 text-white"
+                  : "border border-gray-300 bg-white text-gray-900"
+              }`}
               onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
               required
             />
 
-            <div className="flex justify-center gap-8">
+            <div className="flex justify-center gap-4 w-full">
               <button
                 type="button"
                 onClick={() => setConfirmation2(false)}
-                className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition"
+                className={`px-4 py-2 rounded-lg font-medium transition-transform duration-150 shadow-md w-1/2 ${
+                  darkMode ? "bg-gray-600 hover:bg-gray-700 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-900"
+                }`}
               >
                 Cancel
               </button>
+
               <button
                 type="submit"
-                className="bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition"
+                className={`px-4 py-2 rounded-lg font-medium transition-transform duration-150 shadow-md w-1/2 ${
+                  darkMode ? "bg-indigo-600 hover:bg-indigo-700 text-white" : "bg-indigo-600 hover:bg-indigo-700 text-white"
+                }`}
               >
                 Confirm
               </button>
@@ -285,26 +342,43 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
       </div>
     );
   }
+
+  // Delete confirmation modal
   if (deleteConfirmation) {
     return (
-      <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-50">
-        <div className="bg-gray-800 rounded-2xl shadow-lg p-8 text-white w-[90%] max-w-md text-center flex flex-col gap-6">
-          <h1 className="text-2xl font-bold mb-2 text-red-400">Delete Account</h1>
-          <p className="mb-4">
+      <div
+        className={`flex absolute top-0 justify-center items-center h-screen w-full z-50 backdrop-blur-md transition-colors duration-300 ${
+          darkMode ? "bg-black/60" : "bg-white/60"
+        }`}
+      >
+        <div
+          className={`rounded-2xl shadow-2xl p-8 w-[90%] max-w-md text-center flex flex-col gap-6 animate-fadeIn transition-colors duration-300 ${
+            darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+          }`}
+        >
+          <h1 className={`text-2xl font-bold mb-2 ${darkMode ? "text-red-400" : "text-red-600"}`}>Delete Account</h1>
+          <p className={`mb-4 leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
             Are you sure you want to{" "}
-            <span className="text-red-400 font-semibold">delete your account</span>?<br />
-            This action is <span className="font-bold">irreversible</span> and will remove all your data.
+            <span className={`${darkMode ? "text-red-400 font-semibold" : "text-red-600 font-semibold"}`}>delete your account</span>?
+            <br />
+            This action is <span className={`${darkMode ? "font-bold text-white" : "font-bold text-gray-900"}`}>irreversible</span> and will remove all your data.
           </p>
-          <div className="flex justify-center gap-8">
+
+          <div className="flex justify-center gap-4 w-full">
             <button
               onClick={() => setDeleteConfirmation(false)}
-              className="bg-gray-600 hover:bg-gray-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition"
+              className={`px-4 py-2 rounded-lg font-medium transition-transform duration-150 shadow-md w-1/2 ${
+                darkMode ? "bg-gray-600 hover:bg-gray-700 text-white" : "bg-gray-200 hover:bg-gray-300 text-gray-900"
+              }`}
             >
               Cancel
             </button>
+
             <button
               onClick={handleDeleteAccount}
-              className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg cursor-pointer font-medium transition"
+              className={`px-4 py-2 rounded-lg font-medium transition-transform duration-150 shadow-md w-1/2 ${
+                darkMode ? "bg-red-600 hover:bg-red-700 text-white" : "bg-red-600 hover:bg-red-700 text-white"
+              }`}
             >
               Delete
             </button>
@@ -313,103 +387,109 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
       </div>
     );
   }
+
+  // Main Profile Page (no modals)
   return (
-    <div className="min-h-screen bg-gray-900 text-white w-full">
+    <div
+      className={`min-h-screen w-full transition-colors duration-300 ${
+        darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+      }`}
+    >
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-800 rounded-lg p-6 shadow-lg mb-8 flex flex-col md:flex-row items-center gap-6">
-            <Avatar className="h-32 w-32 border-2 border-indigo-500">
+          {/* Profile Card */}
+          <div
+            className={`rounded-lg p-6 shadow-lg mb-8 flex flex-col md:flex-row items-center gap-6 transition-colors duration-300 ${
+              darkMode ? "bg-gray-800 border border-gray-700" : "bg-gray-50 border border-gray-200"
+            }`}
+          >
+            <Avatar className="h-32 w-32 border-2 border-indigo-500 relative group">
               <AvatarImage src={profilePic || ""} alt={user || "User"} />
-              <AvatarFallback className="bg-indigo-600 text-xl">
+              <AvatarFallback className={`${darkMode ? "bg-indigo-600 text-white" : "bg-indigo-100 text-gray-800"} text-xl`}>
                 {user ? user.charAt(0).toUpperCase() : "U"}
               </AvatarFallback>
+
               <div
-                className="absolute bg-black w-full h-full opacity-0 cursor-pointer transition duration-200 hover:opacity-50 flex justify-center items-center"
-                onClick={() => {
-                  setConfirmation2(true);
-                }}
+                className={`absolute inset-0 rounded-full flex justify-center items-center transition-opacity duration-300 cursor-pointer ${
+                  darkMode ? "bg-black/50 opacity-0 group-hover:opacity-100" : "bg-white/40 opacity-0 group-hover:opacity-100"
+                }`}
+                onClick={() => setConfirmation2(true)}
+                title="Change avatar"
               >
-                <FaRegEdit className="text-2xl" />
+                <FaRegEdit className={`${darkMode ? "text-white" : "text-gray-900"} text-3xl`} />
               </div>
             </Avatar>
 
             <div className="flex-1 text-center md:text-left">
               {!user ? (
                 <div className="flex flex-col gap-3">
-                  <div className="w-28 h-8 bg-gray-500 rounded-full animate-pulse"></div>
-                  <div className="w-40 h-4 bg-gray-500 rounded-full animate-pulse"></div>
+                  <div className={`${darkMode ? "bg-gray-700" : "bg-gray-300"} w-28 h-8 rounded-full animate-pulse`} />
+                  <div className={`${darkMode ? "bg-gray-700" : "bg-gray-300"} w-40 h-4 rounded-full animate-pulse`} />
                 </div>
               ) : (
                 <>
                   <span className="flex items-center gap-2 justify-center md:justify-start">
-                    <h2 className="text-2xl font-bold">{user || "User"}</h2>{" "}
+                    <h2 className={`${darkMode ? "text-indigo-300" : "text-indigo-600"} text-2xl font-bold`}>{user}</h2>
                     <FaRegEdit
-                      className="text-xl opacity-25 cursor-pointer hover:opacity-100 transition duration-300"
+                      className={`text-xl opacity-30 cursor-pointer hover:opacity-100 transition duration-300 ${darkMode ? "hover:text-indigo-300" : "hover:text-indigo-600"}`}
                       title="Change display name"
-                      onClick={() => {
-                        setConfirmation(true);
-                      }}
+                      onClick={() => setConfirmation(true)}
                     />
                   </span>
-                  <p className="text-gray-400">{email}</p>
+                  <p className={`${darkMode ? "text-gray-300" : "text-gray-600"} mt-1`}>{email}</p>
                 </>
               )}
 
               <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-4">
-                <div className="bg-gray-700 px-4 py-2 rounded-lg flex flex-col items-center">
-                  <span className="text-xl font-bold">
-                    {userProfileData.testsAttended}
-                  </span>
-                  <span className="text-sm text-gray-300">Tests Attended</span>
+                <div className={`px-6 py-3 rounded-xl flex flex-col items-center ${darkMode ? "bg-gray-700" : "bg-gray-100"}`}>
+                  <span className="text-xl font-bold">{userProfileData.testsAttended}</span>
+                  <span className={`${darkMode ? "text-gray-300" : "text-gray-600"} text-sm`}>Tests Attended</span>
                 </div>
 
-                <div className="bg-gray-700 px-4 py-2 rounded-lg flex flex-col items-center">
-                  <span className="text-xl font-bold">
-                    {userProfileData.totalPoints}
-                  </span>
-                  <span className="text-sm text-gray-300">Total Points</span>
+                <div className={`px-4 py-2 rounded-lg flex flex-col items-center ${darkMode ? "bg-gray-700" : "bg-gray-100"}`}>
+                  <span className={`${darkMode ? "text-indigo-300" : "text-indigo-600"} text-2xl font-bold`}>{userProfileData.totalPoints}</span>
+                  <span className={`${darkMode ? "text-gray-300" : "text-gray-600"} text-sm`}>Total Points</span>
                 </div>
-                <div className="bg-gray-700 px-4 py-2 rounded-lg flex flex-col items-center">
-                  <span className="text-xl font-bold">
-                    #{userProfileData.rank}
-                  </span>
-                  <span className="text-sm text-gray-300">
-                    Leader Board Rank
-                  </span>
+
+                <div className={`px-4 py-2 rounded-lg flex flex-col items-center ${darkMode ? "bg-gray-700" : "bg-gray-100"}`}>
+                  <span className={`${darkMode ? "text-indigo-300" : "text-indigo-600"} text-2xl font-bold`}>#{userProfileData.rank}</span>
+                  <span className={`${darkMode ? "text-gray-300" : "text-gray-600"} text-sm`}>Leader Board Rank</span>
                 </div>
               </div>
             </div>
           </div>
 
+          {/* Progress Dashboard */}
+          <div className="mb-8">
+            <ProgressDashboard userID={userID} />
+          </div>
+
+          {/* Streak Badges */}
+          <div className="mb-8">
+            <StreakBadges userID={userID} currentStreak={currentStreak} />
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 flex flex-col gap-8">
-              <Card className="bg-gray-800 border-gray-700">
+              <Card className={`${darkMode ? "bg-gray-800 border border-gray-700" : "bg-white border border-gray-200"} shadow-lg hover:shadow-indigo-500/20 transition`}>
                 <CardHeader>
-                  <CardTitle>Recent Tests</CardTitle>
-                  <CardDescription className="text-gray-400">
-                    Your latest test performances
-                  </CardDescription>
+                  <CardTitle className={`${darkMode ? "text-indigo-300" : "text-indigo-600"} text-xl`}>Recent Tests</CardTitle>
+                  <CardDescription className={`${darkMode ? "text-gray-300" : "text-gray-600"}`}>Your latest test performances</CardDescription>
                 </CardHeader>
+
                 {userProfileData.recentTests.length > 0 ? (
                   <CardContent>
                     <div className="space-y-4">
                       {userProfileData.recentTests.map((test, index) => (
-                        <div
-                          key={index}
-                          className="bg-gray-700 rounded-lg p-4 flex justify-between items-center"
-                        >
+                        <div key={index} className={`${darkMode ? "bg-gray-700" : "bg-gray-50"} rounded-lg p-4 flex justify-between items-center transition`}>
                           <div>
-                            <h4 className="font-medium">{test.name}</h4>
-                            <p className="text-sm text-gray-400">{test.date}</p>
+                            <h4 className={`${darkMode ? "text-white" : "text-gray-900"} font-medium`}>{test.name}</h4>
+                            <p className={`${darkMode ? "text-gray-300" : "text-gray-500"} text-sm`}>{test.date}</p>
                           </div>
                           <div className="flex items-center gap-2">
                             <span
                               className={`text-lg font-bold ${
-                                test.score * 10 >= 90
-                                  ? "text-green-400"
-                                  : test.score * 10 >= 70
-                                  ? "text-yellow-400"
-                                  : "text-red-400"
+                                test.score * 10 >= 90 ? "text-green-400" : test.score * 10 >= 70 ? "text-yellow-400" : "text-red-400"
                               }`}
                             >
                               {test.score * 10}%
@@ -420,51 +500,34 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                     </div>
                   </CardContent>
                 ) : (
-                  <>
-                    <div className="text-center p-6 bg-gray-800 rounded-lg shadow-md">
-                      <h3 className="text-xl font-semibold text-white mb-2">
-                        No Tests to Display
-                      </h3>
-                      <p className="text-gray-400 mb-4">
-                        You haven't taken any tests yet.
-                      </p>
-                      <Link
-                        to="/homepage"
-                        className="inline-block bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-500 transition"
-                      >
-                        Take Your First Test
-                      </Link>
+                  <CardContent>
+                    <div className={`${darkMode ? "bg-gray-700" : "bg-gray-50"} text-center p-6 rounded-lg`}>
+                      <h3 className={`${darkMode ? "text-white" : "text-gray-900"} text-xl font-semibold mb-2`}>No Tests to Display</h3>
+                      <p className={`${darkMode ? "text-gray-300" : "text-gray-600"} mb-4`}>You haven't taken any tests yet.</p>
+                      <Link to="/homepage" className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition">Take Your First Test</Link>
                     </div>
-                  </>
+                  </CardContent>
                 )}
 
-                <CardFooter className="border-t border-gray-700 pt-4">
-                  <Link
-                    to="/previous-tests"
-                    className="text-indigo-400 hover:text-indigo-300 transition text-sm"
-                  >
-                    View all test history →
-                  </Link>
+                <CardFooter className={`pt-4 border-t ${darkMode ? "border-gray-700" : "border-gray-200"}`}>
+                  <Link to="/previous-tests" className={`${darkMode ? "text-indigo-300" : "text-indigo-600"} text-sm`}>View all test history →</Link>
                 </CardFooter>
               </Card>
 
-              {/* --- Delete Account Card --- */}
-              <Card className="bg-gray-800 border-gray-700">
+              {/* Delete Account Card */}
+              <Card className={`${darkMode ? "bg-gray-800 border border-gray-700" : "bg-white border border-gray-200"} shadow-lg transition`}>
                 <CardHeader>
-                  <CardTitle className="text-red-400">Delete Account</CardTitle>
-                  <CardDescription className="text-gray-400">
-                    Permanently remove your account and all data.
-                  </CardDescription>
+                  <CardTitle className={`${darkMode ? "text-red-400" : "text-red-600"} text-xl`}>Delete Account</CardTitle>
+                  <CardDescription className={`${darkMode ? "text-gray-300" : "text-gray-600"}`}>Permanently remove your account and all data.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex flex-col items-center gap-4">
-                    <p className="text-center text-gray-300">
-                      This action is{" "}
-                      <span className="font-bold text-red-400">irreversible</span>. All your data will be deleted.
+                  <div className="flex flex-col items-center gap-6">
+                    <p className={`${darkMode ? "text-gray-300" : "text-gray-700"} text-center`}>
+                      This action is <span className={`${darkMode ? "text-red-400 font-semibold" : "text-red-600 font-semibold"}`}>irreversible</span>. All your data will be deleted.
                     </p>
                     <button
                       onClick={() => setDeleteConfirmation(true)}
-                      className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition shadow-md cursor-pointer"
+                      className={`px-5 py-2 rounded-lg font-medium transition shadow-md ${darkMode ? "bg-red-600 hover:bg-red-700 text-white" : "bg-red-600 hover:bg-red-700 text-white"}`}
                     >
                       Delete Account
                     </button>
@@ -474,39 +537,32 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
             </div>
 
             <div>
-              <Card className="bg-gray-800 border-gray-700">
+              <Card className={`${darkMode ? "bg-gray-800 border border-gray-700" : "bg-white border border-gray-200"} shadow-lg transition`}>
                 <CardHeader>
-                  <CardTitle>Badges</CardTitle>
-                  <CardDescription className="text-gray-400">
-                    Achievements you've earned
-                  </CardDescription>
+                  <CardTitle className={`${darkMode ? "text-indigo-300" : "text-indigo-600"} text-xl`}>Badges</CardTitle>
+                  <CardDescription className={`${darkMode ? "text-gray-300" : "text-gray-600"}`}>Achievements you've earned</CardDescription>
                 </CardHeader>
+
                 <CardContent>
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     {userProfileData.badges.map((badge) => (
                       <React.Fragment key={badge.id}>
-                        <p className="text-xs text-center text-gray-400">
+                        <p className={`${darkMode ? "text-xs text-gray-400 italic text-center" : "text-xs text-gray-500 italic text-center"}`}>
                           {badge.description}
                         </p>
-                        <div
-                          className="bg-gray-700 rounded-lg p-3 flex items-center gap-3 relative overflow-hidden"
-                        >
-                          <div className="h-12 w-12 rounded-full flex items-center justify-center ">
-                            <img
-                              src={`${badge.img}`}
-                              alt={badge.name}
-                              className="h-full w-full"
-                            />
+
+                        <div className={`${darkMode ? "bg-gray-700" : "bg-gray-50"} rounded-lg p-3 flex items-center gap-4 relative overflow-hidden transition transform hover:scale-[1.02]`}>
+                          <div className="h-14 w-14 rounded-full flex items-center justify-center bg-gray-600 border-2 border-indigo-500 overflow-hidden">
+                            <img src={`${badge.img}`} alt={badge.name} className="h-full w-full object-cover" />
                           </div>
+
                           <div>
-                            <h4 className="font-medium">{badge.name}</h4>
+                            <h4 className={`${darkMode ? "text-white" : "text-gray-900"} font-semibold`}>{badge.name}</h4>
                           </div>
+
                           {!badge.achieved && (
-                            <div
-                              className="absolute inset-0 bg-black opacity-80 flex justify-center items-center"
-                              title={`${badge.description}`}
-                            >
-                              <FaLock className="text-indigo-500 text-3xl" />
+                            <div className="absolute inset-0 bg-black/80 flex justify-center items-center">
+                              <FaLock className="text-indigo-500 text-3xl animate-pulse" />
                             </div>
                           )}
                         </div>
@@ -515,8 +571,10 @@ const Profile: React.FC<HeaderProps> = ({ userID }) => {
                   </div>
                 </CardContent>
               </Card>
-              
-              <QODStatsCard />
+
+              <div className="mt-6">
+                <QODStatsCard />
+              </div>
             </div>
           </div>
         </div>
