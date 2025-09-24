@@ -160,8 +160,8 @@ const Header: React.FC<HeaderProps> = ({ setUserID, setIsChatOpen }) => {
             </div>
           )}
         </div>
-      ) : (
-        <header className="shadow-md w-full">
+      ) : ( 
+        <header className="fixed top-0 left-0 right-0 z-99 backdrop-blur-sm bg-gray-800 dark:bg-gray-900/50 shadow-md w-full">
           <div className="container mx-auto px-4 py-3 flex justify-between items-center">
             <Link to="/homepage" className="flex items-center">
               <h1 className="boxy text-2xl font-bold text-white flex items-center justify-center gap-1">
