@@ -283,19 +283,22 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                         <h3 className="text-xl font-semibold mb-3">
                           {company}
                         </h3>
-                        <div>
-                          <img
-                            src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
-                            alt={`${company} logo`}
-                            width={50}
-                          />
-                          <button
+                        <div className="flex items-center pb-4 space-x-4">
+                            <button
                             onClick={() => toggleFavorite(company)}
-                            className="ml-2 text-yellow-400 text-2xl"
+                            className="text-yellow-400 cursor-pointer text-2xl hover:scale-[1.4] transition-transform"
                             title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}>
 
                             {favorites.includes(company) ? "★" : "☆"}
                           </button>
+                         
+                          
+                           <img
+                            src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
+                            alt={`${company} logo`}
+                            width={50}
+                            className="w-12 h-12 object-contain rounded-full bg-slate-100 p-0.5 transition-transform hover:scale-110"
+                          />
                         </div>
                       </div>
                       <p className="text-gray-300 mb-4">
@@ -303,7 +306,8 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                         interview.
                       </p>
                       <button
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition cursor-pointer"
+                        className="bg-indigo-700 hover:bg-indigo-500 text-white px-4 py-2 rounded-md transition cursor-pointer  hover:scale-[1.03]
+                        focus:border-2 focus:border-indigo-600"
                         onClick={() => {
                           setTitle(company);
                           setDifficulty("Medium");
@@ -334,19 +338,23 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                         <h3 className="text-xl font-semibold mb-3">
                           {company}
                         </h3>
-                        <div>
+                        <div className="flex items-center pb-3 space-x-4">
+                           
+                           
+                          <button
+                            onClick={() => toggleFavorite(company)}
+                            className="text-yellow-400 cursor-pointer text-2xl hover:scale-[1.4] transition-transform"
+                            title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
+                          >
+                             
+                            {favorites.includes(company) ? "★" : "☆"}
+                          </button>
                           <img
                             src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
                             alt={`${company} logo`}
                             width={50}
+                            className="w-12 h-12 object-contain rounded-full bg-slate-100 p-0.5 transition-transform hover:scale-110"
                           />
-                          <button
-                            onClick={() => toggleFavorite(company)}
-                            className="ml-2 text-yellow-400 text-2xl"
-                            title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
-                          >
-                            {favorites.includes(company) ? "★" : "☆"}
-                          </button>
                         </div>
                       </div>
                       <p className="text-gray-300 mb-4">
@@ -354,7 +362,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                         interview.
                       </p>
                       <button
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition cursor-pointer"
+                        className="bg-indigo-700 hover:bg-indigo-500 text-white px-4 py-2 rounded-md transition cursor-pointer hover:scale-[1.03] focus:border-2 focus:border-indigo-600"
                         onClick={() => {
                           setTitle(company);
                           setDifficulty("Medium");
@@ -385,19 +393,23 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                         <h3 className="text-xl font-semibold mb-3">
                           {company}
                         </h3>
-                        <div>
-                          <img
+                        <div className="flex items-center pb-3 space-x-4"> 
+                          <div>
+                            <button
+                            onClick={() => toggleFavorite(company)}
+                            className="text-yellow-400 cursor-pointer text-2xl hover:scale-[1.4] transition-transform "
+                            title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
+                            >
+                            {favorites.includes(company) ? "★" : "☆"}
+                          </button>
+                            </div>
+                          
+                           <img
                             src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
                             alt={`${company} logo`}
                             width={50}
-                          />
-                          <button
-                            onClick={() => toggleFavorite(company)}
-                            className="ml-2 text-yellow-400 text-2xl"
-                            title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
-                          >
-                            {favorites.includes(company) ? "★" : "☆"}
-                          </button>
+                            className="w-12 h-12 object-contain rounded-full bg-slate-100 p-0.5 transition-transform hover:scale-110"
+                            />
                         </div>
                       </div>
                       <p className="text-gray-300 mb-4">
@@ -405,7 +417,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                         interview.
                       </p>
                       <button
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition cursor-pointer"
+                        className="bg-indigo-700 hover:bg-indigo-500 text-white px-4 py-2 rounded-md transition cursor-pointer"
                         onClick={() => {
                           setTitle(company);
                           setDifficulty("Medium");
