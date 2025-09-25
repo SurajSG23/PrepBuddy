@@ -54,7 +54,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ userID, isChatOpen, setIs
         const suggestionMessage: Message = { text: res.data.suggestion, sender: "bot" };
         setMessages(prev => [...prev, suggestionMessage]);
       } catch (error) {
-        const errorMessage: Message = { text: "Sorry, I couldn't fetch a suggestion right now.", sender: "bot" };
+        const errorMessage: Message = { text: "Sorry, I couldn't fetch a suggestion right now.", sender: "bot", };
         setMessages(prev => [...prev, errorMessage]);
       }
     } else {
