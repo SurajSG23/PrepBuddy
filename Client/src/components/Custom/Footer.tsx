@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
     e.preventDefault();
 
     if (!email || !email.includes("@")) {
-      toast.error("❌ Please enter a valid email address", {
+      toast.error("Please enter a valid email address", {
         duration: 3000,
         position: "top-right",
       });
@@ -69,24 +69,26 @@ const Footer: React.FC = () => {
             >
               Quick Links
             </h3>
-            <ul className="space-y-2">
-              {[
-                { href: "/homepage", label: "Practice Tests" },
-                { href: "/notes", label: "Study Materials" },
-                { href: "/score-board", label: "Leaderboard" },
-              ].map((link, idx) => (
-                <li key={idx}>
-                  <a
-                    href={link.href}
-                    className={`hover:text-indigo-500 transition-colors duration-300 cursor-pointer inline-block ${
-                      darkMode ? "text-gray-400" : "text-gray-600"
-                    }`}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+           <ul className="space-y-2">
+  {[
+    { href: "/homepage", label: "Practice Tests" },
+    { href: "/notes", label: "Study Materials" },
+    { href: "/score-board", label: "Leaderboard" },
+    { href: "/about", label: "About Us" }, // ✅ Add this line
+  ].map((link, idx) => (
+    <li key={idx}>
+      <Link
+        to={link.href}
+        className={`hover:text-indigo-500 transition-colors duration-300 cursor-pointer inline-block ${
+          darkMode ? "text-gray-400" : "text-gray-600"
+        }`}
+      >
+        {link.label}
+      </Link>
+    </li>
+  ))}
+</ul>
+
           </div>
 
           {/* Social Links */}
