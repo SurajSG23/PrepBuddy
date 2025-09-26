@@ -216,16 +216,16 @@ const Notes = () => {
                     ? "Remove from Favorites"
                     : "Add to Favorites"
                 }
-                className="absolute top-3 right-3 hover:scale-110 transition"
+                className="absolute top-3 right-3 cursor-pointer z-10"
+ 
               >
                 <Star
                   size={22}
                   className={
                     isNoteBookmarked(note)
-                      ? "text-yellow-400 fill-yellow-400"
-                      : darkMode
-                      ? "text-gray-500"
-                      : "text-gray-400"
+                      ? "text-yellow-400 fill-yellow-400 stroke-current hover:scale-125 transition-transform duration-200"
+                      : "text-gray-500"
+ 
                   }
                 />
               </button>

@@ -46,8 +46,10 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ userID, isChatOpen, setIs
         const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/test/suggest/${userID}`);
         const suggestionMessage: Message = { text: res.data.suggestion, sender: "bot" };
         setMessages(prev => [...prev, suggestionMessage]);
-      } catch {
-        setMessages(prev => [...prev, { text: "Sorry, I couldn't fetch a suggestion right now.", sender: "bot"}]);
+      } catch (error) {
+        const errorMessage: Message = { text: "Sorry, I couldn't fetch a suggestion right now.", sender: "bot",};
+        setMessages(prev => [...prev, errorMessage]);
+
       }
     } else {
       const botResponse: Message = { text: getResponse(currentInput), sender: "bot" };

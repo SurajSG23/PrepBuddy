@@ -42,7 +42,8 @@ const FavoritesPage = () => {
               <img
                 src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
                 alt={company}
-                className="w-12 h-12 object-contain grayscale hover:grayscale-0 transition duration-300"
+                className="w-12 h-12 object-contain rounded-full bg-slate-100 p-0.5 hover:scale-110 transition-transform"
+ 
               />
             </div>
             <p className={`${secondaryText} mb-4 text-sm sm:text-base`}>

@@ -173,59 +173,174 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
+              {isEmpty && (
+                <p className="text-gray-400 mt-4 text-center">
+                  No results found.
+                </p>
+              )}
+              <p
+                className={cn(
+                  "mt-2 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-500 text-center",
+                  filteredmaang.length === 0 && "hidden"
+                )}
+              >
+                MAANG Companies
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredmaang.length > 0 &&
+                  filteredmaang.map((company) => (
+                    <div
+                      key={company}
+                      className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-gray-900 transition "
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-xl font-semibold mb-3">
+                          {company}
+                        </h3>
+                        <div className="flex items-center pb-4 space-x-4">
+                            <button
+                            onClick={() => toggleFavorite(company)}
+                            className="text-yellow-400 cursor-pointer text-2xl hover:scale-[1.4] transition-transform"
+                            title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}>
 
-              {isEmpty && <p className="text-center text-lg animate-pulse text-gray-400">No results found.</p>}
-
-              {/* Sections */}
-              {[
-                { title: "MAANG Companies", data: filteredmaang },
-                { title: "Tier-1 Companies", data: filteredTier1 },
-                { title: "Growing Startups / Unicorns", data: filteredStartup },
-              ].map((section, idx) => (
-                section.data.length > 0 && (
-                  <div key={idx}>
-                    <p className="mt-6 mb-2 text-3xl font-bold text-center text-indigo-500">{section.title}</p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                      {section.data.map((company) => (
-                        <div
-                          key={company}
-                          className={`rounded-xl p-6 shadow-lg transition-all duration-300 transform hover:-translate-y-2 group relative overflow-hidden ${
-                            darkMode ? "bg-gray-800 hover:shadow-indigo-500/30 border border-gray-700/40" : "bg-white hover:shadow-indigo-300/30 border border-gray-200"
-                          }`}
-                        >
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className={`text-xl font-semibold mb-3 transition ${darkMode ? "text-gray-100 group-hover:text-indigo-400" : "text-gray-800 group-hover:text-indigo-500"}`}>
-                              {company}
-                            </h3>
-                            <div className="flex items-center">
-                              <img
-                                src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
-                                alt={`${company} logo`}
-                                className={`w-12 h-12 object-contain rounded-full border transition duration-300 group-hover:scale-110 ${darkMode ? "border-gray-700" : "border-gray-300"}`}
-                              />
-                              <button
-                                onClick={() => toggleFavorite(company)}
-                                className="ml-2 text-yellow-400 text-2xl hover:scale-125 transition duration-200"
-                                title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
-                              >
-                                {favorites.includes(company) ? "★" : "☆"}
-                              </button>
-                            </div>
-                          </div>
-                          <p className={`${darkMode ? "text-gray-300" : "text-gray-600"} mb-6`}>
-                            Take the {company} aptitude test to practice for your interview.
-                          </p>
-                          <button
-                            className="w-full bg-indigo-600/80 hover:bg-indigo-600 text-white font-medium py-2 rounded-lg shadow-md hover:shadow-indigo-500/40 transition"
-                            onClick={() => {
-                              setTitle(company);
-                              setDifficulty("Medium");
-                              setConfirmation(true);
-                            }}
-                          >
-                            Start Test
+                            {favorites.includes(company) ? "★" : "☆"}
                           </button>
+                         
+                          
+                           <img
+                            src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
+                            alt={`${company} logo`}
+                            width={50}
+                            className="w-12 h-12 object-contain rounded-full bg-slate-100 p-0.5 transition-transform hover:scale-110"
+                          />
                         </div>
+                      </div>
+                      <p className="text-gray-300 mb-4">
+                        Take the {company} aptitude test to practice for your
+                        interview.
+                      </p>
+                      <button
+                        className="bg-indigo-700 hover:bg-indigo-500 text-white px-4 py-2 rounded-md transition cursor-pointer  hover:scale-[1.03]
+                        focus:border-2 focus:border-indigo-600"
+                        onClick={() => {
+                          setTitle(company);
+                          setDifficulty("Medium");
+                          setConfirmation(true);
+                        }}
+                      >
+                        Start Test
+                      </button>
+                    </div>
+                  ))}
+              </div>
+              <p
+                className={cn(
+                  "mt-7 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-500 text-center",
+                  filteredTier1.length === 0 && "hidden"
+                )}
+              >
+                Tier-1 Companies
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredTier1.length > 0 &&
+                  filteredTier1.map((company) => (
+                    <div
+                      key={company}
+                      className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-gray-900 transition "
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-xl font-semibold mb-3">
+                          {company}
+                        </h3>
+                        <div className="flex items-center pb-3 space-x-4">
+                           
+                           
+                          <button
+                            onClick={() => toggleFavorite(company)}
+                            className="text-yellow-400 cursor-pointer text-2xl hover:scale-[1.4] transition-transform"
+                            title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
+                          >
+                             
+                            {favorites.includes(company) ? "★" : "☆"}
+                          </button>
+                          <img
+                            src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
+                            alt={`${company} logo`}
+                            width={50}
+                            className="w-12 h-12 object-contain rounded-full bg-slate-100 p-0.5 transition-transform hover:scale-110"
+                          />
+                        </div>
+                      </div>
+                      <p className="text-gray-300 mb-4">
+                        Take the {company} aptitude test to practice for your
+                        interview.
+                      </p>
+                      <button
+                        className="bg-indigo-700 hover:bg-indigo-500 text-white px-4 py-2 rounded-md transition cursor-pointer hover:scale-[1.03] focus:border-2 focus:border-indigo-600"
+                        onClick={() => {
+                          setTitle(company);
+                          setDifficulty("Medium");
+                          setConfirmation(true);
+                        }}
+                      >
+                        Start Test
+                      </button>
+                    </div>
+                  ))}
+              </div>
+              <p
+                className={cn(
+                  "mt-7 mb-2 flex mx-auto justify-center items-center font-bold text-3xl text-indigo-500 text-center",
+                  filteredStartup.length === 0 && "hidden"
+                )}
+              >
+                Growing Startups / Unicorns
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredStartup.length > 0 &&
+                  filteredStartup.map((company) => (
+                    <div
+                      key={company}
+                      className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-gray-900 transition "
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-xl font-semibold mb-3">
+                          {company}
+                        </h3>
+                        <div className="flex items-center pb-3 space-x-4"> 
+                          <div>
+                            <button
+                            onClick={() => toggleFavorite(company)}
+                            className="text-yellow-400 cursor-pointer text-2xl hover:scale-[1.4] transition-transform "
+                            title={favorites.includes(company) ? "Remove from Favorites" : "Add to Favorites"}
+                            >
+                            {favorites.includes(company) ? "★" : "☆"}
+ 
+                          </button>
+                            </div>
+                          
+                           <img
+                            src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
+                            alt={`${company} logo`}
+                            width={50}
+                            className="w-12 h-12 object-contain rounded-full bg-slate-100 p-0.5 transition-transform hover:scale-110"
+                            />
+                        </div>
+                      </div>
+                      <p className="text-gray-300 mb-4">
+                        Take the {company} aptitude test to practice for your
+                        interview.
+                      </p>
+                      <button
+                        className="bg-indigo-700 hover:bg-indigo-500 text-white px-4 py-2 rounded-md transition cursor-pointer"
+                        onClick={() => {
+                          setTitle(company);
+                          setDifficulty("Medium");
+                          setConfirmation(true);
+                        }}
+                      >
+                        Start Test
+                      </button>
                       ))}
                     </div>
                   </div>
