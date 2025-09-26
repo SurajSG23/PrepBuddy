@@ -10,6 +10,7 @@ import Profile from "./components/Custom/Profile";
 import PrevTests from "./components/Custom/PrevTests";
 import ScoreBoard from "./components/Custom/ScoreBoard";
 import FavoritesPage from "./components/Custom/FavoritesPage";
+import AboutUsPage from "./components/Custom/aboutus";
 import Notes from "./components/Custom/Notes";
 import TechnicalQuestionsPage from "./components/Custom/TechnicalQuestionsPage";
 import TopicPracticePage from "./components/Custom/TopicPracticePage";
@@ -80,6 +81,7 @@ function AppContent() {
           path="/ai-interview-options"
           element={<AiInterviewOptionsPage />}
         />
+        <Route path="/about" element={<AboutUsPage />} />
         <Route path="/ai-interview/text" element={<TextInterviewPage />} />
         <Route path="/ai-interview/voice" element={<VoiceInterviewPage />} />
         <Route path="/ai-interview/video" element={<VideoInterviewPage />} />
