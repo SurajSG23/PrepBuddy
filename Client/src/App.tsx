@@ -54,9 +54,8 @@ function AppContent() {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   return (
-    <div
-      className={`w-full min-h-[100vh] h-auto flex flex-col justify-between items-center transition-colors duration-500
-      ${
+    <div className="w-full pt-12 min-h-[100vh] h-auto flex flex-col justify-between items-center text-white">
+       ${
         darkMode
           ? "bg-gradient-to-br from-[#0f1419] via-[#1a1f2e] to-[#0f1419] text-white"
           : "bg-white text-gray-900"
@@ -64,9 +63,10 @@ function AppContent() {
     >
       {/* Toast Notifications */}
       <Toaster position="top-right" reverseOrder={false} />
-
-      <Header setUserID={setUserId} setIsChatOpen={setIsChatOpen} />
-
+      {/* Pass the chat state setter to the Header */}
+      <><Header setUserID={setUserId} setIsChatOpen={setIsChatOpen} /></>
+      
+  
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/homepage" element={<HomePage userID={userID} />} />
