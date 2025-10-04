@@ -28,6 +28,7 @@
     "@uiw/react-codemirror": "^4.24.2",
     "axios": "^1.8.4",
     "class-variance-authority": "^0.7.1",
+    "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.5.2",
     "firebase": "^11.10.0",

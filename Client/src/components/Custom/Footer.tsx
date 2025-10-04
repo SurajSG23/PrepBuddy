@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Instagram, Linkedin, Github } from "lucide-react";
+import {
+  Instagram,
+  Linkedin,
+  Github,
+  Twitter,
+  Youtube,
+} from "lucide-react";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { useDarkMode } from "../Custom/DarkModeContext";
@@ -69,30 +75,29 @@ const Footer: React.FC = () => {
             >
               Quick Links
             </h3>
-           <ul className="space-y-2">
-  {[
-    { href: "/homepage", label: "Practice Tests" },
-    { href: "/notes", label: "Study Materials" },
-    { href: "/score-board", label: "Leaderboard" },
-    { href: "/about", label: "About Us" }, // ✅ Add this line
-  ].map((link, idx) => (
-    <li key={idx}>
-      <Link
-        to={link.href}
-        className={`hover:text-indigo-500 transition-colors duration-300 cursor-pointer inline-block ${
-          darkMode ? "text-gray-400" : "text-gray-600"
-        }`}
-      >
-        {link.label}
-      </Link>
-    </li>
-  ))}
-</ul>
-
+            <ul className="space-y-2">
+              {[
+                { href: "/homepage", label: "Practice Tests" },
+                { href: "/notes", label: "Study Materials" },
+                { href: "/score-board", label: "Leaderboard" },
+                { href: "/about", label: "About Us" }, // ✅ Add this line
+              ].map((link, idx) => (
+                <li key={idx}>
+                  <Link
+                    to={link.href}
+                    className={`hover:text-indigo-500 transition-colors duration-300 cursor-pointer inline-block ${
+                      darkMode ? "text-gray-400" : "text-gray-600"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Social Links */}
-          <div className="space-y-3">
+          <div className="space-y-3 md:ml-[-70px]">
             <h3
               className={`font-semibold text-lg ${
                 darkMode ? "text-white" : "text-gray-900"
@@ -100,7 +105,7 @@ const Footer: React.FC = () => {
             >
               Connect
             </h3>
-            <div className="flex space-x-4">
+            <div className="flex space-x-3.5">
               {[
                 {
                   href: "https://www.instagram.com/suraj_sg23/",
@@ -116,6 +121,16 @@ const Footer: React.FC = () => {
                   href: "https://github.com/SurajSG23",
                   icon: <Github size={20} />,
                   label: "GitHub",
+                },
+                {
+                  href: "https://twitter.com/yourhandle",
+                  icon: <Twitter size={20} />,
+                  label: "Twitter",
+                },
+                {
+                  href: "https://youtube.com/@yourchannel",
+                  icon: <Youtube size={20} />,
+                  label: "YouTube",
                 },
               ].map((social, idx) => (
                 <Button

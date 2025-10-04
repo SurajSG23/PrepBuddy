@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDarkMode } from "../Custom/DarkModeContext";
+import cn from "classnames";
+
 
 interface HeaderProps {
   userID: string;
@@ -341,11 +343,9 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                       >
                         Start Test
                       </button>
-                      ))}
                     </div>
+                      ))}
                   </div>
-                )
-              ))}
             </>
           )}
 
@@ -421,7 +421,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                   { path: "/ai-interview-options", title: "AI-Powered Interviews 🤖", desc: "Simulate real interviews with AI feedback." },
                 ].map((card, idx) => (
                   <Link to={card.path} key={idx} className="block h-full">
-                    <div className={`p-8 rounded-lg shadow-lg transition-all duration-300 cursor-pointer text-center min-h-[160px] flex flex-col justify-center ${
+                    <div className={`p-8 rounded-lg shadow-lg transition-all duration-300 cursor-pointer text-center min-h-[175px] flex flex-col justify-center ${
                       darkMode ? "bg-gray-800 hover:bg-gray-700 hover:shadow-indigo-500/30" : "bg-white border border-gray-200 hover:bg-gray-50 hover:shadow-indigo-300/30"
                     }`}>
                       <h3 className={`text-xl font-semibold mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>{card.title}</h3>
