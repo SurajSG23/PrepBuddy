@@ -58,6 +58,8 @@ function AppContent() {
     <div className="w-full pt-12 h-auto flex flex-col justify-between items-center text-blue-600  ">
       {/* Pass the chat state setter to the Header */}
       <>
+           {/* Toast Notifications */}
+      <Toaster position="top-right" reverseOrder={false} />
         {" "}
         <Header setUserID={setUserId} setIsChatOpen={setIsChatOpen} />
       </>
