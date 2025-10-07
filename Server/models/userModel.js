@@ -1,18 +1,24 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
+  password:{
+    type: String,
+    required: false
+  },
+  authProvider: {
+    type: String,
+    enum: ['local', 'google'],
+    default: 'local'
+  },
   profilepic: {
     type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
+    required: false,
+    default: "/default-profile.jpg"
   },
   badges: {
     type: Number,
@@ -38,6 +44,45 @@ const userSchema = mongoose.Schema({
     type: Number,
     default: 5,
   },
+  streakBadges: {
+    firstStreak: { type: Boolean, default: false },
+    weekWarrior: { type: Boolean, default: false },
+    twoWeekChamp: { type: Boolean, default: false },
+    monthMaster: { type: Boolean, default: false },
+    streakLegend: { type: Boolean, default: false },
+  },
+  currentStreak: {
+    type: Number,
+    default: 0,
+  },
+  longestStreak: {
+    type: Number,
+    default: 0,
+  },
 });
 
-export default mongoose.model("user", userSchema);
+userSchema.pre('save', async function(next) {
+  const user = this;
+
+  if (!user.isModified('password') || !user.password) return next();
+  console.log(user.password);
+  try {
+    const passwordHashed = await bcrypt.hash(user.password, 10);
+    user.password = passwordHashed;
+    next();
+  } catch (err) {
+    return next(err);
+  }
+});
+
+userSchema.methods.comparePassword = async function(password){
+    try{
+        return await bcrypt.compare(password, this.password);
+    } catch(err){
+        throw err;
+    }
+
+  }
+
+
+export default mongoose.model("user", userSchema);;

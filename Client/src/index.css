@@ -1,9 +1,15 @@
 @import "tailwindcss";
 
- 
+body {
+  background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 50%, #0f1419 100%);
+  color: #fff;
+  min-height: 100vh;
+}
 .dark {
-  background-color: #100436;
+  background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 50%, #0f1419 100%);
   color: #fff;
 }
 
-
+html {
+  scroll-behavior: smooth;
+}
