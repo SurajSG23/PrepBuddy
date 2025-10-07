@@ -14,7 +14,7 @@ import Notes from "./components/Custom/Notes";
 import TechnicalQuestionsPage from "./components/Custom/TechnicalQuestionsPage";
 import TopicPracticePage from "./components/Custom/TopicPracticePage";
 import OnTopBar from "./components/Custom/OnTopBar";
-import ChatAssistant from "./components/Custom/ChatAssistant"; // Import the Chat Assistant
+import ChatAssistant from "./components/Custom/ChatAssistant"; 
 import AptitudePage from "./components/Custom/AptitudePage";
 import QuizPage from "./components/Custom/QuizPage";
 
@@ -23,10 +23,14 @@ function App() {
   const [isChatOpen, setIsChatOpen] = useState(false); // State to control chat visibility
 
   return (
-    <div className="w-full pt-12 min-h-[100vh] h-auto flex flex-col justify-between items-center text-white">
+  <div className="relative ">
+    <div className="w-full pt-12 h-auto flex flex-col justify-between items-center text-blue-600  ">
       {/* Pass the chat state setter to the Header */}
-      <><Header setUserID={setUserId} setIsChatOpen={setIsChatOpen} /></>
-      
+      <>
+        {" "}
+        <Header setUserID={setUserId} setIsChatOpen={setIsChatOpen} />
+      </>
+      </div>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/homepage" element={<HomePage userID={userID} />} />
@@ -38,7 +42,6 @@ function App() {
         <Route path="/aptitude" element={<AptitudePage />} />
         <Route path="/quiz/:topic" element={<QuizPage />} />
 
-
         {/* Pass userID to pages that need it */}
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route
@@ -46,14 +49,18 @@ function App() {
           element={<TechnicalQuestionsPage />}
         />
         <Route path="/practice/:topicName" element={<TopicPracticePage />} />
-      </Routes>
-      
-      <OnTopBar />
-
-      {/* Render ChatAssistant if user is logged in */}
-      {userID && <ChatAssistant userID={userID} isChatOpen={isChatOpen} setIsChatOpen={setIsChatOpen} />}
-
-      <Footer />
+        </Routes>
+        <OnTopBar />
+        {/* Render ChatAssistant if user is logged in */}
+        {userID && (
+          <ChatAssistant
+          userID={userID}
+          isChatOpen={isChatOpen}
+          setIsChatOpen={setIsChatOpen}
+          />
+        )}
+        <Footer />
+ 
     </div>
   );
 }
