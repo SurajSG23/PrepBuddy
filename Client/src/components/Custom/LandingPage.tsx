@@ -127,18 +127,25 @@ const TextGenerateEffect: React.FC<Props> = ({ words, className }) => {
 };
 
   return (
-    <div className={`min-h-screen flex flex-col w-full transition-colors duration-500 ${darkMode ? "bg-gray-900 text-gray-200" : "bg-white text-gray-900"}`}>
- <BackgroundBeamsWithCollision
-  className={`relative flex-grow flex items-center min-h-[90vh] h-auto transition-colors duration-500 ${
-    darkMode ? "from-gray-800 via-gray-900 to-black" : "bg-zinc-100 text-gray-900"
-  }`}
->
-  <div
-    className={`absolute inset-0 bg-gradient-to-r transition-colors duration-500 ${
-      darkMode ? "from-gray-800 via-gray-900 to-black" : "from-gray-100 via-gray-200 to-white"
-    } -z-10`}
-  ></div>
-
+    <div className="min-h-screen  flex flex-col w-full">
+      <BackgroundBeamsWithCollision className="flex-grow flex items-center  min-h-[90vh] h-auto">
+        <div className="absolute top-0 left-0 right-0 bottom-0 opacity-100 inset-0 z-77"></div>
+        <div className="container mx-auto px-4 py-20 md:py-32">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <TypewriterEffect
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-indigo-500 leading-tight"
+                words={[
+                  { text: "Ace" },
+                  { text: "Your" },
+                  { text: "Next" },
+                  { text: "Aptitude" },
+                  { text: "Test" },
+                  { text: "With" },
+                  { text: "AI-Powered" },
+                  { text: "Practice" },
+                ]}
+              />
   <div className="container mx-auto px-4 py-20 md:py-32 mt-15 ">
     <div className="grid md:grid-cols-2 gap-14 items-center">
       {/* Left Content */}

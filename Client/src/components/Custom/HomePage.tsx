@@ -137,8 +137,10 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
   return (
     <div className="">
       <main className="container mx-auto px-4 py-6">
-        <h1 className={`text-4xl font-extrabold mb-10 text-center ${darkMode ? "text-gray-100" : "text-gray-900"}`}>
-          Welcome to <span className="text-indigo-500">PrepBuddy!</span> Get ready to test your skills!
+        <h1 className="pt-2 text-3xl font-extrabold font-serif mb-8 text-center text-slate-400">
+          Welcome <span className="text-indigo-500 capitalize">{userName}</span> to
+          PrepBuddy! Get ready to test your skills!
+ 
         </h1>
 
         {/* Tab Selector */}
@@ -193,7 +195,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                   filteredmaang.map((company) => (
                     <div
                       key={company}
-                      className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-gray-900 transition "
+                      className="bg-slate-800 text-white rounded-lg p-6 shadow-lg hover:shadow-xl  hover:bg-gray-700 transition-transform hover:scale-[1.06] ease-in-out transform duration-300"
                     >
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-xl font-semibold mb-3">
@@ -213,7 +215,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                             src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
                             alt={`${company} logo`}
                             width={50}
-                            className="w-12 h-12 object-contain rounded-full bg-slate-100 p-0.5 transition-transform hover:scale-110"
+                            className="w-12 h-12 object-contain rounded-full bg-slate-100  transition-transform hover:scale-110"
                           />
                         </div>
                       </div>
@@ -248,7 +250,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                   filteredTier1.map((company) => (
                     <div
                       key={company}
-                      className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-gray-900 transition "
+                      className="bg-slate-800 text-white rounded-lg p-6 shadow-lg hover:shadow-xl  hover:bg-gray-700 transition-transform hover:scale-[1.06] ease-in-out transform duration-300"
                     >
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-xl font-semibold mb-3">
@@ -269,7 +271,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                             src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
                             alt={`${company} logo`}
                             width={50}
-                            className="w-12 h-12 object-contain rounded-full bg-slate-100 p-0.5 transition-transform hover:scale-110"
+                            className="w-12 h-12 object-contain rounded-full bg-slate-100  transition-transform hover:scale-110"
                           />
                         </div>
                       </div>
@@ -303,7 +305,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                   filteredStartup.map((company) => (
                     <div
                       key={company}
-                      className="bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl hover:bg-gray-900 transition "
+                      className="bg-slate-800 text-white rounded-lg p-6 shadow-lg hover:shadow-xl  hover:bg-gray-700 transition-transform hover:scale-[1.06] ease-in-out transform duration-300"
                     >
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-xl font-semibold mb-3">
@@ -325,7 +327,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
                             src={`https://logo.clearbit.com/${company.toLowerCase()}.com`}
                             alt={`${company} logo`}
                             width={50}
-                            className="w-12 h-12 object-contain rounded-full bg-slate-100 p-0.5 transition-transform hover:scale-110"
+                            className="w-12 h-12 object-contain rounded-full bg-slate-100   transition-transform hover:scale-110"
                             />
                         </div>
                       </div>

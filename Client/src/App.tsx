@@ -21,7 +21,7 @@ import AptitudeTrainingPage from "./components/Custom/AptitudeTrainingPage";
 import AptitudePracticePage from "./components/Custom/AptitudePracticePage";
 import AptitudeResultsPage from "./components/Custom/AptitudeResultsPage";
 import OnTopBar from "./components/Custom/OnTopBar";
-import ChatAssistant from "./components/Custom/ChatAssistant";
+import ChatAssistant from "./components/Custom/ChatAssistant"; 
 import AptitudePage from "./components/Custom/AptitudePage";
 import QuizPage from "./components/Custom/QuizPage";
 import Contact from "./components/Custom/Contact";
@@ -54,19 +54,16 @@ function AppContent() {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   return (
-    <div
-      className={`w-full min-h-[100vh] h-auto flex flex-col justify-between items-center transition-colors duration-500
-      ${
-        darkMode
-          ? "bg-gradient-to-br from-[#0f1419] via-[#1a1f2e] to-[#0f1419] text-white"
-          : "bg-white text-gray-900"
-      }`}
-    >
-      {/* Toast Notifications */}
+  <div className="relative ">
+    <div className="w-full pt-12 h-auto flex flex-col justify-between items-center text-blue-600  ">
+      {/* Pass the chat state setter to the Header */}
+      <>
+           {/* Toast Notifications */}
       <Toaster position="top-right" reverseOrder={false} />
-
-      <Header setUserID={setUserId} setIsChatOpen={setIsChatOpen} />
-
+        {" "}
+        <Header setUserID={setUserId} setIsChatOpen={setIsChatOpen} />
+      </>
+      </div>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/homepage" element={<HomePage userID={userID} />} />
