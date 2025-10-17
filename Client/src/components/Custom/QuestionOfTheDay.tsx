@@ -259,7 +259,7 @@ const QuestionOfTheDay = () => {
       {/* Modal */}
       <AnimatePresence>
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-black/60 flex items-start justify-center z-50 p-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -270,7 +270,7 @@ const QuestionOfTheDay = () => {
             >
               {/* Header */}
               <div
-                className={`flex justify-between items-center p-6 border-b rounded-t-xl backdrop-blur-md transition-colors duration-500
+                className={`flex justify-between items-start p-6 border-b rounded-t-xl backdrop-blur-md transition-colors duration-500
                 ${
                   darkMode
                     ? "border-gray-700 bg-gray-900/60"

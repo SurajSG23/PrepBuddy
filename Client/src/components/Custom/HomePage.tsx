@@ -138,7 +138,7 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
     <div className="">
       <main className="container mx-auto px-4 py-6">
         <h1 className="pt-2 text-3xl font-extrabold font-serif mb-8 text-center text-slate-400">
-          Welcome <span className="text-indigo-500 capitalize">{userName}</span> to
+          Welcome <span className="text-indigo-500 capitalize">{ "guest"}</span> to
           PrepBuddy! Get ready to test your skills!
  
         </h1>
