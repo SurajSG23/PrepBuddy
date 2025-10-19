@@ -1,34 +1,31 @@
-// src/components/ThemeToggle.tsx
-import React, { useEffect } from "react";
-import { Moon, Sun } from "lucide-react";
-import { useAppDispatch, useThemeSelector } from "../../store/hooks";
-import { setTheme, toggleTheme } from "../../store/Theme/themeSlice";
+// components/Custom/ThemeToggle.tsx
+import React from "react";
+import { useDarkMode } from "./DarkModeContext";
 
-const ThemeToggle: React.FC = () => {
-    const darkMode = useThemeSelector((state) => state.theme.darkMode);
-    const dispatch = useAppDispatch();
+export default function ThemeToggle() {
+  const { darkMode, toggleDarkMode } = useDarkMode();
+  const label = darkMode ? "Light mode" : "Dark mode";
 
-    useEffect(() => {
-        // Initialize theme from localStorage on mount
-        if (localStorage.getItem("theme") === "dark") {
-            dispatch(setTheme(true));
-        } else {
-            dispatch(setTheme(false));
-        }
-    }, [dispatch]);
-
-    return (
-        <button
-            onClick={() => dispatch(toggleTheme())}
-            className={`p-1 cursor-pointer hover:bg-slate-500 rounded-lg transition-colors duration-300 ${darkMode ? 'bg-[#0e0430]' : 'bg-indigo-600'}`}
-        >
-            {!darkMode ? (
-                <Sun className="h-6 w-6 text-yellow-300" />
-            ) : (
-                <Moon className="h-6 w-6 text-blue-700" />
-            )}
-        </button>
-    );
-};
-
-export default ThemeToggle;
+  return (
+    <button
+      type="button"
+      onClick={toggleDarkMode}
+      aria-label={label}
+      title={label}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "8px",
+        padding: "8px 12px",
+        borderRadius: 8,
+        border: "1px solid var(--border)",
+        background: "var(--surface)",
+        color: "var(--text)",
+        cursor: "pointer"
+      }}
+    >
+      <span>{darkMode ? "🌙" : "☀️"}</span>
+      <span style={{ fontSize: 14 }}>{darkMode ? "Dark" : "Light"}</span>
+    </button>
+  );
+}
