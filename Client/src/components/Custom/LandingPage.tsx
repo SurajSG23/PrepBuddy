@@ -128,24 +128,9 @@ const TextGenerateEffect: React.FC<Props> = ({ words, className }) => {
 
   return (
     <div className="min-h-screen  flex flex-col w-full">
-      <BackgroundBeamsWithCollision className="flex-grow flex items-center  min-h-[90vh] h-auto">
+    <BackgroundBeamsWithCollision className="flex-grow flex items-center  min-h-[90vh] h-auto" >
         <div className="absolute top-0 left-0 right-0 bottom-0 opacity-100 inset-0 z-77"></div>
-        <div className="container mx-auto px-4 py-20 md:py-32">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
-              <TypewriterEffect
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-indigo-500 leading-tight"
-                words={[
-                  { text: "Ace" },
-                  { text: "Your" },
-                  { text: "Next" },
-                  { text: "Aptitude" },
-                  { text: "Test" },
-                  { text: "With" },
-                  { text: "AI-Powered" },
-                  { text: "Practice" },
-                ]}
-              />
+       
   <div className="container mx-auto px-4 py-20 md:py-32 mt-15 ">
     <div className="grid md:grid-cols-2 gap-14 items-center">
       {/* Left Content */}
@@ -248,7 +233,7 @@ const TextGenerateEffect: React.FC<Props> = ({ words, className }) => {
         </div>
       </div>
     </div>
-  </div>
+  </div> {/**container */}
 </BackgroundBeamsWithCollision>
 
 
