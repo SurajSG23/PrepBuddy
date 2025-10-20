@@ -54,8 +54,8 @@ function AppContent() {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   return (
-  <div className="relative ">
-    <div className="w-full pt-12 h-auto flex flex-col justify-between items-center text-blue-600  ">
+  <div className="relative">
+    <div className="w-full h-auto flex flex-col justify-between items-center text-blue-600  ">
       {/* Pass the chat state setter to the Header */}
       <>
            {/* Toast Notifications */}
