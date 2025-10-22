@@ -668,8 +668,8 @@ const LandingPage: React.FC = () => {
       ].map((item, idx) => (
         <div
           key={idx}
-          className={`flex items-start p-5 rounded-lg shadow-sm transition-all duration-500 ${
-            darkMode ? "bg-gray-800" : "bg-white"
+          className={`flex items-start p-5 rounded-xl transition-all duration-300 transform hover:scale-[1.025] hover:shadow-xl cursor-pointer ${
+            darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-white hover:bg-gray-100"
           }`}
         >
           <div className="flex-shrink-0">
@@ -696,7 +696,7 @@ const LandingPage: React.FC = () => {
         </div>
       ))}
 
-      {/* Call to Action */}
+      {/* CTA Button */}
       <div className="mt-16 text-center">
         <GoogleLoginButton className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-8 rounded-lg text-lg shadow-md transition-all duration-300" />
       </div>
