@@ -619,79 +619,91 @@ const LandingPage: React.FC = () => {
       </div>
 
       {/* How It Works Section */}
-      <section
-        id="how-it-works"
-        className={`py-20 transition-colors duration-500 ${
-          darkMode ? "bg-gray-900" : "bg-zinc-100"
+<section
+  id="how-it-works"
+  className={`py-24 transition-colors duration-500 ${
+    darkMode ? "bg-gray-900" : "bg-zinc-50"
+  }`}
+>
+  <div className="container mx-auto px-4">
+    {/* Header */}
+    <div className="text-center mb-20">
+      <h2
+        className={`text-3xl md:text-4xl font-extrabold mb-4 transition-colors duration-500 ${
+          darkMode ? "text-white" : "text-gray-900"
         }`}
       >
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2
-              className={`text-3xl md:text-4xl font-bold mb-4 transition-colors duration-500 ${
-                darkMode ? "text-gray-200" : "text-gray-800"
+        How It Works
+      </h2>
+      <p
+        className={`text-lg max-w-2xl mx-auto transition-colors duration-500 ${
+          darkMode ? "text-gray-400" : "text-gray-600"
+        }`}
+      >
+        Get started in minutes and improve your interview skills with guided practice and instant feedback.
+      </p>
+    </div>
+
+    {/* Steps */}
+    <div className="max-w-3xl mx-auto space-y-10">
+      {[
+        {
+          step: "1",
+          title: "Sign in with Google",
+          description:
+            "Quick and secure authentication with your Google account.",
+        },
+        {
+          step: "2",
+          title: "Choose Your Focus Area",
+          description:
+            "Select from technical questions, aptitude training, or mock interviews.",
+        },
+        {
+          step: "3",
+          title: "Practice and Get Feedback",
+          description:
+            "Engage in interactive sessions and receive instant AI-powered feedback.",
+        },
+      ].map((item, idx) => (
+        <div
+          key={idx}
+          className={`flex items-start p-5 rounded-lg shadow-sm transition-all duration-500 ${
+            darkMode ? "bg-gray-800" : "bg-white"
+          }`}
+        >
+          <div className="flex-shrink-0">
+            <div className="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center text-lg font-bold shadow-md">
+              {item.step}
+            </div>
+          </div>
+          <div className="ml-5">
+            <h3
+              className={`text-xl font-semibold mb-1 transition-colors duration-500 ${
+                darkMode ? "text-gray-100" : "text-gray-800"
               }`}
             >
-              How It Works
-            </h2>
+              {item.title}
+            </h3>
             <p
-              className={`text-lg max-w-2xl mx-auto transition-colors duration-500 ${
+              className={`text-base transition-colors duration-500 ${
                 darkMode ? "text-gray-400" : "text-gray-600"
               }`}
             >
-              Get started in minutes and improve your interview skills today.
+              {item.description}
             </p>
           </div>
-
-          <div className="max-w-3xl mx-auto space-y-8">
-            {[
-              {
-                step: "1",
-                title: "Sign in with Google",
-                description:
-                  "Quick and secure authentication with your Google account.",
-              },
-              {
-                step: "2",
-                title: "Choose Your Focus Area",
-                description:
-                  "Select from technical questions, aptitude training, or mock interviews.",
-              },
-              {
-                step: "3",
-                title: "Practice and Get Feedback",
-                description:
-                  "Engage in interactive sessions and receive instant AI-powered feedback.",
-              },
-            ].map((item, idx) => (
-              <div key={idx} className="flex items-start">
-                <div className="bg-indigo-600 text-white rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mt-1">
-                  {item.step}
-                </div>
-                <div className="ml-4">
-                  <h3
-                    className={`text-xl font-semibold transition-colors duration-500 ${
-                      darkMode ? "text-gray-200" : "text-gray-900"
-                    }`}
-                  >
-                    {item.title}
-                  </h3>
-                  <p
-                    className={`transition-colors duration-500 ${
-                      darkMode ? "text-gray-400 mt-1" : "text-gray-600 mt-1"
-                    }`}
-                  >
-                    {item.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-            <div className="mt-12 text-center">
-              <GoogleLoginButton className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-8 rounded-lg text-lg cursor-pointer transition-colors duration-300" />
-            </div>
-          </div>
         </div>
-      </section>
+      ))}
+
+      {/* Call to Action */}
+      <div className="mt-16 text-center">
+        <GoogleLoginButton className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-8 rounded-lg text-lg shadow-md transition-all duration-300" />
+      </div>
+    </div>
+  </div>
+</section>
+
     </div>
   );
 };
