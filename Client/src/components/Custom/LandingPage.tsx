@@ -622,14 +622,14 @@ const LandingPage: React.FC = () => {
 <section
   id="how-it-works"
   className={`py-24 transition-colors duration-500 ${
-    darkMode ? "bg-gray-900" : "bg-zinc-50"
+    darkMode ? "bg-gray-950" : "bg-gradient-to-br from-zinc-100 to-white"
   }`}
 >
   <div className="container mx-auto px-4">
-    {/* Header */}
+    {/* Section Header */}
     <div className="text-center mb-20">
       <h2
-        className={`text-3xl md:text-4xl font-extrabold mb-4 transition-colors duration-500 ${
+        className={`text-4xl font-extrabold tracking-tight mb-4 transition-colors duration-500 ${
           darkMode ? "text-white" : "text-gray-900"
         }`}
       >
@@ -640,54 +640,56 @@ const LandingPage: React.FC = () => {
           darkMode ? "text-gray-400" : "text-gray-600"
         }`}
       >
-        Get started in minutes and improve your interview skills with guided practice and instant feedback.
+        Start in minutes. Practice smarter. Get personalized AI feedback instantly.
       </p>
     </div>
 
     {/* Steps */}
-    <div className="max-w-3xl mx-auto space-y-10">
+    <div className="grid gap-10 max-w-4xl mx-auto md:grid-cols-1">
       {[
         {
           step: "1",
           title: "Sign in with Google",
-          description:
-            "Quick and secure authentication with your Google account.",
+          description: "Quick and secure authentication with your Google account.",
         },
         {
           step: "2",
           title: "Choose Your Focus Area",
-          description:
-            "Select from technical questions, aptitude training, or mock interviews.",
+          description: "Select from technical questions, aptitude training, or mock interviews.",
         },
         {
           step: "3",
           title: "Practice and Get Feedback",
-          description:
-            "Engage in interactive sessions and receive instant AI-powered feedback.",
+          description: "Engage in interactive sessions and receive instant AI-powered feedback.",
         },
       ].map((item, idx) => (
         <div
           key={idx}
-          className={`flex items-start p-5 rounded-xl transition-all duration-300 transform hover:scale-[1.025] hover:shadow-xl cursor-pointer ${
-            darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-white hover:bg-gray-100"
-          }`}
+          className={`
+            group flex items-start gap-6 rounded-2xl p-6 md:p-7
+            backdrop-blur-xl bg-white/60 dark:bg-gray-800/50
+            border border-transparent hover:border-indigo-500/70
+            shadow-md hover:shadow-2xl hover:scale-[1.015]
+            transition-all duration-300 ease-in-out
+            transform cursor-pointer
+          `}
         >
           <div className="flex-shrink-0">
-            <div className="w-12 h-12 bg-indigo-600 text-white rounded-full flex items-center justify-center text-lg font-bold shadow-md">
+            <div className="w-12 h-12 rounded-full bg-indigo-600 text-white text-lg font-bold flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300">
               {item.step}
             </div>
           </div>
-          <div className="ml-5">
+          <div>
             <h3
-              className={`text-xl font-semibold mb-1 transition-colors duration-500 ${
-                darkMode ? "text-gray-100" : "text-gray-800"
+              className={`text-xl font-semibold mb-1 ${
+                darkMode ? "text-white" : "text-gray-900"
               }`}
             >
               {item.title}
             </h3>
             <p
-              className={`text-base transition-colors duration-500 ${
-                darkMode ? "text-gray-400" : "text-gray-600"
+              className={`text-base leading-relaxed ${
+                darkMode ? "text-gray-300" : "text-gray-600"
               }`}
             >
               {item.description}
@@ -695,11 +697,11 @@ const LandingPage: React.FC = () => {
           </div>
         </div>
       ))}
+    </div>
 
-      {/* CTA Button */}
-      <div className="mt-16 text-center">
-        <GoogleLoginButton className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-8 rounded-lg text-lg shadow-md transition-all duration-300" />
-      </div>
+    {/* CTA Button */}
+    <div className="mt-16 text-center">
+      <GoogleLoginButton className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-8 rounded-lg text-lg shadow-lg transition-all duration-300 hover:scale-105" />
     </div>
   </div>
 </section>
