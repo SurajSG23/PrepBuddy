@@ -628,13 +628,27 @@ const LandingPage: React.FC = () => {
   <div className="container mx-auto px-4">
     {/* Section Header */}
     <div className="text-center mb-20">
-      <h2
-        className={`text-4xl font-extrabold tracking-tight mb-4 transition-colors duration-500 ${
-          darkMode ? "text-white" : "text-gray-900"
-        }`}
-      >
-        How It Works
-      </h2>
+      <div className="relative inline-block group">
+  <h2
+    className={`
+      text-4xl md:text-5xl font-extrabold mb-4
+      bg-gradient-to-r ${
+        darkMode
+          ? "from-indigo-300 via-purple-400 to-pink-400"
+          : "from-indigo-600 via-purple-600 to-pink-600"
+      }
+      bg-clip-text text-transparent transition-all duration-500
+    `}
+  >
+    How It Works
+  </h2>
+  <span
+    className={`
+      absolute left-0 bottom-0 w-0 h-1 bg-indigo-500 rounded-full transition-all duration-300 group-hover:w-full
+    `}
+  ></span>
+</div>
+
       <p
         className={`text-lg max-w-2xl mx-auto transition-colors duration-500 ${
           darkMode ? "text-gray-400" : "text-gray-600"
