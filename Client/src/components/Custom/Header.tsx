@@ -15,6 +15,7 @@ import { MdLogout } from "react-icons/md";
 import { MdHistoryEdu } from "react-icons/md";
 import QuestionOfTheDay from "./QuestionOfTheDay";
 import { useDarkMode } from "../Custom/DarkModeContext";
+import ThemeToggle from "./ThemeToggle";
 // Update props to accept the chat state setter
 interface HeaderProps {
   setUserID: React.Dispatch<React.SetStateAction<string>>;

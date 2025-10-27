@@ -1,57 +1,60 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+// components/Custom/DarkModeContext.tsx
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-// ✅ Context type
-interface DarkModeContextType {
+type Ctx = {
   darkMode: boolean;
+  setDarkMode: (v: boolean) => void;
   toggleDarkMode: () => void;
+};
+
+const DarkModeContext = createContext<Ctx | null>(null);
+
+function getInitialDark(): boolean {
+  try {
+    const v = localStorage.getItem("theme");
+    if (v === "dark") return true;
+    if (v === "light") return false;
+    return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
+  } catch {
+    return false;
+  }
 }
 
-// ✅ Create context
-const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined);
+function applyClass(dark: boolean) {
+  const root = document.documentElement; // <html>
+  root.classList.toggle("dark", dark);
+}
 
-// ✅ Provider component
-export const DarkModeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [darkMode, setDarkMode] = useState<boolean>(() => {
-    // Load from localStorage on first render
-    const saved = localStorage.getItem("darkMode");
-    if (saved !== null) return JSON.parse(saved);
+export const DarkModeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [darkMode, setDarkMode] = useState<boolean>(getInitialDark);
 
-    // If nothing saved, check system preference
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
-  });
-
-  const toggleDarkMode = () => {
-    setDarkMode((prev) => {
-      const newValue = !prev;
-      localStorage.setItem("darkMode", JSON.stringify(newValue));
-      return newValue;
-    });
-  };
-
-  // ✅ Sync with system preference if user changes OS theme
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handler = (e: MediaQueryListEvent) => {
-      setDarkMode(e.matches);
-      localStorage.setItem("darkMode", JSON.stringify(e.matches));
-    };
+    applyClass(darkMode);
+    try { localStorage.setItem("theme", darkMode ? "dark" : "light"); } catch {}
+  }, [darkMode]);
 
-    mediaQuery.addEventListener("change", handler);
-    return () => mediaQuery.removeEventListener("change", handler);
+  // keep in sync across tabs
+  useEffect(() => {
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "theme" && (e.newValue === "dark" || e.newValue === "light")) {
+        setDarkMode(e.newValue === "dark");
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
   }, []);
 
-  return (
-    <DarkModeContext.Provider value={{ darkMode, toggleDarkMode }}>
-      {children}
-    </DarkModeContext.Provider>
-  );
+  const value = useMemo<Ctx>(() => ({
+    darkMode,
+    setDarkMode,
+    toggleDarkMode: () => setDarkMode(d => !d),
+  }), [darkMode]);
+
+  return <DarkModeContext.Provider value={value}>{children}</DarkModeContext.Provider>;
 };
 
-// ✅ Hook to use dark mode
-export const useDarkMode = (): DarkModeContextType => {
-  const context = useContext(DarkModeContext);
-  if (!context) {
-    throw new Error("useDarkMode must be used within a DarkModeProvider");
-  }
-  return context;
-};
+export function useDarkMode(): Ctx {
+  const ctx = useContext(DarkModeContext);
+  if (!ctx) throw new Error("useDarkMode must be used within DarkModeProvider");
+  return ctx;
+}
