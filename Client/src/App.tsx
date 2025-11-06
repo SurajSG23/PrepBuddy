@@ -39,6 +39,7 @@ import PythonPractice from "./components/Custom/pythonPractice";
 import CPractice from "./components/Custom/CPractice";
 import HtmlPractice from "./components/Custom/HtmlPractice";
 import CssPractice from "./components/Custom/CssPractice";
+import ProgressShowcase from "./components/Custom/ProgressShowcase";
 
 import {
   DarkModeProvider,
@@ -102,6 +103,7 @@ function AppContent() {
         <Route path="/HtmlPractice" element={<HtmlPractice />} />
         <Route path="/CssPractice" element={<CssPractice />} />
         <Route path="/practice/:topicName" element={<TopicPracticePage />} />
+        <Route path="/progress-showcase" element={<ProgressShowcase userID={userID || undefined} />} />
         <Route path="/aptitude-training" element={<AptitudeTrainingPage />} />
         <Route
           path="/aptitude-practice/:difficulty"

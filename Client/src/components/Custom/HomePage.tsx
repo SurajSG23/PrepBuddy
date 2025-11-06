@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDarkMode } from "../Custom/DarkModeContext";
 import cn from "classnames";
+import StreakWidget from "./StreakWidget";
+import MiniProgressChart from "./MiniProgressChart";
 
 
 interface HeaderProps {
@@ -136,12 +138,26 @@ const HomePage: React.FC<HeaderProps> = ({ userID }) => {
 
   return (
     <div className="">
-      <main className="container mx-auto px-4 py-6">
+      <main className="container mx-auto px-4 py-6 pt-24 md:pt-32 relative z-0">
         <h1 className="pt-2 text-3xl font-extrabold font-serif mb-8 text-center text-slate-400">
           Welcome <span className="text-indigo-500 capitalize">{ "guest"}</span> to
           PrepBuddy! Get ready to test your skills!
  
         </h1>
+
+        {/* Progress Widgets Section */}
+        {userID && (
+          <div className="mb-8 relative z-0">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              {/* Streak Widget */}
+              <StreakWidget userID={userID} />
+              
+              {/* Mini Progress Charts */}
+              <MiniProgressChart userID={userID} chartType="tests" days={7} />
+              <MiniProgressChart userID={userID} chartType="scores" days={7} />
+            </div>
+          </div>
+        )}
 
         {/* Tab Selector */}
         <div className="mb-10">
