@@ -1,8 +1,21 @@
 import BackgroundBeamsWithCollision from "../ui/background-beams-with-collision";
+import { useDarkMode } from "../Custom/DarkModeContext";
 import React, { useEffect } from "react";
+
+import {
+  Users,
+  Target,
+  Lightbulb,
+  Award,
+  ArrowRight,
+  Star,
+  BookOpen,
+  Brain,
+  Zap,
+} from "lucide-react";
+
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import TextGenerateEffect from "../ui/text-generate-effect";
 import TypewriterEffect from "../ui/typewriter-effect";
 import { auth } from "../../firebase/firebaseConfig";
 import {
@@ -14,65 +27,82 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const LandingPage: React.FC = () => {
+  const { darkMode } = useDarkMode();
   const navigate = useNavigate();
+  const provider = new GoogleAuthProvider();
+  const values = [
+    {
+      icon: <Target className="w-8 h-8" />,
+      title: "Mission-Driven",
+      description:
+        "Democratizing interview preparation through cutting-edge AI technology",
+    },
+    {
+      icon: <Lightbulb className="w-8 h-8" />,
+      title: "Innovation First",
+      description:
+        "Continuously evolving our AI to provide the most realistic practice experience",
+    },
+    {
+      icon: <Users className="w-8 h-8" />,
+      title: "Student-Centric",
+      description:
+        "Every feature is designed with student success and learning outcomes in mind",
+    },
+    {
+      icon: <Award className="w-8 h-8" />,
+      title: "Excellence",
+      description:
+        "Maintaining the highest standards in AI training and educational content",
+    },
+  ];
+
+  const stats = [
+    { number: "50K+", label: "Students Trained" },
+    { number: "95%", label: "Success Rate" },
+    { number: "500+", label: "Companies Hiring" },
+    { number: "24/7", label: "AI Support" },
+  ];
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        navigate("/homepage");
-      }
+      if (currentUser) navigate("/homepage");
     });
     return () => unsubscribe();
-  }, [auth, navigate]);
-
-  const handleLogin = async () => {};
-  const provider = new GoogleAuthProvider();
-
-  useGSAP(() => {
-    gsap.from("#box", {
-      duration: 1,
-      y: 5,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-    });
-  }, []);
+  }, [navigate]);
 
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
-      const name = result.user.displayName;
-      const email = result.user.email;
-      const profilepic = result.user.photoURL;
+      const {
+        displayName: name,
+        email,
+        photoURL: profilepic,
+        uid,
+      } = result.user;
+
       try {
-        await axios.post(
-          `${import.meta.env.VITE_API_BASE_URL}/register`,
-          { name, email, profilepic },
-          { withCredentials: true }
-        );
+        await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/google`, {
+          name,
+          email,
+          profilepic,
+          firebaseUid: uid,
+        });
+        navigate("/homepage");
       } catch (error) {
         console.error("Error sending data:", error);
       }
     } catch (error) {
       console.error("Login failed:", error);
-    } finally {
-      navigate("/homepage");
     }
   };
 
-  const GoogleLoginButton = ({ className = "", variant = "default" }) => (
+  const GoogleLoginButton = ({ className = "" }) => (
     <button
-      onClick={handleLogin}
-      className={`
-        relative inline-flex items-center justify-center transition-colors 
+      onClick={handleGoogleLogin}
+      className={`relative inline-flex items-center justify-center transition-colors 
         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 
-        focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none 
-        ${
-          variant === "default"
-            ? "bg-indigo-600 text-white hover:bg-indigo-700"
-            : "border border-gray-300 bg-white hover:bg-gray-50 text-gray-700"
-        }
-        ${className}
-      `}
+        focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none
+        ${className}`}
     >
       <div className="flex items-center">
         <svg
@@ -167,28 +197,41 @@ const LandingPage: React.FC = () => {
         "Receive detailed feedback and suggestions to improve your interview performance.",
     },
   ];
-  // if (loading) {
-  //   return (
-  //     <>
-  //       <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-99">
-  //         <div className="flex flex-col items-center">
-  //           <div className="w-16 h-16 border-4 border-transparent border-t-blue-500 border-b-blue-500 rounded-full animate-spin"></div>
-  //           <p className="text-white mt-4 text-lg font-semibold">Loading...</p>
-  //         </div>
-  //       </div>
-  //     </>
-  //   );
-  // }
+
+  useGSAP(() => {
+    gsap.from("#box", {
+      duration: 1,
+      y: 5,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+  }, []);
+  interface Props {
+    words: string;
+    className?: string;
+  }
+
+  const TextGenerateEffect: React.FC<Props> = ({ words, className }) => {
+    return <p className={className}>{words}</p>;
+  };
 
   return (
     <div className="min-h-screen flex flex-col w-full">
-      <BackgroundBeamsWithCollision className="relative flex-grow flex items-center bg-zinc-900 min-h-[90vh] h-auto">
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-100 to-white -z-10"></div>
-        <div className="container mx-auto px-4 py-20 md:py-32">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+      <BackgroundBeamsWithCollision
+        className={`flex-grow flex items-center  min-h-[90vh] h-auto ${
+          darkMode ? "bg-gray-950" : "bg-gray-50"
+        }`}
+      >
+        <div className="absolute top-0 left-0 right-0 bottom-0 opacity-100 inset-0 z-77"></div>
+        <div className="container mx-auto px-4 py-20 md:py-32 mt-1">
+          <div className="grid md:grid-cols-2 gap-14 items-center">
+            {/* Left Content */}
             <div className="space-y-8">
               <TypewriterEffect
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-indigo-500 leading-tight"
+                className={`text-3xl md:text-4xl lg:text-5xl font-bold leading-tight ${
+                  darkMode ? "text-gray-100" : "text-indigo-500"
+                }`}
                 words={[
                   { text: "Ace" },
                   { text: "Your" },
@@ -200,82 +243,139 @@ const LandingPage: React.FC = () => {
                   { text: "Practice" },
                 ]}
               />
-
               <TextGenerateEffect
-                className="text-xl font-thin text-gray-500"
+                className={`text-lg sm:text-xl lg:text-2xl text-center font-thin transition-colors duration-500 ${
+                  darkMode ? "text-gray-100" : "text-gray-700"
+                }`}
                 words="Master technical and aptitude questions while practicing real-time interviews with our AI assistant."
               />
               <div
                 className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-                onClick={() => {
-                  handleGoogleLogin();
-                }}
+                onClick={handleGoogleLogin}
               >
-                <GoogleLoginButton className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded-lg text-lg cursor-pointer" />
+                <GoogleLoginButton className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded-lg text-lg cursor-pointer transition-colors duration-300" />
               </div>
             </div>
 
+            {/* Right Content */}
             <div className="relative" id="box">
-              <div className="bg-black p-6 rounded-xl shadow-xl border border-indigo-600">
+              <div
+                className={`p-6 rounded-xl shadow-xl border transition-colors duration-500 ${
+                  darkMode ? "bg- border-gray-700" : "bg-white border-gray-200"
+                }`}
+              >
                 <div className="mb-4 rounded-lg bg-indigo-600 p-4">
                   <p className="font-medium text-white">
                     Aptitude Test Session
                   </p>
                 </div>
+
                 <div className="space-y-4 mb-4">
-                  <div className="bg-gray-900 p-4 rounded-lg">
+                  <div
+                    className={`p-4 rounded-lg transition-colors duration-500 ${
+                      darkMode ? "bg-gray-700" : "bg-gray-100"
+                    }`}
+                  >
                     <p className="font-medium text-indigo-300 mb-2">
                       Question 3 of 10:
                     </p>
-                    <p className="text-gray-300">
+                    <p className={darkMode ? "text-gray-200" : "text-gray-900"}>
                       If a train travels at a speed of 60 km/hr and crosses a
                       platform in 30 seconds, what is the length of the
                       platform?
                     </p>
                   </div>
+
                   <div className="space-y-2">
-                    <div className="flex items-center">
-                      <div className="w-5 h-5 rounded-full border-2 border-gray-500 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-300">300 meters</p>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-5 h-5 rounded-full border-2 border-gray-500 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-300">400 meters</p>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-5 h-5 rounded-full border-2 border-indigo-500 bg-indigo-600 mr-3 flex-shrink-0"></div>
-                      <p className="font-medium text-white">500 meters</p>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-5 h-5 rounded-full border-2 border-gray-500 mr-3 flex-shrink-0"></div>
-                      <p className="text-gray-300">600 meters</p>
-                    </div>
+                    {[
+                      "300 meters",
+                      "400 meters",
+                      "500 meters",
+                      "600 meters",
+                    ].map((ans, idx) => (
+                      <div key={idx} className="flex items-center">
+                        <div
+                          className={`w-5 h-5 rounded-full border-2 mr-3 flex-shrink-0 transition-colors duration-300 ${
+                            ans === "500 meters"
+                              ? "border-indigo-500 bg-indigo-600"
+                              : darkMode
+                              ? "border-gray-500"
+                              : "border-gray-400"
+                          }`}
+                        ></div>
+                        <p
+                          className={`${
+                            ans === "500 meters"
+                              ? "font-medium "
+                              : darkMode
+                              ? "text-gray-200"
+                              : "text-gray-900"
+                          }`}
+                        >
+                          {ans}
+                        </p>
+                      </div>
+                    ))}
                   </div>
                 </div>
+
                 <div className="flex justify-between items-center">
-                  <button className="text-indigo-400 hover:text-indigo-300 cursor-pointer">
+                  <button
+                    className={`cursor-pointer transition-colors duration-300 ${
+                      darkMode
+                        ? "text-indigo-300 hover:text-indigo-200"
+                        : "text-indigo-600 hover:text-indigo-500"
+                    }`}
+                  >
                     Previous
                   </button>
-                  <div className="text-xs text-gray-400">
+                  <div
+                    className={
+                      darkMode
+                        ? "text-gray-400 text-xs"
+                        : "text-gray-500 text-xs"
+                    }
+                  >
                     Time remaining: 1:45
                   </div>
-                  <button className="text-indigo-400 font-medium hover:text-indigo-300 cursor-pointer">
+                  <button
+                    className={`cursor-pointer font-medium transition-colors duration-300 ${
+                      darkMode
+                        ? "text-indigo-300 hover:text-indigo-200"
+                        : "text-indigo-600 hover:text-indigo-500"
+                    }`}
+                  >
                     Next
                   </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </div>{" "}
+        {/**container */}
       </BackgroundBeamsWithCollision>
 
-      <section id="features" className="py-20 bg-white invert">
+      {/* Features Section */}
+      <section
+        id="features"
+        className={`py-20 transition-colors duration-500 ${
+          darkMode ? "bg-gray-900" : "bg-white"
+        }`}
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+            <h2
+              className={`text-3xl md:text-4xl font-bold mb-4 transition-colors duration-500 ${
+                darkMode ? "text-gray-200" : "text-gray-800"
+              }`}
+            >
               Why Choose PrepBuddy?
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p
+              className={`text-lg max-w-2xl mx-auto transition-colors duration-500 ${
+                darkMode ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
               Our platform combines cutting-edge AI with proven interview
               techniques to help you land your dream job.
             </p>
@@ -285,79 +385,341 @@ const LandingPage: React.FC = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-white p-6 rounded-xl shadow-sm border border-black hover:shadow-md transition "
+                className={`p-6 rounded-xl border shadow-lg hover:shadow-xl hover:scale-[1.03] transition-all duration-300 ease-in-out transform group transition-colors duration-500 ${
+                  darkMode
+                    ? "bg-gray-800 border-gray-700"
+                    : "bg-white border-gray-200"
+                }`}
               >
                 <div className="mb-4 p-3 rounded-full bg-indigo-100 inline-block">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-semibold mb-3 text-gray-800">
+                <h3 className="text-xl font-semibold mb-3 group-hover:text-indigo-600 transition-colors duration-300">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <p className={darkMode ? "text-gray-400" : "text-gray-600"}>
+                  {feature.description}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="how-it-works" className="py-20  bg-zinc-900  ">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-200 mb-4">
-              How It Works
-            </h2>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-              Get started in minutes and improve your interview skills today.
+      {/* Enhanced About Us Section */}
+      <div
+        className={`min-h-screen transition-colors duration-500 ${
+          darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+        }`}
+      >
+        {/* Hero Section */}
+        <section className="relative overflow-hidden py-20 px-6">
+          <div
+            className={`absolute inset-0 ${
+              darkMode
+                ? "bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-gray-900"
+                : "bg-gradient-to-br from-blue-100/40 via-purple-100/40 to-gray-100"
+            }`}
+          ></div>
+          <div className="relative max-w-6xl mx-auto text-center">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-blue-600 bg-clip-text text-transparent">
+                About PrepBuddy
+              </span>
+            </h1>
+            <p
+              className={`text-xl md:text-2xl max-w-4xl mx-auto leading-relaxed ${
+                darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
+            >
+              We're on a mission to revolutionize interview preparation through
+              artificial intelligence, making world-class training accessible to
+              every aspiring professional.
             </p>
-          </div>
 
-          <div className="max-w-3xl mx-auto">
-            <div className="space-y-8">
-              {[
-                {
-                  step: "1",
-                  title: "Sign in with Google",
-                  description:
-                    "Quick and secure authentication with your Google account.",
-                },
-                {
-                  step: "2",
-                  title: "Choose Your Focus Area",
-                  description:
-                    "Select from technical questions, aptitude training, or mock interviews.",
-                },
-                {
-                  step: "3",
-                  title: "Practice and Get Feedback",
-                  description:
-                    "Engage in interactive sessions and receive instant AI-powered feedback.",
-                },
-              ].map((item, index) => (
-                <div key={index} className="flex items-start">
-                  <div className="bg-indigo-600 text-white rounded-full w-10 h-10 flex items-center justify-center flex-shrink-0 mt-1">
-                    {item.step}
+            {/* Stats Section */}
+            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+              {stats.map((stat, index) => (
+                <div key={index} className="text-center">
+                  <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                    {stat.number}
                   </div>
-                  <div className="ml-4">
-                    <h3 className="text-xl font-semibold text-gray-200">
-                      {item.title}
-                    </h3>
-                    <p className="text-gray-400 mt-1">{item.description}</p>
+                  <div
+                    className={`mt-2 ${
+                      darkMode ? "text-gray-400" : "text-gray-500"
+                    }`}
+                  >
+                    {stat.label}
                   </div>
                 </div>
               ))}
             </div>
+          </div>
+        </section>
 
-            <div
-              className="mt-12 text-center "
-              onClick={() => {
-                handleGoogleLogin();
-              }}
-            >
-              <GoogleLoginButton className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-8 rounded-lg text-lg cursor-pointer" />
+        {/* Story Section */}
+        <section className="py-20 px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                  Our Story
+                </h2>
+                <div
+                  className={`space-y-6 text-lg ${
+                    darkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
+                >
+                  <p>
+                    PrepBuddy was born from a simple observation: too many
+                    talented individuals were missing out on dream opportunities
+                    simply because they weren't prepared for the interview
+                    process.
+                  </p>
+                  <p>
+                    Founded in 2024 by a team of former tech executives and AI
+                    researchers, we set out to democratize access to
+                    high-quality interview preparation. Our founders experienced
+                    firsthand the challenges of traditional prep methods -
+                    expensive courses, limited availability, and
+                    one-size-fits-all approaches.
+                  </p>
+                  <p>
+                    Today, PrepBuddy combines cutting-edge artificial
+                    intelligence with proven educational methodologies to create
+                    personalized, adaptive learning experiences that scale to
+                    millions of users worldwide.
+                  </p>
+                </div>
+              </div>
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl blur-3xl"></div>
+                <div
+                  className={`relative backdrop-blur-sm rounded-2xl p-8 border transition-colors duration-500 ${
+                    darkMode
+                      ? "bg-gray-800/50 border-gray-700"
+                      : "bg-white/80 border-gray-300"
+                  }`}
+                >
+                  <div className="grid grid-cols-3 gap-6">
+                    <div className="text-center">
+                      <Brain className="w-12 h-12 mx-auto mb-4 text-blue-400" />
+                      <div
+                        className={`text-sm ${
+                          darkMode ? "text-gray-300" : "text-gray-600"
+                        }`}
+                      >
+                        AI-Powered
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <Zap className="w-12 h-12 mx-auto mb-4 text-purple-400" />
+                      <div
+                        className={`text-sm ${
+                          darkMode ? "text-gray-300" : "text-gray-600"
+                        }`}
+                      >
+                        Real-time
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <Star className="w-12 h-12 mx-auto mb-4 text-yellow-400" />
+                      <div
+                        className={`text-sm ${
+                          darkMode ? "text-gray-300" : "text-gray-600"
+                        }`}
+                      >
+                        Personalized
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+        </section>
+
+        {/* Values Section */}
+        <section
+          className={`py-20 px-6 transition-colors duration-500 ${
+            darkMode ? "bg-gray-800/30" : "bg-gray-50"
+          }`}
+        >
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+                Our Values
+              </h2>
+              <p
+                className={`text-xl max-w-3xl mx-auto ${
+                  darkMode ? "text-gray-300" : "text-gray-600"
+                }`}
+              >
+                The principles that guide everything we do at PrepBuddy
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {values.map((value, index) => (
+                <div key={index} className="text-center group">
+                  <div
+                    className={`mb-6 inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl border group-hover:from-blue-500/30 group-hover:to-purple-500/30 transition-all duration-300 ${
+                      darkMode ? "border-gray-700" : "border-gray-300"
+                    }`}
+                  >
+                    <div className="text-blue-400 group-hover:scale-110 transition-transform duration-300">
+                      {value.icon}
+                    </div>
+                  </div>
+                  <h3
+                    className={`text-xl font-semibold mb-3 ${
+                      darkMode ? "text-white" : "text-gray-900"
+                    }`}
+                  >
+                    {value.title}
+                  </h3>
+                  <p className={darkMode ? "text-gray-300" : "text-gray-600"}>
+                    {value.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section
+          className={`py-20 px-6 transition-colors duration-500 ${
+            darkMode
+              ? "bg-gradient-to-r from-blue-900/30 to-purple-900/30"
+              : "bg-gradient-to-r from-blue-100/50 to-purple-100/50"
+          }`}
+        >
+          <div className="max-w-4xl mx-auto text-center">
+            <h2
+              className={`text-4xl font-bold mb-6 ${
+                darkMode ? "text-white" : "text-gray-900"
+              }`}
+            >
+              Ready to Transform Your Interview Game?
+            </h2>
+            <p
+              className={`text-xl mb-8 max-w-2xl mx-auto ${
+                darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
+            >
+              Join thousands of successful candidates who've aced their
+              interviews with PrepBuddy's AI-powered training.
+            </p>
+            <button className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105">
+              <span>Get Started Today</span>
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </div>
+        </section>
+      </div>
+
+      {/* How It Works Section */}
+<section
+  id="how-it-works"
+  className={`py-24 transition-colors duration-500 ${
+    darkMode ? "bg-gray-950" : "bg-gradient-to-br from-zinc-100 to-white"
+  }`}
+>
+  <div className="container mx-auto px-4">
+    {/* Section Header */}
+    <div className="text-center mb-20">
+      <div className="relative inline-block group">
+  <h2
+    className={`
+      text-4xl md:text-5xl font-extrabold mb-4
+      bg-gradient-to-r ${
+        darkMode
+          ? "from-indigo-300 via-purple-400 to-pink-400"
+          : "from-indigo-600 via-purple-600 to-pink-600"
+      }
+      bg-clip-text text-transparent transition-all duration-500
+    `}
+  >
+    How It Works
+  </h2>
+  <span
+    className={`
+      absolute left-0 bottom-0 w-0 h-1 bg-indigo-500 rounded-full transition-all duration-300 group-hover:w-full
+    `}
+  ></span>
+</div>
+
+      <p
+        className={`text-lg max-w-2xl mx-auto transition-colors duration-500 ${
+          darkMode ? "text-gray-400" : "text-gray-600"
+        }`}
+      >
+        Start in minutes. Practice smarter. Get personalized AI feedback instantly.
+      </p>
+    </div>
+
+    {/* Steps */}
+    <div className="grid gap-10 max-w-4xl mx-auto md:grid-cols-1">
+      {[
+        {
+          step: "1",
+          title: "Sign in with Google",
+          description: "Quick and secure authentication with your Google account.",
+        },
+        {
+          step: "2",
+          title: "Choose Your Focus Area",
+          description: "Select from technical questions, aptitude training, or mock interviews.",
+        },
+        {
+          step: "3",
+          title: "Practice and Get Feedback",
+          description: "Engage in interactive sessions and receive instant AI-powered feedback.",
+        },
+      ].map((item, idx) => (
+        <div
+          key={idx}
+          className={`
+            group flex items-start gap-6 rounded-2xl p-6 md:p-7
+            backdrop-blur-xl bg-white/60 dark:bg-gray-800/50
+            border border-transparent hover:border-indigo-500/70
+            shadow-md hover:shadow-2xl hover:scale-[1.015]
+            transition-all duration-300 ease-in-out
+            transform cursor-pointer
+          `}
+        >
+          <div className="flex-shrink-0">
+            <div className="w-12 h-12 rounded-full bg-indigo-600 text-white text-lg font-bold flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300">
+              {item.step}
+            </div>
+          </div>
+          <div>
+            <h3
+              className={`text-xl font-semibold mb-1 ${
+                darkMode ? "text-white" : "text-gray-900"
+              }`}
+            >
+              {item.title}
+            </h3>
+            <p
+              className={`text-base leading-relaxed ${
+                darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
+            >
+              {item.description}
+            </p>
+          </div>
         </div>
-      </section>
+      ))}
+    </div>
+
+    {/* CTA Button */}
+    <div className="mt-16 text-center">
+      <GoogleLoginButton className="bg-indigo-600 hover:bg-indigo-700 text-white py-3 px-8 rounded-lg text-lg shadow-lg transition-all duration-300 hover:scale-105" />
+    </div>
+  </div>
+</section>
+
     </div>
   );
 };
