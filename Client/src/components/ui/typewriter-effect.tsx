@@ -3,6 +3,7 @@
 import { cn } from "../../../lib/utils";
 import { motion, stagger, useAnimate, useInView } from "motion/react";
 import { useEffect } from "react";
+import { useDarkMode } from "../Custom/DarkModeContext";
 
  const TypewriterEffect = ({
   words,
@@ -45,6 +46,7 @@ import { useEffect } from "react";
   }, [isInView]);
 
   const renderWords = () => {
+    const { darkMode } = useDarkMode();
     return (
       <motion.div ref={scope} className="inline">
         {wordsArray.map((word, idx) => {
@@ -55,7 +57,7 @@ import { useEffect } from "react";
                   initial={{}}
                   key={`char-${index}`}
                   className={cn(
-                    `dark:text-indigo-500 text-black opacity-0 hidden`,
+                    `dark:text-indigo-500 ${darkMode ? "text-gray-200" : "text-black"} opacity-0 hidden`,
                     word.className
                   )}
                 >
@@ -72,7 +74,7 @@ import { useEffect } from "react";
   return (
     <div
       className={cn(
-        "text-base sm:text-xl md:text-3xl lg:text-5xl font-bold text-center",
+        "text-inherit font-bold text-center",
         className
       )}
     >
@@ -90,7 +92,7 @@ import { useEffect } from "react";
           repeatType: "reverse",
         }}
         className={cn(
-          "inline-block rounded-sm w-[4px] h-4 md:h-6 lg:h-10 bg-blue-500",
+          "inline-block rounded-sm w-[4px] h-6 md:h-6 lg:h-10 bg-blue-500",
           cursorClassName
         )}
       ></motion.span>
@@ -187,3 +189,4 @@ export const TypewriterEffectSmooth = ({
 };
 
 export default TypewriterEffect;
+
