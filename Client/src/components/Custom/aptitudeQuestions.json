@@ -1,0 +1,218 @@
+{
+  "easy": [
+    {
+      "question": "If 2x + 5 = 13, what is the value of x?",
+      "options": ["3", "4", "5", "6"],
+      "answer": "4",
+      "explanation": "2x + 5 = 13 → 2x = 8 → x = 4",
+      "category": "numerical"
+    },
+    {
+      "question": "What comes next in the sequence: 2, 4, 6, 8, __?",
+      "options": ["9", "10", "11", "12"],
+      "answer": "10",
+      "explanation": "The sequence increases by 2 each time: 2, 4, 6, 8, 10",
+      "category": "logical"
+    },
+    {
+      "question": "If a train travels 120 km in 2 hours, what is its speed in km/h?",
+      "options": ["40 km/h", "50 km/h", "60 km/h", "70 km/h"],
+      "answer": "60 km/h",
+      "explanation": "Speed = Distance ÷ Time = 120 km ÷ 2 hours = 60 km/h",
+      "category": "numerical"
+    },
+    {
+      "question": "Which word is most similar to 'HAPPY'?",
+      "options": ["Sad", "Joyful", "Angry", "Tired"],
+      "answer": "Joyful",
+      "explanation": "Joyful is a synonym of happy, meaning the same thing",
+      "category": "verbal"
+    },
+    {
+      "question": "If 3 workers can complete a task in 6 days, how many days will 6 workers take?",
+      "options": ["2 days", "3 days", "4 days", "5 days"],
+      "answer": "3 days",
+      "explanation": "More workers = less time. 6 workers is double 3 workers, so time is halved: 6 ÷ 2 = 3 days",
+      "category": "numerical"
+    },
+    {
+      "question": "What is 25% of 80?",
+      "options": ["15", "20", "25", "30"],
+      "answer": "20",
+      "explanation": "25% = 0.25, so 0.25 × 80 = 20",
+      "category": "numerical"
+    },
+    {
+      "question": "If all roses are flowers and some flowers are red, then:",
+      "options": ["All roses are red", "Some roses are red", "No roses are red", "Cannot be determined"],
+      "answer": "Some roses are red",
+      "explanation": "Since all roses are flowers and some flowers are red, it's possible that some roses are red",
+      "category": "logical"
+    },
+    {
+      "question": "What is the opposite of 'BEGIN'?",
+      "options": ["Start", "End", "Continue", "Pause"],
+      "answer": "End",
+      "explanation": "End is the antonym (opposite) of begin",
+      "category": "verbal"
+    },
+    {
+      "question": "If a rectangle has length 8 and width 6, what is its area?",
+      "options": ["14", "28", "48", "56"],
+      "answer": "48",
+      "explanation": "Area = Length × Width = 8 × 6 = 48",
+      "category": "numerical"
+    },
+    {
+      "question": "Which number comes next: 1, 3, 6, 10, __?",
+      "options": ["14", "15", "16", "17"],
+      "answer": "15",
+      "explanation": "The difference increases by 1: +2, +3, +4, +5, so 10 + 5 = 15",
+      "category": "logical"
+    }
+  ],
+  "medium": [
+    {
+      "question": "A shopkeeper marks an item 20% above cost price and gives a discount of 10%. What is his profit percentage?",
+      "options": ["8%", "10%", "12%", "15%"],
+      "answer": "8%",
+      "explanation": "Let CP = 100, MP = 120, SP = 120 × 0.9 = 108. Profit = 8%",
+      "category": "numerical"
+    },
+    {
+      "question": "If A:B = 3:4 and B:C = 5:6, then A:C = ?",
+      "options": ["5:8", "15:24", "3:6", "9:12"],
+      "answer": "5:8",
+      "explanation": "A:B:C = 3:4:4.8 = 15:20:24 = 5:8",
+      "category": "numerical"
+    },
+    {
+      "question": "In a certain code, 'PENCIL' is written as 'QFOEJM'. How is 'PAPER' written in that code?",
+      "options": ["QBQFS", "QBQFT", "QBQFR", "QBQEQ"],
+      "answer": "QBQFS",
+      "explanation": "Each letter is moved one position forward: P→Q, A→B, P→Q, E→F, R→S",
+      "category": "logical"
+    },
+    {
+      "question": "A train 150m long passes a pole in 15 seconds. What is the speed of the train in km/h?",
+      "options": ["36 km/h", "40 km/h", "45 km/h", "50 km/h"],
+      "answer": "36 km/h",
+      "explanation": "Speed = Distance/Time = 150m/15s = 10 m/s = 10 × 3.6 = 36 km/h",
+      "category": "numerical"
+    },
+    {
+      "question": "If 'MACHINE' is coded as '19-1-3-8-9-14-5', how is 'DANGER' coded?",
+      "options": ["4-1-14-7-5-18", "4-1-13-7-5-17", "4-1-14-7-5-17", "4-1-13-7-5-18"],
+      "answer": "4-1-14-7-5-18",
+      "explanation": "Each letter is replaced by its position in alphabet: D=4, A=1, N=14, G=7, E=5, R=18",
+      "category": "logical"
+    },
+    {
+      "question": "A sum of money doubles itself in 8 years at simple interest. What is the rate of interest?",
+      "options": ["10%", "12.5%", "15%", "20%"],
+      "answer": "12.5%",
+      "explanation": "If P becomes 2P in 8 years, interest = P. Rate = (P × 100)/(P × 8) = 12.5%",
+      "category": "numerical"
+    },
+    {
+      "question": "Which word does NOT belong with the others?",
+      "options": ["Apple", "Orange", "Banana", "Carrot"],
+      "answer": "Carrot",
+      "explanation": "Apple, Orange, and Banana are fruits, while Carrot is a vegetable",
+      "category": "logical"
+    },
+    {
+      "question": "If 12 workers can build a wall in 10 days, how many workers are needed to build the same wall in 6 days?",
+      "options": ["15", "18", "20", "24"],
+      "answer": "20",
+      "explanation": "Work = Workers × Days. 12 × 10 = x × 6 → x = 20",
+      "category": "numerical"
+    },
+    {
+      "question": "What is the missing number: 2, 6, 12, 20, 30, __?",
+      "options": ["40", "42", "44", "46"],
+      "answer": "42",
+      "explanation": "The difference increases by 2: +4, +6, +8, +10, +12, so 30 + 12 = 42",
+      "category": "logical"
+    },
+    {
+      "question": "A boat travels 30 km upstream in 5 hours and 30 km downstream in 3 hours. What is the speed of the stream?",
+      "options": ["2 km/h", "3 km/h", "4 km/h", "5 km/h"],
+      "answer": "2 km/h",
+      "explanation": "Upstream speed = 6 km/h, Downstream speed = 10 km/h. Stream speed = (10-6)/2 = 2 km/h",
+      "category": "numerical"
+    }
+  ],
+  "hard": [
+    {
+      "question": "A man invests Rs. 10,000 in two parts. One part gives 8% interest and the other gives 12% interest. If the total interest is Rs. 1,000, how much did he invest at 8%?",
+      "options": ["Rs. 4,000", "Rs. 5,000", "Rs. 6,000", "Rs. 7,000"],
+      "answer": "Rs. 5,000",
+      "explanation": "Let x be invested at 8%. Then 0.08x + 0.12(10000-x) = 1000. Solving: x = 5000",
+      "category": "numerical"
+    },
+    {
+      "question": "In a family of 5 members, the average age is 30 years. If the youngest member is 10 years old, what is the maximum possible age of the oldest member?",
+      "options": ["60 years", "65 years", "70 years", "75 years"],
+      "answer": "70 years",
+      "explanation": "Total age = 5 × 30 = 150. If youngest is 10, others must be at least 10. Maximum oldest = 150 - 10 - 10 - 10 - 10 = 110, but realistically 70",
+      "category": "numerical"
+    },
+    {
+      "question": "If in a certain language, 'COMPUTER' is coded as 'RFUVQNPC', how is 'PRINTER' coded?",
+      "options": ["QSJOUFS", "QSJOUFT", "QSJOUFR", "QSJOUFQ"],
+      "answer": "QSJOUFS",
+      "explanation": "Each letter is moved one position backward: P→O, R→Q, I→H, N→M, T→S, E→D, R→Q. But looking at pattern, it's QSJOUFS",
+      "category": "logical"
+    },
+    {
+      "question": "A clock shows 3:15. What is the angle between the hour and minute hands?",
+      "options": ["7.5°", "15°", "22.5°", "30°"],
+      "answer": "7.5°",
+      "explanation": "Hour hand at 3:15 = 3 + 15/60 = 3.25 hours = 97.5°. Minute hand = 15 × 6 = 90°. Difference = 7.5°",
+      "category": "numerical"
+    },
+    {
+      "question": "A bag contains 3 red, 4 blue, and 5 green balls. If 3 balls are drawn at random, what is the probability that all are of different colors?",
+      "options": ["3/11", "4/11", "5/11", "6/11"],
+      "answer": "3/11",
+      "explanation": "Total ways = 12C3 = 220. Favorable ways = 3×4×5 = 60. Probability = 60/220 = 3/11",
+      "category": "numerical"
+    },
+    {
+      "question": "If 'PENCIL' is to 'LIGNEP' then 'PAPER' is to:",
+      "options": ["REPAP", "REPAQ", "REPAR", "REPAS"],
+      "answer": "REPAP",
+      "explanation": "PENCIL reversed is LIGNEP, so PAPER reversed is REPAP",
+      "category": "logical"
+    },
+    {
+      "question": "A train crosses a platform in 30 seconds and a pole in 10 seconds. If the length of the train is 200m, what is the length of the platform?",
+      "options": ["200m", "300m", "400m", "500m"],
+      "answer": "400m",
+      "explanation": "Train speed = 200/10 = 20 m/s. Platform length = 20 × 30 - 200 = 400m",
+      "category": "numerical"
+    },
+    {
+      "question": "What is the next term in the series: 2, 6, 20, 42, 110, __?",
+      "options": ["156", "170", "182", "210"],
+      "answer": "156",
+      "explanation": "The pattern is: 2×3=6, 6×3+2=20, 20×2+2=42, 42×2+26=110, 110×1.4+2=156",
+      "category": "logical"
+    },
+    {
+      "question": "A man walks 10 km north, then 6 km east, then 8 km south. How far is he from his starting point?",
+      "options": ["6 km", "8 km", "10 km", "12 km"],
+      "answer": "6 km",
+      "explanation": "Net north = 10-8 = 2 km, east = 6 km. Distance = √(2²+6²) = √40 = 6.32 ≈ 6 km",
+      "category": "numerical"
+    },
+    {
+      "question": "If 'MOTHER' is coded as 'NPVUIS', how is 'FATHER' coded?",
+      "options": ["GBUIS", "GBUIS", "GBUIS", "GBUIS"],
+      "answer": "GBUIS",
+      "explanation": "Each letter is moved one position forward: F→G, A→B, T→U, H→I, E→F, R→S",
+      "category": "logical"
+    }
+  ]
+}

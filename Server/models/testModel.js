@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const testSchema = mongoose.Schema({
   title: {
@@ -24,9 +24,8 @@ const testSchema = mongoose.Schema({
     default: Date.now, 
   },
   userid: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
+    type: String,
   },
 });
 
-module.exports = mongoose.model("test", testSchema);
+export default mongoose.model("test", testSchema);

@@ -1,0 +1,1583 @@
+{
+  "data-structures-algorithms": [
+    {
+      "question": "What is the time complexity of a binary search?",
+      "options": ["O(n)", "O(log n)", "O(n^2)", "O(1)"],
+      "answer": "O(log n)"
+    },
+    {
+      "question": "Which data structure uses LIFO?",
+      "options": ["Queue", "Stack", "Linked List", "Tree"],
+      "answer": "Stack"
+    },
+    {
+      "question": "Which sorting algorithm is the fastest in the average case?",
+      "options": [
+        "Bubble Sort",
+        "Insertion Sort",
+        "Quick Sort",
+        "Selection Sort"
+      ],
+      "answer": "Quick Sort"
+    },
+    {
+      "question": "Which traversal of a binary tree gives sorted output?",
+      "options": ["Preorder", "Inorder", "Postorder", "Level-order"],
+      "answer": "Inorder"
+    },
+    {
+      "question": "What is the time complexity of inserting an element in a hash table?",
+      "options": ["O(1)", "O(n)", "O(log n)", "O(n^2)"],
+      "answer": "O(1)"
+    },
+    {
+      "question": "What is a graph with no cycles called?",
+      "options": ["Tree", "Cycle", "Directed Graph", "Bipartite Graph"],
+      "answer": "Tree"
+    },
+    {
+      "question": "Which data structure is used in BFS?",
+      "options": ["Stack", "Queue", "Heap", "Tree"],
+      "answer": "Queue"
+    },
+    {
+      "question": "Which algorithm is used to find the shortest path in a graph?",
+      "options": ["Prim's", "Kruskal's", "Dijkstra's", "DFS"],
+      "answer": "Dijkstra's"
+    },
+    {
+      "question": "What is the best case time complexity of Bubble Sort?",
+      "options": ["O(n^2)", "O(n)", "O(log n)", "O(n log n)"],
+      "answer": "O(n)"
+    },
+    {
+      "question": "Which data structure is used for recursion?",
+      "options": ["Queue", "Stack", "Array", "Graph"],
+      "answer": "Stack"
+    },
+    {
+      "question": "Which of these is not a linear data structure?",
+      "options": ["Stack", "Queue", "Tree", "Array"],
+      "answer": "Tree"
+    },
+    {
+      "question": "What is the height of a balanced binary tree with n nodes?",
+      "options": ["O(n)", "O(n log n)", "O(log n)", "O(1)"],
+      "answer": "O(log n)"
+    },
+    {
+      "question": "Which of the following is not a type of linked list?",
+      "options": ["Single", "Double", "Circular", "Ternary"],
+      "answer": "Ternary"
+    },
+    {
+      "question": "Which data structure is used in undo operations?",
+      "options": ["Queue", "Stack", "Array", "Graph"],
+      "answer": "Stack"
+    },
+    {
+      "question": "Which tree traversal method is used in expression evaluation?",
+      "options": ["Inorder", "Preorder", "Postorder", "Level-order"],
+      "answer": "Postorder"
+    },
+    {
+      "question": "Which heap is used to implement priority queues?",
+      "options": ["Binary Heap", "AVL Tree", "B-Tree", "BST"],
+      "answer": "Binary Heap"
+    },
+    {
+      "question": "Which algorithm uses divide and conquer?",
+      "options": [
+        "Bubble Sort",
+        "Quick Sort",
+        "Selection Sort",
+        "Linear Search"
+      ],
+      "answer": "Quick Sort"
+    },
+    {
+      "question": "Which data structure gives O(1) access time?",
+      "options": ["Array", "Linked List", "Hash Table", "Tree"],
+      "answer": "Hash Table"
+    },
+    {
+      "question": "What does AVL in AVL tree stand for?",
+      "options": [
+        "Adelson-Velsky and Landis",
+        "Average Value Lookup",
+        "Advanced Variable Logic",
+        "Array Vector List"
+      ],
+      "answer": "Adelson-Velsky and Landis"
+    },
+    {
+      "question": "What is the worst-case time complexity of Merge Sort?",
+      "options": ["O(n^2)", "O(n log n)", "O(log n)", "O(n)"],
+      "answer": "O(n log n)"
+    }
+  ],
+  "operating-systems": [
+    {
+      "question": "What is a deadlock?",
+      "options": [
+        "A situation where two or more processes are waiting for each other to release a resource.",
+        "A process that has finished execution but still has an entry in the process table.",
+        "A high-priority process.",
+        "A memory management scheme."
+      ],
+      "answer": "A situation where two or more processes are waiting for each other to release a resource."
+    },
+    {
+      "question": "Which of the following is not a valid state of a process?",
+      "options": ["Ready", "Waiting", "Executing", "Paused"],
+      "answer": "Paused"
+    },
+    {
+      "question": "Which scheduling algorithm gives minimum average waiting time?",
+      "options": ["FCFS", "SJF", "Round Robin", "Priority"],
+      "answer": "SJF"
+    },
+    {
+      "question": "What is thrashing in an operating system?",
+      "options": [
+        "A high-priority process.",
+        "A condition of excessive paging.",
+        "A type of scheduler.",
+        "An interrupt handler."
+      ],
+      "answer": "A condition of excessive paging."
+    },
+    {
+      "question": "Which of the following is a non-preemptive scheduling algorithm?",
+      "options": ["Round Robin", "Priority", "FCFS", "SRTF"],
+      "answer": "FCFS"
+    },
+    {
+      "question": "What is the purpose of an interrupt?",
+      "options": [
+        "To start a process.",
+        "To allow I/O device communication.",
+        "To create a new thread.",
+        "To compile the code."
+      ],
+      "answer": "To allow I/O device communication."
+    },
+    {
+      "question": "Which system call is used to create a new process?",
+      "options": ["exec()", "exit()", "fork()", "wait()"],
+      "answer": "fork()"
+    },
+    {
+      "question": "In which scheduling algorithm does the time quantum matter?",
+      "options": ["SJF", "FCFS", "Round Robin", "Priority"],
+      "answer": "Round Robin"
+    },
+    {
+      "question": "What is virtual memory?",
+      "options": [
+        "An illusion of extremely large main memory.",
+        "A secondary storage device.",
+        "The RAM size.",
+        "The cache memory."
+      ],
+      "answer": "An illusion of extremely large main memory."
+    },
+    {
+      "question": "Which of these is a page replacement algorithm?",
+      "options": ["LRU", "FIFO", "Optimal", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which component manages process scheduling?",
+      "options": [
+        "Memory Manager",
+        "I/O Manager",
+        "Scheduler",
+        "Interrupt Handler"
+      ],
+      "answer": "Scheduler"
+    },
+    {
+      "question": "What is the main function of the kernel?",
+      "options": [
+        "Compile programs",
+        "Manage hardware resources",
+        "Provide GUI",
+        "Handle mouse events"
+      ],
+      "answer": "Manage hardware resources"
+    },
+    {
+      "question": "Which of the following is not a type of operating system?",
+      "options": ["Batch", "Real-time", "Embedded", "Assembler"],
+      "answer": "Assembler"
+    },
+    {
+      "question": "What is context switching?",
+      "options": [
+        "Switching between two different files.",
+        "Switching between user and kernel mode.",
+        "Switching the CPU from one process to another.",
+        "Switching from RAM to cache."
+      ],
+      "answer": "Switching the CPU from one process to another."
+    },
+    {
+      "question": "Which of these is a disk scheduling algorithm?",
+      "options": ["FCFS", "SCAN", "SSTF", "All of the above"],
+      "answer": "All of the above"
+    },
+    {
+      "question": "Which memory allocation strategy suffers from external fragmentation?",
+      "options": ["Paging", "Segmentation", "Contiguous", "Virtual Memory"],
+      "answer": "Contiguous"
+    },
+    {
+      "question": "Which of the following is not a condition for deadlock?",
+      "options": [
+        "Mutual exclusion",
+        "Hold and wait",
+        "Preemption",
+        "Circular wait"
+      ],
+      "answer": "Preemption"
+    },
+    {
+      "question": "What is the smallest unit of memory allocation in paging?",
+      "options": ["Frame", "Page", "Block", "Segment"],
+      "answer": "Page"
+    },
+    {
+      "question": "What is the main purpose of time sharing OS?",
+      "options": [
+        "To support batch processing.",
+        "To allow multiple users to interact with a computer at the same time.",
+        "To manage real-time systems.",
+        "To increase disk performance."
+      ],
+      "answer": "To allow multiple users to interact with a computer at the same time."
+    },
+    {
+      "question": "What does the term 'starvation' refer to?",
+      "options": [
+        "A process being blocked for an infinite time waiting for a resource.",
+        "A process not consuming CPU.",
+        "Lack of memory.",
+        "A scheduler with low priority."
+      ],
+      "answer": "A process being blocked for an infinite time waiting for a resource."
+    }
+  ],
+  "computer-networks": [
+    {
+      "question": "Which layer of the OSI model is responsible for routing?",
+      "options": [
+        "Physical Layer",
+        "Data Link Layer",
+        "Network Layer",
+        "Transport Layer"
+      ],
+      "answer": "Network Layer"
+    },
+    {
+      "question": "What does HTTP stand for?",
+      "options": [
+        "Hyper Transfer Text Protocol",
+        "Hyper Text Transfer Protocol",
+        "High Text Transfer Protocol",
+        "Hyper Tool Transfer Protocol"
+      ],
+      "answer": "Hyper Text Transfer Protocol"
+    },
+    {
+      "question": "Which protocol is used to send email?",
+      "options": ["HTTP", "SMTP", "FTP", "SNMP"],
+      "answer": "SMTP"
+    },
+    {
+      "question": "What is the default port number for HTTPS?",
+      "options": ["80", "20", "21", "443"],
+      "answer": "443"
+    },
+    {
+      "question": "Which IP class is used for multicast?",
+      "options": ["Class A", "Class B", "Class C", "Class D"],
+      "answer": "Class D"
+    },
+    {
+      "question": "Which of the following is a connection-oriented protocol?",
+      "options": ["UDP", "TCP", "IP", "ARP"],
+      "answer": "TCP"
+    },
+    {
+      "question": "What device connects different networks?",
+      "options": ["Switch", "Hub", "Router", "Repeater"],
+      "answer": "Router"
+    },
+    {
+      "question": "What does DNS do?",
+      "options": [
+        "Assign IP address",
+        "Translate domain names to IP",
+        "Secure network",
+        "Monitor traffic"
+      ],
+      "answer": "Translate domain names to IP"
+    },
+    {
+      "question": "Which layer of OSI provides reliable communication?",
+      "options": ["Application", "Session", "Transport", "Network"],
+      "answer": "Transport"
+    },
+    {
+      "question": "Which topology connects all devices in a circular manner?",
+      "options": ["Star", "Mesh", "Ring", "Bus"],
+      "answer": "Ring"
+    },
+    {
+      "question": "Which of the following is NOT a guided transmission medium?",
+      "options": [
+        "Twisted pair",
+        "Coaxial cable",
+        "Fiber optics",
+        "Radio waves"
+      ],
+      "answer": "Radio waves"
+    },
+    {
+      "question": "Which protocol is used for secure file transfer?",
+      "options": ["FTP", "SFTP", "SMTP", "POP3"],
+      "answer": "SFTP"
+    },
+    {
+      "question": "Which IP address is reserved for loopback testing?",
+      "options": ["0.0.0.0", "127.0.0.1", "255.255.255.255", "192.168.0.1"],
+      "answer": "127.0.0.1"
+    },
+    {
+      "question": "Which device operates at the Data Link Layer?",
+      "options": ["Router", "Switch", "Hub", "Modem"],
+      "answer": "Switch"
+    },
+    {
+      "question": "What is the maximum length of an IPv4 address?",
+      "options": ["8 bits", "16 bits", "32 bits", "128 bits"],
+      "answer": "32 bits"
+    },
+    {
+      "question": "Which of these is a MAC protocol?",
+      "options": ["Aloha", "HTTP", "TCP", "FTP"],
+      "answer": "Aloha"
+    },
+    {
+      "question": "Which protocol is used to retrieve emails from the server?",
+      "options": ["SMTP", "IMAP", "DNS", "HTTP"],
+      "answer": "IMAP"
+    },
+    {
+      "question": "Which layer ensures error detection and correction?",
+      "options": ["Physical", "Data Link", "Network", "Transport"],
+      "answer": "Data Link"
+    },
+    {
+      "question": "Which of the following is a private IP address?",
+      "options": ["192.168.1.1", "8.8.8.8", "172.217.3.110", "1.1.1.1"],
+      "answer": "192.168.1.1"
+    },
+    {
+      "question": "What is bandwidth?",
+      "options": [
+        "Speed of light",
+        "Frequency range",
+        "Data transfer rate",
+        "Signal delay"
+      ],
+      "answer": "Data transfer rate"
+    }
+  ],
+  "dbms": [
+    {
+      "question": "What does SQL stand for?",
+      "options": [
+        "Structured Query Language",
+        "Simple Query Language",
+        "Standard Query Language",
+        "Sequential Query Language"
+      ],
+      "answer": "Structured Query Language"
+    },
+    {
+      "question": "Which of the following is a DDL command?",
+      "options": ["SELECT", "INSERT", "CREATE", "UPDATE"],
+      "answer": "CREATE"
+    },
+    {
+      "question": "Which normal form removes partial dependency?",
+      "options": ["1NF", "2NF", "3NF", "BCNF"],
+      "answer": "2NF"
+    },
+    {
+      "question": "What is a primary key?",
+      "options": [
+        "A duplicate key",
+        "A unique identifier",
+        "A foreign key",
+        "A temporary key"
+      ],
+      "answer": "A unique identifier"
+    },
+    {
+      "question": "What does ACID stand for in DBMS?",
+      "options": [
+        "Add, Create, Index, Delete",
+        "Atomicity, Consistency, Isolation, Durability",
+        "Array, Column, Index, Data",
+        "Access, Commit, Insert, Delete"
+      ],
+      "answer": "Atomicity, Consistency, Isolation, Durability"
+    },
+    {
+      "question": "Which SQL clause is used to sort results?",
+      "options": ["GROUP BY", "ORDER BY", "SORT BY", "ARRANGE BY"],
+      "answer": "ORDER BY"
+    },
+    {
+      "question": "Which of the following is a NoSQL database?",
+      "options": ["MySQL", "MongoDB", "Oracle", "SQLite"],
+      "answer": "MongoDB"
+    },
+    {
+      "question": "Which command is used to remove a table from the database?",
+      "options": ["DELETE", "REMOVE", "DROP", "ERASE"],
+      "answer": "DROP"
+    },
+    {
+      "question": "Which of the following is not a constraint in SQL?",
+      "options": ["NOT NULL", "UNIQUE", "PRIMARY KEY", "MERGE"],
+      "answer": "MERGE"
+    },
+    {
+      "question": "What is the role of the foreign key?",
+      "options": [
+        "Ensure uniqueness",
+        "Maintain referential integrity",
+        "Define primary table",
+        "Improve speed"
+      ],
+      "answer": "Maintain referential integrity"
+    },
+    {
+      "question": "Which function returns the number of rows?",
+      "options": ["SUM()", "COUNT()", "AVG()", "MAX()"],
+      "answer": "COUNT()"
+    },
+    {
+      "question": "Which language is used for querying databases?",
+      "options": ["HTML", "CSS", "SQL", "Java"],
+      "answer": "SQL"
+    },
+    {
+      "question": "Which JOIN returns matching rows from both tables?",
+      "options": ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "OUTER JOIN"],
+      "answer": "INNER JOIN"
+    },
+    {
+      "question": "What is a view in SQL?",
+      "options": [
+        "A virtual table",
+        "A stored file",
+        "A copy of a table",
+        "A temporary index"
+      ],
+      "answer": "A virtual table"
+    },
+    {
+      "question": "Which of the following is not a type of database model?",
+      "options": ["Relational", "Hierarchical", "Object-oriented", "Tabular"],
+      "answer": "Tabular"
+    },
+    {
+      "question": "What is an index in SQL?",
+      "options": [
+        "A command",
+        "A table",
+        "A performance tuning method",
+        "A backup"
+      ],
+      "answer": "A performance tuning method"
+    },
+    {
+      "question": "Which keyword is used to prevent duplicate entries?",
+      "options": ["PRIMARY", "UNIQUE", "KEY", "CHECK"],
+      "answer": "UNIQUE"
+    },
+    {
+      "question": "What is a transaction in DBMS?",
+      "options": [
+        "A database update",
+        "A backup process",
+        "A sequence of operations",
+        "An SQL error"
+      ],
+      "answer": "A sequence of operations"
+    },
+    {
+      "question": "Which key is used to identify records in another table?",
+      "options": ["Super key", "Foreign key", "Candidate key", "Primary key"],
+      "answer": "Foreign key"
+    },
+    {
+      "question": "Which command is used to retrieve data?",
+      "options": ["SELECT", "FETCH", "GET", "RETRIEVE"],
+      "answer": "SELECT"
+    }
+  ],
+  "computer-architecture": [
+    {
+      "question": "Which unit performs arithmetic and logical operations in a computer?",
+      "options": ["CU", "ALU", "Register", "Cache"],
+      "answer": "ALU"
+    },
+    {
+      "question": "What is the main function of the control unit?",
+      "options": [
+        "Perform calculations",
+        "Store data",
+        "Decode and execute instructions",
+        "Fetch instructions only"
+      ],
+      "answer": "Decode and execute instructions"
+    },
+    {
+      "question": "Which memory is volatile?",
+      "options": ["ROM", "Flash", "RAM", "SSD"],
+      "answer": "RAM"
+    },
+    {
+      "question": "What does pipelining improve?",
+      "options": ["Storage", "Speed", "Cost", "Memory size"],
+      "answer": "Speed"
+    },
+    {
+      "question": "What is the function of a register?",
+      "options": [
+        "Long-term storage",
+        "Input device",
+        "Temporary data storage",
+        "Display output"
+      ],
+      "answer": "Temporary data storage"
+    },
+    {
+      "question": "Which architecture uses a single memory for instructions and data?",
+      "options": ["Harvard", "Von Neumann", "RISC", "CISC"],
+      "answer": "Von Neumann"
+    },
+    {
+      "question": "What is the role of the Program Counter (PC)?",
+      "options": [
+        "Stores operands",
+        "Stores output",
+        "Holds address of next instruction",
+        "Manages input"
+      ],
+      "answer": "Holds address of next instruction"
+    },
+    {
+      "question": "What does RISC stand for?",
+      "options": [
+        "Random Integrated System Chip",
+        "Reduced Instruction Set Computer",
+        "Ready Instruction Sequence Code",
+        "Real-time Integrated Smart Chip"
+      ],
+      "answer": "Reduced Instruction Set Computer"
+    },
+    {
+      "question": "What is a cache used for?",
+      "options": [
+        "Permanent data storage",
+        "Data transfer",
+        "Speeding up memory access",
+        "Display functions"
+      ],
+      "answer": "Speeding up memory access"
+    },
+    {
+      "question": "Which of the following is not a type of bus in computer architecture?",
+      "options": ["Data bus", "Control bus", "Address bus", "Driver bus"],
+      "answer": "Driver bus"
+    },
+    {
+      "question": "Which type of memory is used to boot the computer?",
+      "options": ["RAM", "ROM", "Cache", "SSD"],
+      "answer": "ROM"
+    },
+    {
+      "question": "What is instruction cycle?",
+      "options": [
+        "Only fetching instruction",
+        "Fetching and decoding",
+        "Process of executing an instruction",
+        "Only storing results"
+      ],
+      "answer": "Process of executing an instruction"
+    },
+    {
+      "question": "Which is faster: cache or RAM?",
+      "options": ["Cache", "RAM", "Both same", "ROM"],
+      "answer": "Cache"
+    },
+    {
+      "question": "What is a microprocessor?",
+      "options": [
+        "Main memory",
+        "ALU only",
+        "CPU on a single chip",
+        "Storage device"
+      ],
+      "answer": "CPU on a single chip"
+    },
+    {
+      "question": "Which of the following is a combinational circuit?",
+      "options": ["Counter", "Register", "Multiplexer", "Flip-flop"],
+      "answer": "Multiplexer"
+    },
+    {
+      "question": "Which circuit stores a single bit of data?",
+      "options": ["Register", "Multiplexer", "Flip-flop", "Decoder"],
+      "answer": "Flip-flop"
+    },
+    {
+      "question": "Which register holds the data to be processed?",
+      "options": ["PC", "IR", "MAR", "MDR"],
+      "answer": "MDR"
+    },
+    {
+      "question": "Which unit coordinates all operations in the CPU?",
+      "options": ["ALU", "CU", "Registers", "Memory"],
+      "answer": "CU"
+    },
+    {
+      "question": "What is the size of a word in a 32-bit processor?",
+      "options": ["4 bytes", "8 bytes", "2 bytes", "1 byte"],
+      "answer": "4 bytes"
+    },
+    {
+      "question": "Which bus carries the memory address?",
+      "options": ["Data bus", "Address bus", "Control bus", "Internal bus"],
+      "answer": "Address bus"
+    }
+  ],
+  "java-programming": [
+    {
+      "question": "Which of the following is a valid data type in Java?",
+      "options": ["string", "real", "int", "integer"],
+      "answer": "int"
+    },
+    {
+      "question": "What is the extension of a Java compiled file?",
+      "options": [".java", ".class", ".exe", ".jar"],
+      "answer": ".class"
+    },
+    {
+      "question": "Which keyword is used to create a class in Java?",
+      "options": ["object", "define", "class", "new"],
+      "answer": "class"
+    },
+    {
+      "question": "Which method is the entry point of a Java program?",
+      "options": ["main()", "start()", "run()", "init()"],
+      "answer": "main()"
+    },
+    {
+      "question": "Which of these is not a primitive type in Java?",
+      "options": ["int", "float", "String", "boolean"],
+      "answer": "String"
+    },
+    {
+      "question": "Which keyword is used for inheritance?",
+      "options": ["this", "super", "extends", "inherits"],
+      "answer": "extends"
+    },
+    {
+      "question": "Which operator is used for object creation?",
+      "options": ["new", "create", "make", "init"],
+      "answer": "new"
+    },
+    {
+      "question": "What is the size of an int in Java?",
+      "options": ["2 bytes", "4 bytes", "8 bytes", "1 byte"],
+      "answer": "4 bytes"
+    },
+    {
+      "question": "Which class is the superclass of all Java classes?",
+      "options": ["Main", "Base", "Object", "Root"],
+      "answer": "Object"
+    },
+    {
+      "question": "What is method overloading?",
+      "options": [
+        "Same method name with different parameters",
+        "Same method in different classes",
+        "Same name for variable and method",
+        "None of these"
+      ],
+      "answer": "Same method name with different parameters"
+    },
+    {
+      "question": "What is the output of 10 + 20 + \"Hello\"?",
+      "options": ["30Hello", "Hello1020", "1020Hello", "Error"],
+      "answer": "30Hello"
+    },
+    {
+      "question": "Which loop is guaranteed to execute at least once?",
+      "options": ["for", "while", "do-while", "None"],
+      "answer": "do-while"
+    },
+    {
+      "question": "What does JVM stand for?",
+      "options": [
+        "Java Verified Machine",
+        "Java Virtual Machine",
+        "Java Variable Machine",
+        "Java View Model"
+      ],
+      "answer": "Java Virtual Machine"
+    },
+    {
+      "question": "What is the access modifier that allows access within the same package only?",
+      "options": ["private", "protected", "default", "public"],
+      "answer": "default"
+    },
+    {
+      "question": "Which exception is unchecked?",
+      "options": [
+        "IOException",
+        "SQLException",
+        "NullPointerException",
+        "FileNotFoundException"
+      ],
+      "answer": "NullPointerException"
+    },
+    {
+      "question": "Which keyword is used to prevent inheritance?",
+      "options": ["static", "private", "final", "sealed"],
+      "answer": "final"
+    },
+    {
+      "question": "Which package contains Scanner class?",
+      "options": ["java.io", "java.util", "java.lang", "java.awt"],
+      "answer": "java.util"
+    },
+    {
+      "question": "What does the 'this' keyword refer to?",
+      "options": [
+        "Current object",
+        "Parent class",
+        "New instance",
+        "Static method"
+      ],
+      "answer": "Current object"
+    },
+    {
+      "question": "Which of the following is a wrapper class?",
+      "options": ["Integer", "int", "String", "Char"],
+      "answer": "Integer"
+    },
+    {
+      "question": "Which keyword is used to handle exceptions?",
+      "options": ["error", "exception", "catch", "try"],
+      "answer": "try"
+    }
+  ],
+  "cpp-programming": [
+    {
+      "question": "Which keyword is used to define a constant variable in C++?",
+      "options": ["const", "final", "let", "static"],
+      "answer": "const"
+    },
+    {
+      "question": "Which of the following correctly declares a pointer to an integer?",
+      "options": ["int &p;", "int p;", "int *p;", "ptr<int> p;"],
+      "answer": "int *p;"
+    },
+    {
+      "question": "What is the access operator used for class members?",
+      "options": [".", "->", "::", "#"],
+      "answer": "."
+    },
+    {
+      "question": "Which header file is required for using `std::cout`?",
+      "options": ["<string>", "<conio.h>", "<math.h>", "<iostream>"],
+      "answer": "<iostream>"
+    },
+    {
+      "question": "In C++, which keyword is used for dynamic memory allocation?",
+      "options": ["alloc", "new", "malloc", "create"],
+      "answer": "new"
+    },
+    {
+      "question": "What does STL stand for in C++?",
+      "options": [
+        "Standard Template Library",
+        "Static Type Language",
+        "Simple Task List",
+        "Standard Type Library"
+      ],
+      "answer": "Standard Template Library"
+    },
+    {
+      "question": "Which of the following is not a fundamental data type in C++?",
+      "options": ["int", "float", "string", "char"],
+      "answer": "string"
+    },
+    {
+      "question": "How do you start a single-line comment in C++?",
+      "options": ["//", "/*", "#", "--"],
+      "answer": "//"
+    },
+    {
+      "question": "A class member that is accessible only by the class and its friends is declared as:",
+      "options": ["public", "private", "protected", "internal"],
+      "answer": "private"
+    },
+    {
+      "question": "What is the purpose of the `virtual` keyword for a function?",
+      "options": [
+        "To make it a friend function",
+        "To allow for static binding",
+        "To allow for dynamic binding (polymorphism)",
+        "To make it a pure function"
+      ],
+      "answer": "To allow for dynamic binding (polymorphism)"
+    },
+    {
+      "question": "Which operator is used to get the memory address of a variable?",
+      "options": ["*", "&", "->", "::"],
+      "answer": "&"
+    },
+    {
+      "question": "A constructor that takes no arguments is called a:",
+      "options": [
+        "Default constructor",
+        "Parameterized constructor",
+        "Copy constructor",
+        "Empty constructor"
+      ],
+      "answer": "Default constructor"
+    },
+    {
+      "question": "Which C++ container provides fast lookups based on a key?",
+      "options": ["std::vector", "std::list", "std::map", "std::stack"],
+      "answer": "std::map"
+    },
+    {
+      "question": "What is the correct way to deallocate memory allocated with `new`?",
+      "options": ["free()", "remove", "delete", "dealloc"],
+      "answer": "delete"
+    },
+    {
+      "question": "The concept of bundling data and methods together is called:",
+      "options": [
+        "Inheritance",
+        "Polymorphism",
+        "Abstraction",
+        "Encapsulation"
+      ],
+      "answer": "Encapsulation"
+    },
+    {
+      "question": "Which loop is guaranteed to execute at least once?",
+      "options": ["for", "while", "do-while", "if"],
+      "answer": "do-while"
+    },
+    {
+      "question": "What is the size of a `char` data type in C++?",
+      "options": ["1 byte", "2 bytes", "4 bytes", "Depends on the system"],
+      "answer": "1 byte"
+    },
+    {
+      "question": "What is `nullptr`?",
+      "options": [
+        "A macro for 0",
+        "A type-safe null pointer constant",
+        "An alias for NULL",
+        "A keyword for void"
+      ],
+      "answer": "A type-safe null pointer constant"
+    },
+    {
+      "question": "Which feature of OOP allows a class to acquire properties of another class?",
+      "options": [
+        "Encapsulation",
+        "Inheritance",
+        "Polymorphism",
+        "Abstraction"
+      ],
+      "answer": "Inheritance"
+    },
+    {
+      "question": "What is function overloading?",
+      "options": [
+        "Defining multiple functions with the same name but different parameters",
+        "Overriding a function in a derived class",
+        "A function that calls itself",
+        "A function with a variable number of arguments"
+      ],
+      "answer": "Defining multiple functions with the same name but different parameters"
+    }
+  ],
+  "javascript": [
+    {
+      "question": "Which keyword is used to declare a variable that cannot be reassigned?",
+      "options": ["var", "let", "const", "static"],
+      "answer": "const"
+    },
+    {
+      "question": "Which symbol is used for strict equality comparison in JavaScript?",
+      "options": ["==", "=", "===", "!="],
+      "answer": "==="
+    },
+    {
+      "question": "How do you create a function in JavaScript?",
+      "options": [
+        "function:myFunction()",
+        "def myFunction()",
+        "function myFunction()",
+        "create function myFunction()"
+      ],
+      "answer": "function myFunction()"
+    },
+    {
+      "question": "Which method is used to add a new item to the end of an array?",
+      "options": ["push()", "pop()", "shift()", "unshift()"],
+      "answer": "push()"
+    },
+    {
+      "question": "What will `typeof null` return?",
+      "options": ["null", "undefined", "object", "string"],
+      "answer": "object"
+    },
+    {
+      "question": "What is a 'closure' in JavaScript?",
+      "options": [
+        "A function having access to its own scope, the outer function's scope, and the global scope",
+        "A way to close a browser window",
+        "A built-in data structure",
+        "A type of loop"
+      ],
+      "answer": "A function having access to its own scope, the outer function's scope, and the global scope"
+    },
+    {
+      "question": "How do you write a single-line comment in JavaScript?",
+      "options": ["", "/* comment */", "// comment", "# comment"],
+      "answer": "// comment"
+    },
+    {
+      "question": "Which of these is not a primitive data type in JavaScript?",
+      "options": ["string", "number", "object", "boolean"],
+      "answer": "object"
+    },
+    {
+      "question": "Which built-in method can be used to convert a JSON string into a JavaScript object?",
+      "options": [
+        "JSON.parse()",
+        "JSON.stringify()",
+        "JSON.object()",
+        "JSON.convert()"
+      ],
+      "answer": "JSON.parse()"
+    },
+    {
+      "question": "What does DOM stand for?",
+      "options": [
+        "Data Object Model",
+        "Document Object Model",
+        "Display Object Management",
+        "Digital Ordinance Mandate"
+      ],
+      "answer": "Document Object Model"
+    },
+    {
+      "question": "Which statement is used to execute code after a specified delay?",
+      "options": ["setInterval()", "setTimeout()", "delay()", "wait()"],
+      "answer": "setTimeout()"
+    },
+    {
+      "question": "What does `NaN` stand for?",
+      "options": ["Not a Name", "No and No", "Not a Number", "New and Null"],
+      "answer": "Not a Number"
+    },
+    {
+      "question": "Which keyword is used to refer to the object it belongs to?",
+      "options": ["self", "object", "this", "it"],
+      "answer": "this"
+    },
+    {
+      "question": "How do you select an HTML element with the id 'demo'?",
+      "options": [
+        "document.select('#demo')",
+        "document.getElement('demo')",
+        "document.getElementById('demo')",
+        "document.querySelector('demo')"
+      ],
+      "answer": "document.getElementById('demo')"
+    },
+    {
+      "question": "What is the purpose of an 'arrow function' `=>`?",
+      "options": [
+        "To declare variables",
+        "To create a more concise syntax for writing functions",
+        "To perform mathematical operations",
+        "To define a new HTML element"
+      ],
+      "answer": "To create a more concise syntax for writing functions"
+    },
+    {
+      "question": "Which array method creates a new array with all elements that pass a test?",
+      "options": ["forEach()", "map()", "filter()", "reduce()"],
+      "answer": "filter()"
+    },
+    {
+      "question": "What is 'event bubbling'?",
+      "options": [
+        "An event being handled by the innermost element first, then the outermost",
+        "An event being handled by the outermost element first, then the innermost",
+        "A memory leak in the event loop",
+        "A type of animation effect"
+      ],
+      "answer": "An event being handled by the innermost element first, then the outermost"
+    },
+    {
+      "question": "How do you handle asynchronous operations in modern JavaScript?",
+      "options": [
+        "Callbacks",
+        "Promises and Async/Await",
+        "Setters and Getters",
+        "Event Listeners"
+      ],
+      "answer": "Promises and Async/Await"
+    },
+    {
+      "question": "What does the `...` spread operator do in an array literal?",
+      "options": [
+        "It filters the array",
+        "It expands an iterable into individual elements",
+        "It reduces the array to a single value",
+        "It reverses the array"
+      ],
+      "answer": "It expands an iterable into individual elements"
+    },
+    {
+      "question": "Which is a valid way to create an empty object?",
+      "options": [
+        "let obj = {};",
+        "let obj = Object.new();",
+        "let obj = new Object[];",
+        "let obj = <object>;"
+      ],
+      "answer": "let obj = {};"
+    }
+  ],
+
+  "html": [
+    {
+      "question": "What does HTML stand for?",
+      "options": [
+        "Hyper Text Markup Language",
+        "High Tech Modern Language",
+        "Hyperlink and Text Markup Language",
+        "Home Tool Markup Language"
+      ],
+      "answer": "Hyper Text Markup Language"
+    },
+    {
+      "question": "Which tag is used to create a hyperlink?",
+      "options": ["<link>", "<a>", "<href>", "<p>"],
+      "answer": "<a>"
+    },
+    {
+      "question": "Which tag is used to define the most important heading?",
+      "options": ["<h6>", "<heading>", "<h1>", "<head>"],
+      "answer": "<h1>"
+    },
+    {
+      "question": "What is the correct HTML element for inserting a line break?",
+      "options": ["<break>", "<lb>", "<br>", "<line>"],
+      "answer": "<br>"
+    },
+    {
+      "question": "Which tag is used to create an unordered list?",
+      "options": ["<ol>", "<li>", "<list>", "<ul>"],
+      "answer": "<ul>"
+    },
+    {
+      "question": "Which attribute specifies an alternate text for an image, if the image cannot be displayed?",
+      "options": ["src", "title", "alt", "href"],
+      "answer": "alt"
+    },
+    {
+      "question": "Which element is a container for metadata (data about data) and is placed between the <html> and <body> tags?",
+      "options": ["<meta>", "<head>", "<body>", "<header>"],
+      "answer": "<head>"
+    },
+    {
+      "question": "How can you create an email link?",
+      "options": [
+        "<a href='xyz@email.com'>",
+        "<a href='mailto:xyz@email.com'>",
+        "<mail>xyz@email.com</mail>",
+        "<a mail='xyz@email.com'>"
+      ],
+      "answer": "<a href='mailto:xyz@email.com'>"
+    },
+    {
+      "question": "Which input type defines a slider control?",
+      "options": ["range", "slider", "controls", "search"],
+      "answer": "range"
+    },
+    {
+      "question": "Which tag is used to define a table row?",
+      "options": ["<td>", "<th>", "<tr>", "<table>"],
+      "answer": "<tr>"
+    },
+    {
+      "question": "Which HTML5 element is used to specify a footer for a document or section?",
+      "options": ["<bottom>", "<section>", "<footer>", "<end>"],
+      "answer": "<footer>"
+    },
+    {
+      "question": "Which tag is used to embed a video in an HTML page?",
+      "options": ["<media>", "<video>", "<movie>", "<embed>"],
+      "answer": "<video>"
+    },
+    {
+      "question": "What is the purpose of the `<form>` tag?",
+      "options": [
+        "To display a formatted text",
+        "To create a container for user input",
+        "To create a table",
+        "To format a section of text"
+      ],
+      "answer": "To create a container for user input"
+    },
+    {
+      "question": "Which is a new semantic element in HTML5 for a navigation bar?",
+      "options": ["<navigate>", "<nav>", "<navigation>", "<links>"],
+      "answer": "<nav>"
+    },
+    {
+      "question": "Which attribute is used to specify that an input field must be filled out?",
+      "options": ["required", "placeholder", "validate", "must-fill"],
+      "answer": "required"
+    },
+    {
+      "question": "What does the `<!DOCTYPE html>` declaration do?",
+      "options": [
+        "It defines the XML version",
+        "It tells the browser to use HTML5",
+        "It creates an HTML template",
+        "It's a comment"
+      ],
+      "answer": "It tells the browser to use HTML5"
+    },
+    {
+      "question": "Which tag defines a cell in a table?",
+      "options": ["<cell>", "<th>", "<tr>", "<td>"],
+      "answer": "<td>"
+    },
+    {
+      "question": "What element is used for a multi-line text input?",
+      "options": [
+        "<input type='text'>",
+        "<textarea>",
+        "<input type='multiline'>",
+        "<form>"
+      ],
+      "answer": "<textarea>"
+    },
+    {
+      "question": "In HTML, what is the correct way to add a non-breaking space?",
+      "options": ["<space>", "&nbsp;", "<nbsp>", "\\s"],
+      "answer": "&nbsp;"
+    },
+    {
+      "question": "Which element represents the main content of a document?",
+      "options": ["<content>", "<main>", "<article>", "<body>"],
+      "answer": "<main>"
+    }
+  ],
+  "css": [
+    {
+      "question": "What does CSS stand for?",
+      "options": [
+        "Creative Style Sheets",
+        "Cascading Style Sheets",
+        "Computer Style Sheets",
+        "Colorful Style Sheets"
+      ],
+      "answer": "Cascading Style Sheets"
+    },
+    {
+      "question": "Which HTML attribute is used to define inline styles?",
+      "options": ["style", "class", "styles", "font"],
+      "answer": "style"
+    },
+    {
+      "question": "Which property is used to change the background color?",
+      "options": ["color", "bgcolor", "background-color", "background"],
+      "answer": "background-color"
+    },
+    {
+      "question": "How do you select an element with id 'demo'?",
+      "options": [".demo", "demo", "#demo", "*demo"],
+      "answer": "#demo"
+    },
+    {
+      "question": "How do you select elements with class name 'test'?",
+      "options": ["#test", "test", ".test", "*test"],
+      "answer": ".test"
+    },
+    {
+      "question": "Which property is used to change the text color of an element?",
+      "options": ["text-color", "fgcolor", "font-color", "color"],
+      "answer": "color"
+    },
+    {
+      "question": "Which CSS property controls the text size?",
+      "options": ["font-style", "text-size", "font-size", "text-style"],
+      "answer": "font-size"
+    },
+    {
+      "question": "What is the correct syntax for a CSS comment?",
+      "options": [
+        "// this is a comment",
+        "",
+        "/* this is a comment */",
+        "' this is a comment"
+      ],
+      "answer": "/* this is a comment */"
+    },
+    {
+      "question": "Which property is used to make text bold?",
+      "options": ["font-weight", "text-style", "font-style", "text-decoration"],
+      "answer": "font-weight"
+    },
+    {
+      "question": "Which property is used to create space between the element's border and its content?",
+      "options": ["margin", "padding", "spacing", "border-spacing"],
+      "answer": "padding"
+    },
+    {
+      "question": "Which property is used to create space around elements, outside of any defined borders?",
+      "options": ["padding", "spacing", "margin", "outline"],
+      "answer": "margin"
+    },
+    {
+      "question": "Which display property value creates a flexible container?",
+      "options": ["block", "inline", "grid", "flex"],
+      "answer": "flex"
+    },
+    {
+      "question": "How do you make each word in a text start with a capital letter?",
+      "options": [
+        "text-transform: capitalize",
+        "text-style: capitalize",
+        "transform: capitalize",
+        "You can't do that with CSS"
+      ],
+      "answer": "text-transform: capitalize"
+    },
+    {
+      "question": "What is the default value of the `position` property?",
+      "options": ["static", "relative", "absolute", "fixed"],
+      "answer": "static"
+    },
+    {
+      "question": "Which unit is relative to the font-size of the root element?",
+      "options": ["em", "px", "%", "rem"],
+      "answer": "rem"
+    },
+    {
+      "question": "What does the 'box-sizing: border-box;' property do?",
+      "options": [
+        "It includes padding and border in the element's total width and height",
+        "It creates a border around the box",
+        "It adds a shadow to the box",
+        "It removes the box entirely"
+      ],
+      "answer": "It includes padding and border in the element's total width and height"
+    },
+    {
+      "question": "How do you select all `<p>` elements inside a `<div>` element?",
+      "options": ["div + p", "div p", "div > p", "div.p"],
+      "answer": "div p"
+    },
+    {
+      "question": "Which property is used to change the font of an element?",
+      "options": ["font-weight", "font-style", "font-family", "font-variant"],
+      "answer": "font-family"
+    },
+    {
+      "question": "Which pseudo-class is used to select an element when you mouse over it?",
+      "options": [":active", ":focus", ":hover", ":mouse-over"],
+      "answer": ":hover"
+    },
+    {
+      "question": "What does a media query do?",
+      "options": [
+        "Plays audio and video files",
+        "Applies CSS styles only when certain conditions (like screen size) are met",
+        "Queries the user for media preferences",
+        "Links to social media"
+      ],
+      "answer": "Applies CSS styles only when certain conditions (like screen size) are met"
+    }
+  ],
+
+  "python": [
+    {
+      "question": "Which data type is used to store a sequence of immutable characters?",
+      "options": ["list", "tuple", "str", "set"],
+      "answer": "str"
+    },
+    {
+      "question": "Which keyword is used to define a function in Python?",
+      "options": ["function", "def", "func", "define"],
+      "answer": "def"
+    },
+    {
+      "question": "Which of the following is used to create a single-line comment in Python?",
+      "options": ["//", "/* */", "#", ""],
+      "answer": "#"
+    },
+    {
+      "question": "Which method is used to remove the last element from a list?",
+      "options": ["remove()", "discard()", "pop()", "delete()"],
+      "answer": "pop()"
+    },
+    {
+      "question": "Which collection is ordered, changeable, and does not allow duplicate members?",
+      "options": ["tuple", "set", "dictionary", "list"],
+      "answer": "list"
+    },
+    {
+      "question": "How do you get the number of elements in a list named `my_list`?",
+      "options": [
+        "my_list.size()",
+        "len(my_list)",
+        "my_list.length",
+        "size(my_list)"
+      ],
+      "answer": "len(my_list)"
+    },
+    {
+      "question": "What is the correct file extension for Python files?",
+      "options": [".pyth", ".pt", ".py", ".p"],
+      "answer": ".py"
+    },
+    {
+      "question": "Which operator is used for exponentiation?",
+      "options": ["^", "**", "*", "!"],
+      "answer": "**"
+    },
+    {
+      "question": "Which statement is used to handle exceptions?",
+      "options": ["if-else", "switch-case", "try-except", "do-while"],
+      "answer": "try-except"
+    },
+    {
+      "question": "Which data structure uses key-value pairs?",
+      "options": ["list", "tuple", "set", "dictionary"],
+      "answer": "dictionary"
+    },
+    {
+      "question": "What does the `pass` statement do?",
+      "options": [
+        "It terminates the program",
+        "It is a null operation; nothing happens",
+        "It skips the current iteration",
+        "It raises an exception"
+      ],
+      "answer": "It is a null operation; nothing happens"
+    },
+    {
+      "question": "How can you create a range of numbers from 0 to 4?",
+      "options": ["range(5)", "range(0, 4)", "range(1, 5)", "range(4)"],
+      "answer": "range(5)"
+    },
+    {
+      "question": "What keyword is used to import a module in Python?",
+      "options": ["include", "import", "library", "using"],
+      "answer": "import"
+    },
+    {
+      "question": "Which method returns the items of a dictionary as a sequence of (key, value) tuples?",
+      "options": ["keys()", "values()", "items()", "get()"],
+      "answer": "items()"
+    },
+    {
+      "question": "What is a list comprehension?",
+      "options": [
+        "A way to understand lists",
+        "A compact way to create lists",
+        "A function that returns a list",
+        "A special type of list"
+      ],
+      "answer": "A compact way to create lists"
+    },
+    {
+      "question": "In Python, what does the `self` keyword refer to in a class method?",
+      "options": [
+        "The class itself",
+        "The current instance of the class",
+        "A global variable",
+        "The parent class"
+      ],
+      "answer": "The current instance of the class"
+    },
+    {
+      "question": "Which of these is an immutable data type?",
+      "options": ["list", "dictionary", "set", "tuple"],
+      "answer": "tuple"
+    },
+    {
+      "question": "Which logical operator is used for 'and'?",
+      "options": ["&&", "and", "&", "AND"],
+      "answer": "and"
+    },
+    {
+      "question": "What will `'hello'[1]` return?",
+      "options": ["h", "e", "l", "o"],
+      "answer": "e"
+    },
+    {
+      "question": "Which function is used to get user input from the console?",
+      "options": ["get()", "input()", "read()", "cin()"],
+      "answer": "input()"
+    }
+  ],
+  "c-programming": [
+    {
+      "question": "Which header file is used for standard input and output functions?",
+      "options": ["<conio.h>", "<math.h>", "<stdlib.h>", "<stdio.h>"],
+      "answer": "<stdio.h>"
+    },
+    {
+      "question": "What symbol is used to get the memory address of a variable?",
+      "options": ["*", "&", "#", "@"],
+      "answer": "&"
+    },
+    {
+      "question": "Which keyword is used to define a constant in C?",
+      "options": ["const", "let", "final", "static"],
+      "answer": "const"
+    },
+    {
+      "question": "Which function is used for dynamic memory allocation in C?",
+      "options": ["new", "alloc", "malloc", "create"],
+      "answer": "malloc"
+    },
+    {
+      "question": "What is the correct way to declare a pointer to an integer?",
+      "options": ["int &p;", "ptr<int> p;", "int p;", "int *p;"],
+      "answer": "int *p;"
+    },
+    {
+      "question": "Which data type is used to store a single character?",
+      "options": ["string", "char", "character", "chr"],
+      "answer": "char"
+    },
+    {
+      "question": "What does a C preprocessor directive start with?",
+      "options": ["$", "&", "!", "#"],
+      "answer": "#"
+    },
+    {
+      "question": "Which loop is guaranteed to execute at least once?",
+      "options": ["for", "while", "do-while", "if-else"],
+      "answer": "do-while"
+    },
+    {
+      "question": "What is the format specifier for printing an integer?",
+      "options": ["%f", "%c", "%d", "%s"],
+      "answer": "%d"
+    },
+    {
+      "question": "Which function is used to deallocate memory allocated by `malloc`?",
+      "options": ["delete", "remove", "dealloc", "free"],
+      "answer": "free"
+    },
+    {
+      "question": "How do you define a structure in C?",
+      "options": ["class", "object", "struct", "record"],
+      "answer": "struct"
+    },
+    {
+      "question": "Which operator returns the size of a data type or variable in bytes?",
+      "options": ["size()", "lengthof", "sizeof", "bytes()"],
+      "answer": "sizeof"
+    },
+    {
+      "question": "What is the entry point of every C program?",
+      "options": ["start()", "main()", "begin()", "program()"],
+      "answer": "main()"
+    },
+    {
+      "question": "How do you terminate a C statement?",
+      "options": [".", ":", "}", ";"],
+      "answer": ";"
+    },
+    {
+      "question": "What does `NULL` represent?",
+      "options": [
+        "A zero value",
+        "An empty string",
+        "A null pointer constant",
+        "A syntax error"
+      ],
+      "answer": "A null pointer constant"
+    },
+    {
+      "question": "Which of these is a valid way to initialize an array?",
+      "options": [
+        "int arr = {1, 2, 3};",
+        "int arr[]; arr = {1, 2, 3};",
+        "int arr[3] = {1, 2, 3};",
+        "int arr(3) = {1, 2, 3};"
+      ],
+      "answer": "int arr[3] = {1, 2, 3};"
+    },
+    {
+      "question": "What is the purpose of the `break` statement?",
+      "options": [
+        "To terminate the program",
+        "To exit a loop or switch statement",
+        "To skip the current iteration",
+        "To return a value"
+      ],
+      "answer": "To exit a loop or switch statement"
+    },
+    {
+      "question": "Which function is used to read a single character from the console?",
+      "options": ["scanf()", "printf()", "gets()", "getchar()"],
+      "answer": "getchar()"
+    },
+    {
+      "question": "What does the `typedef` keyword do?",
+      "options": [
+        "It defines a new data type",
+        "It creates an alias for an existing data type",
+        "It declares a constant",
+        "It defines a macro"
+      ],
+      "answer": "It creates an alias for an existing data type"
+    },
+    {
+      "question": "What is the result of `5 % 2`?",
+      "options": ["2.5", "2", "1", "0"],
+      "answer": "1"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Award, Medal } from "lucide-react";
 import {
   Table,
@@ -11,9 +11,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Badge } from "../ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDarkMode } from "../Custom/DarkModeContext";
 
 let leaderboardData = [
   {
@@ -121,6 +121,7 @@ const RankBadge = ({ rank }: { rank: number }) => {
 
 const ScoreBoard: React.FC = () => {
   const navigate = useNavigate();
+  const { darkMode } = useDarkMode(); // ✅ hook
   const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
@@ -160,29 +161,70 @@ const ScoreBoard: React.FC = () => {
 
   if (loading) {
     return (
-      <>
-        <div className="flex absolute top-0 justify-center items-center h-screen bg-gray-900 w-full z-99">
-          <div className="flex flex-col items-center">
-            <div className="w-16 h-16 border-4 border-transparent border-t-blue-500 border-b-blue-500 rounded-full animate-spin"></div>
-            <p className="text-white mt-4 text-lg font-semibold">Loading Leaderboard...</p>
-          </div>
+      <div
+        className={`flex absolute top-0 justify-center items-center h-screen w-full z-50 ${
+          darkMode ? "bg-gray-900/90" : "bg-gray-100/80"
+        } backdrop-blur-md`}
+      >
+        <div className="flex flex-col items-center">
+          <div className="w-16 h-16 border-4 border-transparent border-t-indigo-500 border-b-indigo-500 rounded-full animate-spin"></div>
+          <p
+            className={`mt-4 text-lg font-semibold ${
+              darkMode ? "text-white" : "text-gray-800"
+            }`}
+          >
+            Loading Leaderboard...
+          </p>
         </div>
-      </>
+      </div>
     );
   }
+
   return (
-    <Card className="w-full ">
-      <CardHeader className="bg-black text-white rounded-lg">
+    <Card
+      className={`w-full border ${
+        darkMode ? "bg-gray-900 border-gray-700" : "bg-white border-gray-200"
+      }`}
+    >
+      <CardHeader
+        className={`rounded-lg ${
+          darkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-900"
+        }`}
+      >
         <CardTitle className="text-center text-2xl">Leaderboard</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <Table>
           <TableHeader>
-            <TableRow className="hover:bg-muted/5">
-              <TableHead className="w-[100px]">Rank</TableHead>
-              <TableHead>User</TableHead>
-              <TableHead className="text-right">Points</TableHead>
-              <TableHead className="text-right">Tests</TableHead>
+            <TableRow
+              className={`${
+                darkMode ? "hover:bg-gray-800/40" : "hover:bg-gray-100"
+              }`}
+            >
+              <TableHead
+                className={darkMode ? "text-gray-300" : "text-gray-700"}
+              >
+                Rank
+              </TableHead>
+              <TableHead
+                className={darkMode ? "text-gray-300" : "text-gray-700"}
+              >
+                User
+              </TableHead>
+              <TableHead
+                className={`text-right ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
+              >
+                Points
+              </TableHead>
+              <TableHead
+                className={`text-right ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
+              >
+                Tests
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -196,7 +238,9 @@ const ScoreBoard: React.FC = () => {
                     ? "bg-gray-300 text-gray-800 hover:bg-gray-200"
                     : index === 2
                     ? "bg-yellow-800 text-yellow-100 hover:bg-yellow-700"
-                    : "bg-black hover:bg-zinc-800"
+                    : darkMode
+                    ? "bg-gray-800 hover:bg-gray-700 text-white"
+                    : "bg-gray-50 hover:bg-gray-100 text-gray-900"
                 }`}
               >
                 <TableCell>
@@ -212,21 +256,35 @@ const ScoreBoard: React.FC = () => {
                           ? "border-gray-700"
                           : index === 2
                           ? "border-amber-500"
-                          : "border-white"
+                          : darkMode
+                          ? "border-white"
+                          : "border-gray-400"
                       }`}
                     >
                       <AvatarImage src={user.avatar} alt={user.name} />
                       <AvatarFallback>{user.name.slice(0, 2)}</AvatarFallback>
                     </Avatar>
-                    <div className="font-medium max-[353px]:text-center">
+                    <div
+                      className={`font-medium max-[353px]:text-center ${
+                        darkMode ? "text-white" : "text-gray-800"
+                      }`}
+                    >
                       {user.name}
                     </div>
                   </div>
                 </TableCell>
-                <TableCell className="text-right font-semibold">
+                <TableCell
+                  className={`text-right font-semibold ${
+                    darkMode ? "text-indigo-400" : "text-indigo-600"
+                  }`}
+                >
                   {user.totalPoints.toLocaleString()}
                 </TableCell>
-                <TableCell className="text-right">
+                <TableCell
+                  className={`text-right ${
+                    darkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
+                >
                   {user.testsAttended}
                 </TableCell>
               </TableRow>
